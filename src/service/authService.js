@@ -16,9 +16,10 @@ class AuthService {
     return res.data;
   }
   async retry(email) {
-    const res = await absAPI.post("/authentication_renewals", null, {
+    const res = await absAPI.post("/authentication_renewals", {}, {
       headers: authHeader()
     });
+    console.log('results?? ', res);
     localStorage.setItem("authData", storeUser(res.data.access, email));
     return res.data;
   }

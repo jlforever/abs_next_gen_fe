@@ -20,11 +20,13 @@
     "semantic-ui-vue": "^0.10.1",
     "typeface-roboto-slab": "^1.1.4",
     "vue": "^2.6.11",
+    "vue-braintree": "^2.0.3",
     "vue-currency-filter": "^5.1.0",
     "vue-gtag": "^1.9.0",
     "vue-lazy-youtube-video": "^2.0.0",
     "vue-meta": "^2.3.4",
     "vue-router": "^3.1.6",
+    "vue-stripe-checkout": "^3.5.11",
     "vuetify": "^2.2.11",
     "vuex": "^3.1.3"
   },

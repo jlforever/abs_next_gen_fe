@@ -66,19 +66,26 @@ export default {
         return response;
       },
       error => {
+        console.log('error');
+        console.log({error});
+        console.log(error.response);
+        console.log('====');
         if (
           error?.response?.status !== 401 ||
-          Object.values(error?.response?.data?.errors).includes("Invalid user")
+          error?.response?.data?.error !== "Not authorized" ||
+          error?.response?.config?.url === "/authentication_renewals"
+
         ) {
-          console.error(error.response);
+          console.error('no user error: ', error.response);
           return Promise.reject(error.response);
         }
 
-        console.error("401: ", error);
+        console.error("user error 401: ", error);
 
         const authData = JSON.parse(localStorage.getItem("authData"));
         console.log("auth data: ", authData);
         return this.$store.dispatch(auth.retry, authData?.email).then(res => {
+          console.log(res.access);
           if (authData?.token !== res.access) {
             console.log("setting refresh token");
             error.response.hasRefreshedToken = true;

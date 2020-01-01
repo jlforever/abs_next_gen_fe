@@ -19,6 +19,7 @@
           >{{item.student.first_name}}</v-chip>
         </div>
         <div v-if="hasFamilyMembers > 3" class="mt-2">Choose up to 3 family members to register.</div>
+        <CoursePayment />
         <v-checkbox v-model="checkbox">
           <template v-slot:label>
             <div>
@@ -42,9 +43,11 @@
 </template>
 
 <script>
+import CoursePayment from "./CoursePayment";
 import actionTypes from "@/store/actions";
 const { courses: courseAction } = actionTypes;
 export default {
+  components: { CoursePayment },
   data() {
     return {
       dialog: false,
