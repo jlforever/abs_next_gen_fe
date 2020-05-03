@@ -1,8 +1,9 @@
 <template>
-  <footer class="app-footer">
+  <v-footer dark>
     <div class="app-footer-section">Alpha Beta Academy</div>
+    <v-spacer />
     <div class="app-footer-section">&copy; 2020</div>
-  </footer>
+  </v-footer>
 </template>
 
 <script>
@@ -10,14 +11,3 @@ export default {
   name: "Footer"
 };
 </script>
-
-<style lang="scss">
-.app-footer {
-  margin-top: 30px;
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem;
-  background: $background-dark;
-  color: $text-light;
-}
-</style>

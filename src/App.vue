@@ -1,51 +1,36 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>
-      <span class="divider">|</span>
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+  <v-app>
+    <Navbar :toggle="toggleDrawer" />
+    <v-content>
+      <SideNav v-model="drawer" />
+      <v-container class="fill-height">
+        <router-view />
+      </v-container>
+    </v-content>
     <Footer />
-  </div>
+  </v-app>
 </template>
 
 <script>
-import Footer from "@/components/Footer.vue";
+import Navbar from "@/components/Navbar";
+import SideNav from "@/components/SideNav";
+import Footer from "@/components/Footer";
 
 export default {
   name: "App",
+
   components: {
+    Navbar,
+    SideNav,
     Footer
+  },
+  data: () => ({
+    drawer: null
+  }),
+  methods: {
+    toggleDrawer() {
+      this.drawer = !this.drawer;
+    }
   }
 };
 </script>
-
-<style lang="scss">
-body {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: $text;
-  background: $background-light;
-  padding: 0;
-  margin: 0;
-}
-
-#nav {
-  padding: 30px;
-  .divider {
-    display: inline-block;
-    margin: 0 0.25rem;
-  }
-  a {
-    font-weight: bold;
-    color: $text-link;
-
-    &.router-link-exact-active {
-      color: darken($text-link, 15%);
-    }
-  }
-}
-</style>
