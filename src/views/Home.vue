@@ -1,10 +1,10 @@
 <template>
   <div class="home">
     <v-row>
-      <v-col cols="12" md="6">
-        <img :src="kidsEic" />
+      <v-col cols="12" lg="4" sm="6">
+        <v-img aspect-ratio="1" cover :src="kidsEic" />
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" lg="8" sm="6">
         <h1>Welcome to Alpha Beta Academy</h1>
         <p>
           Our program is based on the principal that by letting kids fully
@@ -15,6 +15,7 @@
           will be included. We hope your child will join us on our exciting
           journey through language learning!
         </p>
+        <v-divider />
         <h2>Who We Are</h2>
         <p>
           Who we are and what we do are pretty simple! We are professional

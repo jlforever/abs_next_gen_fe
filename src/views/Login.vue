@@ -6,12 +6,13 @@
           <v-toolbar-title>Login</v-toolbar-title>
         </v-toolbar>
         <v-card-text>
-          <v-form @submit.prevent="handleSubmit">
+          <v-form id="login" @submit.prevent="handleSubmit">
             <v-text-field
               label="Email"
               name="email"
               prepend-icon="person"
               type="text"
+              color="accent"
               v-model="user.email"
             />
             <v-text-field
@@ -20,13 +21,14 @@
               name="password"
               prepend-icon="lock"
               type="password"
+              color="accent"
               v-model="user.password"
             />
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn type="submit" color="primary">Login</v-btn>
+          <v-btn type="submit" form="login" color="accent">Login</v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -46,6 +48,7 @@ export default {
   },
   methods: {
     async handleSubmit() {
+      console.log("this works");
       const res = axios.post(
         "http://77ada7f3.ngrok.io/api/v1/authentication_access_tokens",
         { user: this.user }

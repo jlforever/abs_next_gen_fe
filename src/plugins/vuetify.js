@@ -7,6 +7,15 @@ Vue.use(Vuetify);
 const opts = {
   icons: {
     iconfont: "md"
+  },
+  theme: {
+    themes: {
+      light: {
+        primary: "#000080",
+        secondary: "#800000",
+        accent: "#cf448c"
+      }
+    }
   }
 };
 

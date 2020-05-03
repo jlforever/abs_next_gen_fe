@@ -2,7 +2,7 @@
   <v-app>
     <Navbar :toggle="toggleDrawer" />
     <v-content>
-      <SideNav :drawer="drawer" />
+      <SideNav v-model="drawer" />
       <v-container class="fill-height">
         <router-view />
       </v-container>
@@ -25,7 +25,7 @@ export default {
     Footer
   },
   data: () => ({
-    drawer: false
+    drawer: null
   }),
   methods: {
     toggleDrawer() {

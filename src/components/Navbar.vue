@@ -1,6 +1,6 @@
 <template lang="html">
-  <v-app-bar class="shrink" color="primary" dark>
-    <v-app-bar-nav-icon @click="toggle"></v-app-bar-nav-icon>
+  <v-app-bar class="shrink" color="secondary" dark>
+    <v-app-bar-nav-icon @click.stop="toggle"></v-app-bar-nav-icon>
     <v-avatar :tile="true">
       <img src="../assets/abs_logo_abstractmark.png" alt="logo" />
     </v-avatar>
