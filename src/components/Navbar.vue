@@ -1,10 +1,16 @@
 <template lang="html">
-  <v-app-bar color="primary" dark>
+  <v-app-bar class="shrink" color="primary" dark>
     <v-app-bar-nav-icon @click="toggle"></v-app-bar-nav-icon>
-    <v-toolbar-title>Title</v-toolbar-title>
-    <router-link to="/">Home</router-link>
-    <router-link to="/about">About</router-link>
-    <router-link to="/docs">Docs</router-link>
+    <v-avatar :tile="true">
+      <img src="../assets/abs_logo_abstractmark.png" alt="logo" />
+    </v-avatar>
+    <v-toolbar-title>Alpha Beta Academy</v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-toolbar-items>
+      <v-btn to="/" text>Home</v-btn>
+      <v-btn to="/login" text>Login</v-btn>
+      <v-btn to="/docs" text>Docs</v-btn>
+    </v-toolbar-items>
   </v-app-bar>
 </template>
 

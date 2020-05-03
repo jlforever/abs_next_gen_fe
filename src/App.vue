@@ -3,7 +3,7 @@
     <Navbar :toggle="toggleDrawer" />
     <v-content>
       <SideNav :drawer="drawer" />
-      <v-container>
+      <v-container class="fill-height">
         <router-view />
       </v-container>
     </v-content>

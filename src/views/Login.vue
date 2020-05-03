@@ -1,19 +1,36 @@
 <template>
-  <sui-container class="form">
-    <h1>This is an about page</h1>
-    <sui-form @submit.prevent="handleSubmit">
-      <sui-form-field>
-        <label>Email</label>
-        <input type="email" v-model="user.email" />
-      </sui-form-field>
-      <sui-form-field>
-        <label>Password</label>
-        <input type="password" v-model="user.password" />
-      </sui-form-field>
-
-      <sui-button type="submit">Submit</sui-button>
-    </sui-form>
-  </sui-container>
+  <v-row align="center" justify="center">
+    <v-col cols="12" sm="8" md="4">
+      <v-card class="elevation-12">
+        <v-toolbar color="primary" dark flat>
+          <v-toolbar-title>Login</v-toolbar-title>
+        </v-toolbar>
+        <v-card-text>
+          <v-form @submit.prevent="handleSubmit">
+            <v-text-field
+              label="Email"
+              name="email"
+              prepend-icon="person"
+              type="text"
+              v-model="user.email"
+            />
+            <v-text-field
+              id="password"
+              label="Password"
+              name="password"
+              prepend-icon="lock"
+              type="password"
+              v-model="user.password"
+            />
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn type="submit" color="primary">Login</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
