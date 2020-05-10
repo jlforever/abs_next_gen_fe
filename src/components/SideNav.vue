@@ -1,18 +1,13 @@
 <template>
-  <v-navigation-drawer
-    :value="value"
-    v-on:input="$emit('input', $event)"
-    absolute
-    temporary
-  >
+  <v-navigation-drawer :value="value" v-on:input="$emit('input', $event)" absolute temporary>
     <v-list-item two-line>
       <v-list-item-avatar>
         <img src="https://randomuser.me/api/portraits/men/90.jpg" />
       </v-list-item-avatar>
 
       <v-list-item-content>
-        <v-list-item-title>Application</v-list-item-title>
-        <v-list-item-subtitle>Subtext</v-list-item-subtitle>
+        <v-list-item-title>Name</v-list-item-title>
+        <v-list-item-subtitle>Role</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
 

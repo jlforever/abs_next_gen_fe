@@ -1,7 +1,7 @@
 <template>
   <v-row align="center" justify="center">
-    <v-col cols="12" sm="8" md="4">
-      <v-card class="elevation-12">
+    <v-col cols="12" sm="10" md="8">
+      <v-card elevation="1" shaped>
         <v-toolbar color="primary" dark flat>
           <v-toolbar-title>Login</v-toolbar-title>
         </v-toolbar>
@@ -30,6 +30,12 @@
           <v-spacer />
           <v-btn type="submit" form="login" color="accent">Login</v-btn>
         </v-card-actions>
+        <v-card-text>
+          <span>
+            Not registered?
+            <a href="/">Create an account</a>
+          </span>
+        </v-card-text>
       </v-card>
     </v-col>
   </v-row>
@@ -50,7 +56,7 @@ export default {
     async handleSubmit() {
       console.log("this works");
       const res = axios.post(
-        "http://77ada7f3.ngrok.io/api/v1/authentication_access_tokens",
+        "http://localhost:9292/api/v1/authentication_access_tokens",
         { user: this.user }
       );
       console.log(res);
