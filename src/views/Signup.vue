@@ -42,7 +42,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import actionTypes from "@/store/actions";
+const { auth } = actionTypes;
 export default {
   data() {
     return {
@@ -54,16 +55,15 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      console.log("this works");
-      try {
-        const res = await axios.post("http://localhost:9292/api/v1/sign_ups", {
+      const params = {
+        url: "/sign_ups",
+        data: {
           user: this.user
-        });
-        console.log(res.data);
-        localStorage.setItem("access", res.data.access);
-      } catch (err) {
-        console.log(err);
-      }
+        }
+      };
+      this.$store.dispatch(auth.request, params).then(() => {
+        this.$router.push("/profile");
+      });
     }
   }
 };

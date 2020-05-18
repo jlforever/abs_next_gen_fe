@@ -20,7 +20,7 @@
       <v-btn href="http://twitter.com" color="accent" target="_blank" icon>
         <v-icon>mdi-twitter</v-icon>
       </v-btn>
-      <v-btn to="/login" flat>Login</v-btn>
+      <v-btn v-if="!isAuthenticated" to="/login" text>Login</v-btn>
     </div>
   </v-app-bar>
 </template>
@@ -30,6 +30,11 @@ export default {
   name: "Navbar",
   props: {
     toggle: Function
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    }
   }
 };
 </script>
