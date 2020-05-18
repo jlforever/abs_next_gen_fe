@@ -3,10 +3,10 @@
     <v-col cols="12" sm="10" md="8">
       <v-card elevation="1" shaped>
         <v-toolbar color="accent" dark flat>
-          <v-toolbar-title>Login To Your Account</v-toolbar-title>
+          <v-toolbar-title>Create An Account</v-toolbar-title>
         </v-toolbar>
         <v-card-text>
-          <v-form id="login" @submit.prevent="handleSubmit">
+          <v-form id="signup" @submit.prevent="handleSubmit">
             <v-text-field
               label="Email"
               name="email"
@@ -28,12 +28,12 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn type="submit" form="login" color="accent">Login</v-btn>
+          <v-btn type="submit" form="signup" color="accent">Signup</v-btn>
         </v-card-actions>
         <v-card-text>
           <span>
-            Not registered?
-            <router-link to="/signup">Create an account</router-link>
+            Already registered?
+            <router-link to="/login">Log in</router-link>
           </span>
         </v-card-text>
       </v-card>
@@ -56,7 +56,7 @@ export default {
   methods: {
     async handleSubmit() {
       const params = {
-        url: "/authentications",
+        url: "/sign_ups",
         data: {
           user: this.user
         }
