@@ -44,17 +44,32 @@
         </v-list-item-icon>
         <v-list-item-title>Parent Link</v-list-item-title>
       </v-list-item>
+      <v-list-item v-if="isAuthenticated" @click="logoutUser">
+        <v-list-item-icon>
+          <v-icon>mdi-logout</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Logout</v-list-item-title>
+      </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
+import actionTypes from "@/store/actions";
+const { auth } = actionTypes;
 export default {
   name: "Sidenav",
   props: {
     value: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    logoutUser() {
+      this.$store.dispatch(auth.logout).then(() => {
+        this.$router.push("/");
+      });
     }
   },
   computed: {

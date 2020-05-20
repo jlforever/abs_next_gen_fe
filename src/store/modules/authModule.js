@@ -4,7 +4,7 @@ import AuthService from "@/service/authService";
 const { auth, users } = actionTypes;
 
 const state = {
-  token: localStorage.getItem("authData") || "",
+  token: JSON.parse(localStorage.getItem("authData"))?.token || "",
   status: "",
   hasLoadedOnce: false
 };
@@ -23,12 +23,12 @@ const actions = {
       dispatch(users.request, params.data.user.email);
     } catch (err) {
       commit(auth.error, err);
-      localStorage.removeItem("authData");
+      AuthService.logout();
     }
   },
   [auth.logout]: ({ commit }) => {
     commit(auth.logout);
-    localStorage.removeItem("authData");
+    AuthService.logout();
   }
 };
 
@@ -46,7 +46,7 @@ const mutations = {
     state.hasLoadedOnce = true;
   },
   [auth.logout]: state => {
-    state.access = "";
+    state.token = "";
   }
 };
 
