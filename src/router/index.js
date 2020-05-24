@@ -1,8 +1,27 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Home from "@/views/Home.vue";
+//import Login from "@/views/Login.vue";
+import Signup from "@/views/Signup.vue";
+import store from "../store";
 
 Vue.use(VueRouter);
+
+const ifNotAuthenticated = (to, from, next) => {
+  if (!store.getters.isAuthenticated) {
+    next();
+    return;
+  }
+  next("/");
+};
+
+const ifAuthenticated = (to, from, next) => {
+  if (store.getters.isAuthenticated) {
+    next();
+    return;
+  }
+  next("/login");
+};
 
 const routes = [
   {
@@ -17,12 +36,14 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "login" */ "../views/Login.vue")
+      import(/* webpackChunkName: "login" */ "../views/Login.vue"),
+    beforeEnter: ifNotAuthenticated
   },
   {
     path: "/signup",
     name: "Signup",
-    component: () => import("../views/Signup.vue")
+    component: Signup
+    //beforeEnter: ifNotAuthenticated
   },
   {
     path: "/docs",
@@ -32,7 +53,8 @@ const routes = [
   {
     path: "/profile",
     name: "Profile",
-    component: () => import("../views/Profile.vue")
+    component: () => import("../views/Profile.vue"),
+    beforeEnter: ifAuthenticated
   }
 ];
 
