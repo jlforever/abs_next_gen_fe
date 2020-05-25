@@ -39,14 +39,14 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.v-app-bar__nav-icon,
+<style lang="scss" scoped>
+.v-toolbar__content .v-app-bar__nav-icon.v-btn,
 .social-buttons {
   position: absolute;
 }
-.v-app-bar__nav-icon {
-  position: absolute;
+.v-toolbar__content .v-app-bar__nav-icon.v-btn {
   left: 16px;
+  margin-left: 0;
 }
 .social-buttons {
   right: 16px;
