@@ -15,6 +15,7 @@
     "register-service-worker": "^1.7.1",
     "semantic-ui-vue": "^0.10.1",
     "vue": "^2.6.11",
+    "vue-lazy-youtube-video": "^2.0.0",
     "vue-router": "^3.1.6",
     "vuetify": "^2.2.11",
     "vuex": "^3.1.3"

@@ -16,6 +16,7 @@ import Navbar from "@/components/Navbar";
 import SideNav from "@/components/SideNav";
 import Footer from "@/components/Footer";
 import actionTypes from "@/store/actions";
+import "vue-lazy-youtube-video/dist/style.css";
 const { users } = actionTypes;
 
 export default {
