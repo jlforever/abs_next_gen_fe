@@ -1,5 +1,6 @@
 export default {
   request: "USER_REQUEST",
   error: "USER_ERROR",
-  success: "USER_SUCCESS"
+  success: "USER_SUCCESS",
+  update: "USER_UPDATE"
 };

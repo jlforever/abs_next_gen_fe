@@ -77,7 +77,7 @@ export default {
       return this.$store.getters.isAuthenticated;
     },
     profile() {
-      return this.$store.getters.getProfile;
+      return this.$store.getters.activeUser;
     },
     isParent() {
       if (this.profile?.parent) {

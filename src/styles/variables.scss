@@ -1,42 +1,16 @@
-$black: #000000;
-$white: #fff;
-$gray-night-rider: #332e2e;
-$gray-nobel: #a99d9d;
-
 /***************
 **** COLORS ****
 ***************/
-
-// Reds / Oranges
-$maroon: #800000;
-$free-speech-red: #c00000;
 $mulberry: #cf448c;
-$tenne-tawny: #cd5700;
-
-// Blues / Greens / Yellows
 $navy: #000080;
-$william: #53736f;
-$myrtle: #21421e;
-$splash: #f1d79e;
-$lemon-chiffon: #fffacd;
+
+// shades
+$white-smoke: #f5f5f5;
 
 // Branding
 $brand-blue: $navy;
 $brand-pink: $mulberry;
 
-// Texts
-$text: $william;
-$text-brand: $navy;
-$text-light: $white;
-$text-link: $brand-pink;
-$text-link-light: $gray-nobel;
-$text-warning-note: $free-speech-red;
-
-// Backgrounds
-$background-dark: $gray-night-rider;
-$background-panel-light: $splash;
-$background-light: $lemon-chiffon;
-
 $material-light: (
-  "background": #f5f5f5
+  "background": $white-smoke
 );

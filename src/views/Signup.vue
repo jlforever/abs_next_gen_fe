@@ -1,8 +1,8 @@
 <template>
   <v-row align="center" justify="center">
     <v-col cols="12" sm="10" md="8">
-      <v-card elevation="1" shaped>
-        <v-toolbar color="accent" dark flat>
+      <v-card elevation="1">
+        <v-toolbar color="secondary" dark flat>
           <v-toolbar-title>Create An Account</v-toolbar-title>
         </v-toolbar>
         <v-card-text>
@@ -12,7 +12,7 @@
               name="email"
               prepend-icon="mdi-account"
               type="text"
-              color="accent"
+              color="secondary"
               v-model="user.email"
             />
             <v-text-field
@@ -21,14 +21,14 @@
               name="password"
               prepend-icon="mdi-lock"
               type="password"
-              color="accent"
+              color="secondary"
               v-model="user.password"
             />
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn type="submit" form="signup" color="accent">Signup</v-btn>
+          <v-btn type="submit" form="signup" color="secondary">Signup</v-btn>
         </v-card-actions>
         <v-card-text>
           <span>
