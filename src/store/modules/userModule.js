@@ -9,7 +9,7 @@ const state = { status: "", profile: {} };
 
 const getters = {
   activeUser: state => state.profile,
-  isProfileLoaded: state => !!state.profile.name
+  isProfileLoaded: state => !!state.profile.email
 };
 
 const actions = {
@@ -29,7 +29,7 @@ const actions = {
       const res = await UserService.updateProfile(user);
       commit(users.success, res);
     } catch (err) {
-      commit(users.error);
+      commit(users.error, err);
     }
   }
 };
@@ -40,12 +40,11 @@ const mutations = {
   },
   [users.success]: (state, res) => {
     state.status = "success";
-    console.log(res);
     Vue.set(state, "profile", res.profile);
   },
-  [users.error]: state => {
+  [users.error]: (state, err) => {
     state.status = "error";
-    console.log(state);
+    console.log(err);
   },
   [auth.logout]: state => {
     state.profile = {};

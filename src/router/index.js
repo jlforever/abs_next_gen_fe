@@ -42,18 +42,24 @@ const routes = [
   {
     path: "/signup",
     name: "Signup",
-    component: Signup
-    //beforeEnter: ifNotAuthenticated
+    component: Signup,
+    beforeEnter: ifNotAuthenticated
   },
-  {
+  /*{ For Testing
     path: "/docs",
     name: "Helper",
     component: () => import("../views/Helper.vue")
-  },
+  },*/
   {
     path: "/profile",
     name: "Profile",
     component: () => import("../views/Profile.vue"),
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: "/family",
+    name: "FamilyMembers",
+    component: () => import("../views/FamilyMembers.vue"),
     beforeEnter: ifAuthenticated
   }
 ];

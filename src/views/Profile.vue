@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-text>
+    <v-card-text v-if="isProfileLoaded">
       <v-form id="profile" @submit.prevent="handleSubmit">
         <v-container>
           <v-row>
@@ -38,7 +38,7 @@
                   <v-text-field
                     filled
                     color="secondary"
-                    :value="activeUser.username"
+                    :value="activeUser.user_name"
                     @input="updateLocalUser($event, 'user_name')"
                     label="Username"
                     placeholder="Your desired username"
@@ -149,7 +149,12 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer />
-      <v-btn type="submit" form="profile" color="secondary">Save Changes</v-btn>
+      <v-btn
+        type="submit"
+        form="profile"
+        color="secondary"
+        :disabled="!isProfileLoaded"
+      >Save Changes</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -168,7 +173,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["activeUser"]),
+    ...mapGetters(["activeUser", "isProfileLoaded"]),
     isParentFieldLoaded() {
       return this.activeUser?.parent;
     }
@@ -178,24 +183,7 @@ export default {
       this.$set(this.user, key, value);
     },
     handleSubmit() {
-      //console.log("GI");
-      /*const user = {
-        first_name: this.user.first_name,
-        last_name: this.user.last_name,
-        user_name: this.user.user_name,
-        phone_number: this.user.phone_number,
-        emergency_contact: this.user.emergency_contact,
-        emergency_contact_phone_number: this.user
-          .emergency_contact_phone_number,
-        timezone: this.user.timezone,
-        address1: this.user.parent.address1,
-        address2: this.user.parent.address2,
-        city: this.user.parent.city,
-        state: this.user.parent.state,
-        zip: this.user.parent.zip
-      };*/
       this.$store.dispatch(users.update, { profile: this.user });
-      console.log(this.user);
     }
   }
 };

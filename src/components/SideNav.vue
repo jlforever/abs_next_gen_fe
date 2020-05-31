@@ -1,12 +1,14 @@
 <template>
-  <v-navigation-drawer :value="value" v-on:input="$emit('input', $event)" absolute temporary>
+  <v-navigation-drawer :value="value" @input="$emit('input', $event)" absolute temporary>
     <v-list-item two-line>
+      <!-- For when avatars are added
       <v-list-item-avatar>
         <img src="https://randomuser.me/api/portraits/men/90.jpg" />
       </v-list-item-avatar>
+      -->
 
-      <v-list-item-content v-if="isAuthenticated">
-        <v-list-item-title>Name</v-list-item-title>
+      <v-list-item-content v-if="isAuthenticated && profile">
+        <v-list-item-title>{{buildDisplay}}</v-list-item-title>
         <v-list-item-subtitle>{{ getRole }}</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -38,11 +40,11 @@
         </v-list-item-icon>
         <v-list-item-title>Profile</v-list-item-title>
       </v-list-item>
-      <v-list-item v-if="isParent" link to="/not-link-yet">
+      <v-list-item v-if="isParent" link to="/family">
         <v-list-item-icon>
           <v-icon>mdi-human-male-female</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Parent Link</v-list-item-title>
+        <v-list-item-title>Family Members</v-list-item-title>
       </v-list-item>
       <v-list-item v-if="isAuthenticated" @click="logoutUser">
         <v-list-item-icon>
@@ -100,6 +102,12 @@ export default {
         return "Teacher";
       }
       return "";
+    },
+    buildDisplay() {
+      if (this.profile?.first_name && this.profile?.last_name) {
+        return `${this.profile.first_name} ${this.profile.last_name}`;
+      }
+      return this.profile?.email;
     }
   }
 };
