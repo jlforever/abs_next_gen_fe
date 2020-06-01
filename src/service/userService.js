@@ -10,6 +10,12 @@ class UserService {
     });
     return res.data;
   }
+  async updateProfile(user) {
+    const res = await absAPI.post("user_profile_changes", user, {
+      headers: authHeader()
+    });
+    return res.data;
+  }
 }
 
 export default new UserService();

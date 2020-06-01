@@ -1,8 +1,8 @@
 <template>
   <v-row align="center" justify="center">
     <v-col cols="12" sm="10" md="8">
-      <v-card elevation="1" shaped>
-        <v-toolbar color="accent" dark flat>
+      <v-card elevation="1">
+        <v-toolbar color="secondary" dark flat>
           <v-toolbar-title>Login To Your Account</v-toolbar-title>
         </v-toolbar>
         <v-card-text>
@@ -12,7 +12,7 @@
               name="email"
               prepend-icon="mdi-account"
               type="text"
-              color="accent"
+              color="secondary"
               v-model="user.email"
             />
             <v-text-field
@@ -21,14 +21,14 @@
               name="password"
               prepend-icon="mdi-lock"
               type="password"
-              color="accent"
+              color="secondary"
               v-model="user.password"
             />
           </v-form>
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn type="submit" form="login" color="accent">Login</v-btn>
+          <CardButton type="submit" size="x-large" form="login" color="secondary">Login</CardButton>
         </v-card-actions>
         <v-card-text>
           <span>
@@ -42,9 +42,12 @@
 </template>
 
 <script>
+import CardButton from "@/components/buttons/CardButton";
 import actionTypes from "@/store/actions";
 const { auth } = actionTypes;
 export default {
+  name: "Login",
+  components: { CardButton },
   data() {
     return {
       user: {

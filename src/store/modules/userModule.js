@@ -8,8 +8,8 @@ const { auth, users } = actionTypes;
 const state = { status: "", profile: {} };
 
 const getters = {
-  getProfile: state => state.profile,
-  isProfileLoaded: state => !!state.profile.name
+  activeUser: state => state.profile,
+  isProfileLoaded: state => !!state.profile.email
 };
 
 const actions = {
@@ -22,6 +22,15 @@ const actions = {
       commit(users.error);
       dispatch(auth.logout);
     }
+  },
+  [users.update]: async ({ commit }, user) => {
+    commit(users.request);
+    try {
+      const res = await UserService.updateProfile(user);
+      commit(users.success, res);
+    } catch (err) {
+      commit(users.error, err);
+    }
   }
 };
 
@@ -33,8 +42,9 @@ const mutations = {
     state.status = "success";
     Vue.set(state, "profile", res.profile);
   },
-  [users.error]: state => {
+  [users.error]: (state, err) => {
     state.status = "error";
+    console.log(err);
   },
   [auth.logout]: state => {
     state.profile = {};

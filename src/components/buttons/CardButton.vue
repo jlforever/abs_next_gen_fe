@@ -8,9 +8,11 @@
     :x-small="sizeCheck('x-small')"
     tile
     depressed
+    :type="type"
+    :form="form"
     :color="color"
-    :to="to || undefined"
-    @click="onClick || undefined"
+    :to="to"
+    @click="onClick"
   >
     <slot />
   </v-btn>
@@ -26,11 +28,19 @@ export default {
     },
     color: {
       type: String,
-      default: "accent"
+      default: "secondary"
     },
     size: {
       type: String,
       default: "large"
+    },
+    type: {
+      type: String,
+      default: "button"
+    },
+    form: {
+      type: String,
+      default: undefined
     },
     to: {
       type: String,

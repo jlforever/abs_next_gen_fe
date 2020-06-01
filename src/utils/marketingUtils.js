@@ -1,6 +1,6 @@
-import testimonalImg1 from "@/assets/photos/testimonial-pic1.jpeg";
-import testimonalImg2 from "@/assets/photos/testimonial-pic4.jpeg";
-import testimonalImg3 from "@/assets/photos/testimonial-pic5.jpeg";
+import testimonalImg1 from "@/assets/photos/photo1.jpeg";
+import testimonalImg2 from "@/assets/photos/photo0.jpeg";
+import testimonalImg3 from "@/assets/photos/photo3.jpeg";
 
 export const testimonials = [
   {
