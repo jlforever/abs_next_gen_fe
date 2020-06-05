@@ -1,8 +1,8 @@
 <template>
-  <v-app>
+  <v-app :class="mainAppClasses">
     <div class="fill-height">
-      <SideNav v-if="isAuthenticated" v-model="drawer" />
-      <div :class="`${$vuetify.breakpoint.mdOnly ? 'desktop' : 'mobile'}`">
+      <SideNav v-if="isSidebarAvailable" v-model="drawer" />
+      <div>
         <Navbar :toggle="toggleDrawer" />
         <v-content>
           <v-container>
@@ -46,12 +46,24 @@ export default {
   computed: {
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
+    },
+    mainAppClasses() {
+      const viewport = this.$vuetify.breakpoint.mdOnly
+        ? "medium-up"
+        : "small-down";
+      const isUser = this.isAuthenticated ? "user" : "visitor";
+      const route = this.$route?.name?.toLowerCase();
+
+      return `${route} ${isUser} ${viewport}`;
+    },
+    isSidebarAvailable() {
+      return this.isAuthenticated && this.$route.name !== "Home";
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.desktop {
+.user.medium-up:not(.home) {
   padding-left: 256px;
 }
 </style>

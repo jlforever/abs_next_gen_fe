@@ -1,7 +1,6 @@
 <template>
   <v-footer dark>
-    <div class="app-footer-section">Alpha Beta Academy</div>
-    <div class="app-footer-section">&copy; 2020</div>
+    <div class="app-footer-section">Alpha Beta Academy &copy; 2020</div>
     <v-spacer />
     <div class="app-footer-section">
       <div class="social-buttons">

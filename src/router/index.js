@@ -51,6 +51,12 @@ const routes = [
     component: () => import("../views/Helper.vue")
   },*/
   {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: () => import("../views/Dashboard.vue"),
+    beforeEnter: ifAuthenticated
+  },
+  {
     path: "/profile",
     name: "Profile",
     component: () => import("../views/Profile.vue"),

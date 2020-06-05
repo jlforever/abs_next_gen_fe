@@ -4,13 +4,15 @@
       <v-form id="profile" @submit.prevent="handleSubmit">
         <v-container>
           <v-row>
-            <v-col cols="12" sm="4" md="3">
+            <v-col cols="12">
               <strong class="title">Profile</strong>
+              <p>A profile must be created in order to take classes. Please keep information up to date.</p>
+            </v-col>
+            <v-col cols="12" sm="4" md="3">
               <v-avatar color="primary" size="100">
                 <v-icon size="60" dark>mdi-account</v-icon>
                 <!-- <img src="https://randomuser.me/api/portraits/men/90.jpg" /> -->
               </v-avatar>
-              <p>A profile must be created in order to take classes. Please keep information up to date.</p>
             </v-col>
             <v-col cols="12" sm="8" md="9">
               <v-row>

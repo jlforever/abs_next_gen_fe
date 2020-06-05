@@ -11,10 +11,10 @@
     </v-avatar>
     <v-toolbar-title><router-link class="text--primary" to="/">Alpha Beta Academy</router-link></v-toolbar-title>
     <v-spacer />
-    <div class="user-buttons right-buttons" v-if="isAuthenticated">
+    <div class="user-buttons right-buttons" v-if="isDashboardButtonAvailable">
       <v-btn to="/dashboard" text>Dashboard</v-btn>
     </div>
-    <div class="visitor-buttons right-buttons" v-else>
+    <div class="visitor-buttons right-buttons" v-if="!isAuthenticated">
       <v-btn to="/login" text>Login</v-btn>
       <v-btn to="/signup" color="secondary" depressed>Get Started</v-btn>
     </div>
@@ -31,6 +31,9 @@ export default {
   computed: {
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
+    },
+    isDashboardButtonAvailable() {
+      return this.isAuthenticated && this.$route.name === "Home";
     }
   }
 };

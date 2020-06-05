@@ -10,7 +10,14 @@ const state = { status: "", members: {} };
 const getters = {
   currentFamilyMembers: state => state.members,
   hasFamilyMembers: state => {
+    console.log("no");
     return Object.entries(state.members).length;
+  },
+  familyMembersFetched: state => {
+    return state.status === "success" || state.status === "error";
+  },
+  loadingFamilyMembers: state => {
+    return state.status === "loading" || state.status === "";
   }
 };
 

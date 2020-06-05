@@ -6,13 +6,15 @@
           <FamilyMemberForm />
           <v-container>
             <v-row>
-              <v-col cols="12" sm="4" md="3">
+              <v-col cols="12">
                 <strong class="title">Family Members</strong>
                 <p>Add and manage your family members that will be taking classes.</p>
               </v-col>
-              <v-col cols="12" sm="8" md="9">
-                <p v-if="hasFamilyMembers <= 0">No family members have been added at this time.</p>
-                <v-row v-else>
+              <v-col cols="12">
+                <p
+                  v-if="hasFamilyMembers <= 0 && loadingFamilyMembers"
+                >No family members have been added at this time.</p>
+                <v-row v-else-if="hasFamilyMembers > 0 && familyMembersFetched">
                   <v-col
                     v-for="item in currentFamilyMembers"
                     :key="item.id"
@@ -60,7 +62,13 @@ export default {
     this.$store.dispatch(family.request, this.activeUser.email);
   },
   computed: {
-    ...mapGetters(["currentFamilyMembers", "hasFamilyMembers", "activeUser"]),
+    ...mapGetters([
+      "currentFamilyMembers",
+      "hasFamilyMembers",
+      "familyMembersFetched",
+      "loadingFamilyMembers",
+      "activeUser"
+    ]),
     computedDateFormatted() {
       return this.formatDate(this.date);
     }
