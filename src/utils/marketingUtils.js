@@ -1,4 +1,4 @@
-import testimonalImg1 from "@/assets/photos/photo1.jpeg";
+import testimonalImg1 from "@/assets/photos/photo3.jpeg";
 import testimonalImg2 from "@/assets/photos/photo0.jpeg";
 import testimonalImg3 from "@/assets/photos/photo3.jpeg";
 

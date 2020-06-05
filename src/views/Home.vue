@@ -6,10 +6,10 @@
           <h1
             class="text-center primary--text pb-4"
           >Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h1>
-          <v-img aspect-ratio="2.5" cover :src="heroImage" />
+          <v-img aspect-ratio="2" cover :src="heroImage" />
         </v-col>
         <v-col cols="12" md="7">
-          <Blurb color="rgba(255, 255, 255, 0)">
+          <Blurb color="accent">
             <template #title>Welcome to Alpha Beta Academy</template>
             <p>
               Our program is based on the principal that by letting kids fully
@@ -23,7 +23,7 @@
           </Blurb>
         </v-col>
         <v-col cols="12" md="5">
-          <Blurb actions color="rgba(255, 255, 255, 0)">
+          <Blurb actions color="accent">
             <template #title>Who We Are</template>
             <p>
               Who we are and what we do are pretty simple! We are professional
@@ -37,9 +37,15 @@
             </template>
           </Blurb>
         </v-col>
+        <v-col cols="12">
+          <v-divider />
+        </v-col>
         <v-col cols="12" sm="12">
           <h2 class="headline mb-3 text-center">Programs</h2>
           <ProgramSlide />
+        </v-col>
+        <v-col cols="12">
+          <v-divider />
         </v-col>
         <v-col cols="12" sm="12">
           <h2 class="headline text-center">Testimonials</h2>
@@ -76,7 +82,7 @@ export default {
   data() {
     return {
       videoThumb: require("@/assets/video_thumbnail.png"),
-      heroImage: require("@/assets/photos/photo3.jpeg")
+      heroImage: require("@/assets/photos/photo1.jpeg")
     };
   }
 };

@@ -21,7 +21,7 @@
                     lg="4"
                     xl="3"
                   >
-                    <v-card color="primary" dark flat>
+                    <v-card color="primary lighten-3" dark flat>
                       <v-card-title>
                         <v-icon left>mdi-school</v-icon>
                         <span class="title">{{item.student.first_name}} {{item.student.last_name}}</span>

@@ -1,12 +1,16 @@
 <template>
   <v-app>
-    <Navbar :toggle="toggleDrawer" />
-    <v-content>
-      <SideNav v-model="drawer" />
-      <v-container class="fill-height">
-        <router-view />
-      </v-container>
-    </v-content>
+    <div class="fill-height">
+      <SideNav v-if="isAuthenticated" v-model="drawer" />
+      <div :class="`${$vuetify.breakpoint.mdOnly ? 'desktop' : 'mobile'}`">
+        <Navbar :toggle="toggleDrawer" />
+        <v-content>
+          <v-container>
+            <router-view />
+          </v-container>
+        </v-content>
+      </div>
+    </div>
     <Footer />
   </v-app>
 </template>
@@ -38,6 +42,16 @@ export default {
     toggleDrawer() {
       this.drawer = !this.drawer;
     }
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    }
   }
 };
 </script>
+<style lang="scss" scoped>
+.desktop {
+  padding-left: 256px;
+}
+</style>

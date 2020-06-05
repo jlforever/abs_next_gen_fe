@@ -1,6 +1,6 @@
 <template>
   <v-col cols="12" sm="12">
-    <v-card color="primary" flat dark>
+    <v-card color="primary lighten-3" flat dark>
       <v-window v-model="onboarding">
         <v-window-item v-for="testimonial in testimonialList" :key="`card-${testimonial.name}`">
           <v-card color="transparent" flat>
