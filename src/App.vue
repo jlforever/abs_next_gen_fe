@@ -25,6 +25,24 @@ const { users } = actionTypes;
 
 export default {
   name: "App",
+  metaInfo: {
+    title: "Foreign Language Classes For Young Children",
+    titleTemplate: "%s | Alpha Beta Academy",
+    meta: [
+      {
+        name: "description",
+        content:
+          "Professional foreign language teachers who are passionate about teaching foreign language to young children.",
+        vmid: "description"
+      }
+    ],
+    script: [
+      {
+        innerHTML: '{ "@context": "http://www.schema.org", "@type": "School" }',
+        type: "application/ld+json"
+      }
+    ]
+  },
   components: {
     Navbar,
     SideNav,

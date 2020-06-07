@@ -6,13 +6,21 @@
           <v-row>
             <v-col cols="12">
               <strong class="title">Profile</strong>
-              <p>A profile must be created in order to take classes. Please keep information up to date.</p>
+              <p>
+                A profile must be created in order to take classes. Please keep
+                information up to date.
+              </p>
             </v-col>
             <v-col cols="12" sm="4" md="3">
-              <v-avatar color="primary" size="100">
-                <v-icon size="60" dark>mdi-account</v-icon>
-                <!-- <img src="https://randomuser.me/api/portraits/men/90.jpg" /> -->
-              </v-avatar>
+              <v-sheet
+                color="accent"
+                class="d-flex justify-center mt-3 py-3 px-2"
+              >
+                <v-avatar color="primary" size="100">
+                  <v-icon size="60" dark>mdi-account</v-icon>
+                  <!-- <img src="https://randomuser.me/api/portraits/men/90.jpg" /> -->
+                </v-avatar>
+              </v-sheet>
             </v-col>
             <v-col cols="12" sm="8" md="9">
               <v-row>
@@ -23,7 +31,6 @@
                     :value="activeUser.first_name"
                     @input="updateLocalUser($event, 'first_name')"
                     required
-                    autofocus
                     :rules="firstNameRules"
                     label="First Name"
                     placeholder="Enter your first name"
@@ -143,7 +150,9 @@
                     filled
                     color="secondary"
                     :value="activeUser.emergency_contact_phone_number"
-                    @input="updateLocalUser($event, 'emergency_contact_phone_number')"
+                    @input="
+                      updateLocalUser($event, 'emergency_contact_phone_number')
+                    "
                     label="Emergency Contact Phone Number"
                     placeholder="Enter contact's phone number"
                   />
@@ -161,7 +170,9 @@
         form="profile"
         color="secondary"
         :disabled="!isProfileLoaded"
-      >Save Changes</v-btn>
+      >
+        Save Changes
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -172,6 +183,9 @@ import actionTypes from "@/store/actions";
 const { users } = actionTypes;
 export default {
   pageTitle: "Profile",
+  metaInfo: {
+    title: "Edit Your Profile"
+  },
   data() {
     return {
       firstNameRules: [v => !!v || "First Name is required"],

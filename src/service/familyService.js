@@ -15,6 +15,14 @@ class UserService {
     });
     return res.data;
   }
+  async deleteMember(userId, params) {
+    const res = await absAPI.delete(`family_members/${userId}`, {
+      data: params,
+      headers: authHeader()
+    });
+    console.log(res.data);
+    return res.data;
+  }
 }
 
 export default new UserService();

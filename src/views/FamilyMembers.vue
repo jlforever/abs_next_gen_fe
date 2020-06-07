@@ -8,13 +8,18 @@
             <v-row>
               <v-col cols="12">
                 <strong class="title">Family Members</strong>
-                <p>Add and manage your family members that will be taking classes.</p>
+                <p>
+                  Add and manage your family members that will be taking
+                  classes.
+                </p>
               </v-col>
               <v-col cols="12">
-                <p
-                  v-if="hasFamilyMembers <= 0 && loadingFamilyMembers"
-                >No family members have been added at this time.</p>
-                <v-row v-else-if="hasFamilyMembers > 0 && familyMembersFetched">
+                <p v-if="hasFamilyMembers <= 0 && !loadingFamilyMemberFetch">
+                  No family members have been added at this time.
+                </p>
+                <v-row
+                  v-else-if="hasFamilyMembers > 0 && !loadingFamilyMemberFetch"
+                >
                   <v-col
                     v-for="item in currentFamilyMembers"
                     :key="item.id"
@@ -23,22 +28,7 @@
                     lg="4"
                     xl="3"
                   >
-                    <v-card color="primary lighten-3" dark flat>
-                      <v-card-title>
-                        <v-icon left>mdi-school</v-icon>
-                        <span class="title">{{item.student.first_name}} {{item.student.last_name}}</span>
-                      </v-card-title>
-                      <v-card-text>
-                        <div>
-                          <strong>Age:</strong>
-                          {{item.student.age}}
-                        </div>
-                        <div>
-                          <strong>Nickname:</strong>
-                          {{item.student.nickname}}
-                        </div>
-                      </v-card-text>
-                    </v-card>
+                    <FamilyMemberCard :item="item" :user="activeUser" />
                   </v-col>
                 </v-row>
               </v-col>
@@ -54,10 +44,14 @@
 import { mapGetters } from "vuex";
 import actionTypes from "@/store/actions";
 import FamilyMemberForm from "@/components/family/FamilyMemberForm.vue";
+import FamilyMemberCard from "@/components/family/FamilyMemberCard.vue";
 const { family } = actionTypes;
 export default {
   name: "FamilyMembers",
-  components: { FamilyMemberForm },
+  metaInfo: {
+    title: "Manage Your Family Members"
+  },
+  components: { FamilyMemberForm, FamilyMemberCard },
   created() {
     this.$store.dispatch(family.request, this.activeUser.email);
   },
@@ -65,8 +59,7 @@ export default {
     ...mapGetters([
       "currentFamilyMembers",
       "hasFamilyMembers",
-      "familyMembersFetched",
-      "loadingFamilyMembers",
+      "loadingFamilyMemberFetch",
       "activeUser"
     ]),
     computedDateFormatted() {
@@ -76,5 +69,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

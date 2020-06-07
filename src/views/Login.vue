@@ -28,7 +28,14 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <CardButton type="submit" size="x-large" form="login" color="secondary">Login</CardButton>
+          <CardButton
+            type="submit"
+            size="x-large"
+            form="login"
+            color="secondary"
+          >
+            Login
+          </CardButton>
         </v-card-actions>
         <v-card-text>
           <span>
@@ -47,6 +54,9 @@ import actionTypes from "@/store/actions";
 const { auth } = actionTypes;
 export default {
   name: "Login",
+  metaInfo: {
+    title: "Sign In To Your Account"
+  },
   components: { CardButton },
   data() {
     return {

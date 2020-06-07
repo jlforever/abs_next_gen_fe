@@ -45,15 +45,16 @@ export default {
     to: {
       type: String,
       default: undefined
-    },
-    onClick: {
-      type: Function,
-      default: undefined
     }
   },
   methods: {
+    onClick() {
+      if (!this.$props.to) {
+        this.$emit("button-click");
+      }
+    },
     sizeCheck(size) {
-      return this.size === size;
+      return this.$props.size === size;
     }
   }
 };

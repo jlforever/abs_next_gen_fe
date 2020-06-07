@@ -1,18 +1,26 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
+import Router from "vue-router";
+import Meta from "vue-meta";
 import Home from "@/views/Home.vue";
 //import Login from "@/views/Login.vue";
 import Signup from "@/views/Signup.vue";
 import store from "../store";
 
-Vue.use(VueRouter);
+Vue.use(Router);
+Vue.use(Meta, {
+  keyName: "metaInfo",
+  attribute: "data-vue-meta",
+  ssrAttribute: "data-vue-meta-server-rendered",
+  tagIDKeyName: "vmid",
+  refreshOnceOnNavigation: true
+});
 
 const ifNotAuthenticated = (to, from, next) => {
   if (!store.getters.isAuthenticated) {
     next();
     return;
   }
-  next("/");
+  next("/dashboard");
 };
 
 const ifAuthenticated = (to, from, next) => {
@@ -70,7 +78,7 @@ const routes = [
   }
 ];
 
-const router = new VueRouter({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes
