@@ -14,12 +14,10 @@
                 </p>
               </v-col>
               <v-col cols="12">
-                <p v-if="hasFamilyMembers <= 0 && !loadingFamilyMemberFetch">
-                  No family members have been added at this time.
-                </p>
-                <v-row
-                  v-else-if="hasFamilyMembers > 0 && !loadingFamilyMemberFetch"
-                >
+                <p
+                  v-if="hasFamilyMembers <= 0 && !loadingFamilyMemberFetch"
+                >No family members have been added at this time.</p>
+                <v-row v-else-if="hasFamilyMembers > 0 && !loadingFamilyMemberFetch">
                   <v-col
                     v-for="item in currentFamilyMembers"
                     :key="item.id"
@@ -52,8 +50,8 @@ export default {
     title: "Manage Your Family Members"
   },
   components: { FamilyMemberForm, FamilyMemberCard },
-  created() {
-    this.$store.dispatch(family.request, this.activeUser.email);
+  async created() {
+    await this.$store.dispatch(family.request, this.activeUser.email);
   },
   computed: {
     ...mapGetters([

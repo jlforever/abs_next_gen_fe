@@ -20,7 +20,6 @@ class UserService {
       data: params,
       headers: authHeader()
     });
-    console.log(res.data);
     return res.data;
   }
 }

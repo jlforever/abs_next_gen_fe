@@ -1,31 +1,23 @@
 <template>
-  <v-row justify="center">
-    <v-dialog v-model="dialog" persistent max-width="290">
-      <template v-slot:activator="{ on }">
-        <v-btn absolute text x-small icon right :ripple="false" v-on="on">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </template>
-      <v-card>
-        <v-card-title class="headline">
-          Warning
-        </v-card-title>
-        <v-card-text>
-          This action will remove {{ item.student.first_name }}. Would you like
-          to proceed?
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog = false">
-            Cancel
-          </v-btn>
-          <v-btn color="red darken-1" text @click="deleteFamilyMember()">
-            Remove
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
+  <v-dialog v-model="dialog" persistent max-width="290">
+    <template v-slot:activator="{ on }">
+      <v-btn class="btn-delete" text x-small icon :ripple="false" v-on="on">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-title class="headline">Warning</v-card-title>
+      <v-card-text>
+        This action will remove {{ item.student.first_name }}. Would you like
+        to proceed?
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" text @click="dialog = false">Cancel</v-btn>
+        <v-btn color="red darken-1" text @click="deleteFamilyMember()">Remove</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -66,3 +58,10 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.btn-delete {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+</style>

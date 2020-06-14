@@ -49,11 +49,11 @@ const actions = {
       commit(family.error, err);
     }
   },
-  [family.delete]: async ({ commit }, id, params, familyMemberId) => {
+  [family.delete]: async ({ commit }, id, params) => {
     commit(family.request, "delete");
     try {
       const res = await FamilyService.deleteMember(id, params);
-      commit(family.delete, res.family_member, familyMemberId);
+      commit(family.delete, res.family_member);
     } catch (err) {
       commit(family.error, err);
     }
@@ -85,6 +85,11 @@ const mutations = {
     state.status.createLoading = false;
     state.status.createSuccess = true;
     Vue.set(state, "members", { ...state.members, [member.id]: member });
+  },
+  [family.delete]: (state, member) => {
+    state.status.deleteLoading = false;
+    state.status.deleteSuccess = true;
+    Vue.delete(state.members, member.id);
   },
   [family.error]: (state, err) => {
     state.status.errorLoading = false;

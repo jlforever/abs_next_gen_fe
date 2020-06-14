@@ -5,13 +5,15 @@ const { auth, users } = actionTypes;
 
 const state = {
   token: JSON.parse(localStorage.getItem("authData"))?.token || "",
-  status: "",
+  authLoading: null,
+  authSuccess: null,
+  authError: false,
   hasLoadedOnce: false
 };
 
 const getters = {
   isAuthenticated: state => !!state.token,
-  authStatus: state => state.status
+  authStatus: state => state.authSuccess
 };
 
 const actions = {
@@ -26,6 +28,9 @@ const actions = {
       AuthService.logout();
     }
   },
+  [auth.success]: ({ commit }) => {
+    commit(auth.success);
+  },
   [auth.logout]: ({ commit }) => {
     commit(auth.logout);
     AuthService.logout();
@@ -34,15 +39,19 @@ const actions = {
 
 const mutations = {
   [auth.request]: state => {
-    state.status = "loading";
+    state.authLoading = true;
   },
   [auth.success]: (state, res) => {
-    state.status = "success";
-    state.token = res.access;
+    state.authLoading = false;
+    state.authSuccess = true;
+    state.token =
+      res?.access ?? JSON.parse(localStorage.getItem("authData"))?.token;
     state.hasLoadedOnce = true;
   },
   [auth.error]: state => {
-    state.status = "error";
+    state.authLoading = false;
+    state.authSuccess = false;
+    state.authError = true;
     state.hasLoadedOnce = true;
   },
   [auth.logout]: state => {

@@ -6,7 +6,7 @@
         <Navbar :toggle="toggleDrawer" />
         <v-content>
           <v-container>
-            <router-view />
+            <router-view v-if="isAppReadyToLoad" />
           </v-container>
         </v-content>
       </div>
@@ -16,12 +16,13 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import Navbar from "@/components/Navbar";
 import SideNav from "@/components/SideNav";
 import Footer from "@/components/Footer";
 import actionTypes from "@/store/actions";
 import "vue-lazy-youtube-video/dist/style.css";
-const { users } = actionTypes;
+const { users, auth } = actionTypes;
 
 export default {
   name: "App",
@@ -48,9 +49,10 @@ export default {
     SideNav,
     Footer
   },
-  created: function() {
-    if (this.$store.getters.isAuthenticated) {
-      this.$store.dispatch(users.request);
+  async created() {
+    if (this.isAuthenticated) {
+      await this.$store.dispatch(auth.success);
+      await this.$store.dispatch(users.request);
     }
   },
   data: () => ({
@@ -62,9 +64,7 @@ export default {
     }
   },
   computed: {
-    isAuthenticated() {
-      return this.$store.getters.isAuthenticated;
-    },
+    ...mapGetters(["isAuthenticated", "authStatus", "activeUser"]),
     mainAppClasses() {
       const viewport = this.$vuetify.breakpoint.mdOnly
         ? "medium-up"
@@ -76,6 +76,13 @@ export default {
     },
     isSidebarAvailable() {
       return this.isAuthenticated && this.$route.name !== "Home";
+    },
+    isAppReadyToLoad() {
+      if (this.isAuthenticated) {
+        if (this.authStatus && this.activeUser?.email) return true;
+        return false;
+      }
+      return true;
     }
   }
 };
