@@ -75,6 +75,12 @@ const routes = [
     name: "FamilyMembers",
     component: () => import("../views/FamilyMembers.vue"),
     beforeEnter: ifAuthenticated
+  },
+  {
+    path: "/courses",
+    name: "Courses",
+    component: () => import("../views/Courses.vue"),
+    beforeEnter: ifAuthenticated
   }
 ];
 

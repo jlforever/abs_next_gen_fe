@@ -18,6 +18,15 @@
                   <!-- <img src="https://randomuser.me/api/portraits/men/90.jpg" /> -->
                 </v-avatar>
               </v-sheet>
+              <v-select
+                :value="findTimezone(activeUser.timezone)"
+                @input="updateLocalUser($event, 'timezone')"
+                :items="timezones"
+                item-text="text"
+                item-value="value"
+                filled
+                label="Timezone"
+              />
             </v-col>
             <v-col cols="12" sm="8" md="9">
               <v-row>
@@ -167,9 +176,7 @@
         form="profile"
         color="secondary"
         :disabled="!isProfileLoaded"
-      >
-        Save Changes
-      </v-btn>
+      >Save Changes</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -177,6 +184,7 @@
 <script>
 import { mapGetters } from "vuex";
 import actionTypes from "@/store/actions";
+import { timezoneList, findTimezone } from "@/utils/timeUtils";
 const { users } = actionTypes;
 export default {
   pageTitle: "Profile",
@@ -187,7 +195,9 @@ export default {
     return {
       firstNameRules: [v => !!v || "First Name is required"],
       lastNameRules: [v => !!v || "Last Name is required"],
-      user: {}
+      timezones: timezoneList,
+      user: {},
+      loadedSelections: false
     };
   },
   computed: {
@@ -196,13 +206,51 @@ export default {
       return this.activeUser?.parent;
     }
   },
+  async mounted() {
+    if (this.activeUser) {
+      await this.buildSelectionInit();
+      this.loadedSelections = true;
+    } else {
+      this.loadedSelections = true;
+    }
+  },
   methods: {
     updateLocalUser(value, key) {
       this.$set(this.user, key, value);
     },
+    async buildSelectionInit() {
+      if (this.activeUser) {
+        await Object.keys(this.activeUser).forEach(key => {
+          if (
+            this.handleRoleKeyCheck(key) &&
+            this.handleNoChangeKeyCheck(key) &&
+            this.activeUser[key]
+          ) {
+            this.$set(this.user, key, this.activeUser[key]);
+          }
+        });
+        if (this.activeUser.parent) this.buildParentSelectionInit();
+      }
+    },
+    async buildParentSelectionInit() {
+      await Object.keys(this.activeUser.parent).forEach(key => {
+        if (this.handleTimeKeyCheck(key) && this.activeUser.parent[key])
+          this.$set(this.user, key, this.activeUser.parent[key]);
+      });
+    },
+    handleRoleKeyCheck(key) {
+      return key !== "parent" && key !== "faculty";
+    },
+    handleTimeKeyCheck(key) {
+      return key !== "created_at" && key !== "updated_at";
+    },
+    handleNoChangeKeyCheck(key) {
+      return key !== "email" && key !== "user_name" && key !== "slug";
+    },
     handleSubmit() {
       this.$store.dispatch(users.update, { profile: this.user });
-    }
+    },
+    findTimezone: findTimezone
   }
 };
 </script>
