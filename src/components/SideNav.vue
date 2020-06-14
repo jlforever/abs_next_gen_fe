@@ -1,11 +1,18 @@
 <template>
-  <v-navigation-drawer :value="value" @input="$emit('input', $event)" absolute temporary>
+  <v-navigation-drawer
+    :value="value"
+    @input="$emit('input', $event)"
+    :permanent="$vuetify.breakpoint.mdOnly"
+    :temporary="$vuetify.breakpoint.smAndDown"
+    fixed
+    height="100vh"
+    floating
+  >
     <v-list-item two-line>
-      <!-- For when avatars are added
-      <v-list-item-avatar>
-        <img src="https://randomuser.me/api/portraits/men/90.jpg" />
+      <v-list-item-avatar color="primary">
+        <v-icon dark>mdi-account</v-icon>
+        <!-- <img src="https://randomuser.me/api/portraits/men/90.jpg" /> -->
       </v-list-item-avatar>
-      -->
 
       <v-list-item-content v-if="isAuthenticated && profile">
         <v-list-item-title>{{buildDisplay}}</v-list-item-title>
@@ -15,44 +22,32 @@
 
     <v-divider></v-divider>
     <v-list nav dense>
-      <v-list-item link to="/">
+      <v-list-item link to="/" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-home</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Home</v-list-item-title>
       </v-list-item>
-      <v-spacer />
-      <v-list-item v-if="!isAuthenticated" link to="/login">
-        <v-list-item-icon>
-          <v-icon>mdi-login</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>Login</v-list-item-title>
-      </v-list-item>
-      <v-list-item v-if="!isAuthenticated" link to="/signup">
-        <v-list-item-icon>
-          <v-icon>mdi-account-plus</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>Signup</v-list-item-title>
-      </v-list-item>
-      <v-list-item v-if="isAuthenticated" link to="/profile">
+      <v-list-item link to="/profile" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-account</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Profile</v-list-item-title>
       </v-list-item>
-      <v-list-item v-if="isParent" link to="/family">
+      <v-list-item v-if="isParent" link to="/family" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-human-male-female</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Family Members</v-list-item-title>
       </v-list-item>
-      <v-list-item v-if="isAuthenticated" @click="logoutUser">
-        <v-list-item-icon>
-          <v-icon>mdi-logout</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>Logout</v-list-item-title>
-      </v-list-item>
     </v-list>
+    <template v-slot:append>
+      <div class="pa-2">
+        <v-btn @click="logoutUser" block small outlined color="primary">
+          <v-icon>mdi-logout</v-icon>Logout
+        </v-btn>
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
 

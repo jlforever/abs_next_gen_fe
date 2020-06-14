@@ -1,8 +1,20 @@
 <template>
   <v-footer dark>
-    <div class="app-footer-section">Alpha Beta Academy</div>
+    <div class="app-footer-section">Alpha Beta Academy &copy; 2020</div>
     <v-spacer />
-    <div class="app-footer-section">&copy; 2020</div>
+    <div class="app-footer-section">
+      <div class="social-buttons">
+        <v-btn href="http://youtube.com" color="accent" target="_blank" icon>
+          <v-icon>mdi-youtube</v-icon>
+        </v-btn>
+        <v-btn href="http://facebook.com" color="accent" target="_blank" icon>
+          <v-icon>mdi-facebook</v-icon>
+        </v-btn>
+        <v-btn href="http://twitter.com" color="accent" target="_blank" icon>
+          <v-icon>mdi-twitter</v-icon>
+        </v-btn>
+      </div>
+    </div>
   </v-footer>
 </template>
 

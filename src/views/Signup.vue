@@ -28,7 +28,14 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn type="submit" form="signup" color="secondary">Signup</v-btn>
+          <CardButton
+            type="submit"
+            size="x-large"
+            form="signup"
+            color="secondary"
+          >
+            Join
+          </CardButton>
         </v-card-actions>
         <v-card-text>
           <span>
@@ -42,9 +49,15 @@
 </template>
 
 <script>
+import CardButton from "@/components/buttons/CardButton";
 import actionTypes from "@/store/actions";
 const { auth } = actionTypes;
 export default {
+  name: "Signup",
+  metaInfo: {
+    title: "Get Started Today"
+  },
+  components: { CardButton },
   data() {
     return {
       user: {

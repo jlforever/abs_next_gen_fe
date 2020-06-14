@@ -2,7 +2,7 @@
   <v-col cols="12" sm="12">
     <v-row align="center" no-gutters>
       <v-col cols="12" sm="7" md="6" lg="5">
-        <v-card color="primary" flat dark>
+        <v-card color="primary lighten-3" flat dark>
           <v-container>
             <v-row align="center">
               <v-col class="shrink">
@@ -43,7 +43,7 @@
         </v-card>
       </v-col>
       <v-col cols="12" sm="5" md="6" lg="7">
-        <v-img :src="programImage" aspect-ratio="1.5" cover></v-img>
+        <v-img :src="programImage" aspect-ratio="1.5" cover />
       </v-col>
     </v-row>
   </v-col>
@@ -61,3 +61,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.v-image {
+  border-radius: 4px;
+}
+</style>

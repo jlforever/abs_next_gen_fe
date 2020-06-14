@@ -1,8 +1,11 @@
 <template>
-  <v-col cols="12" sm="12">
-    <v-card color="primary" flat dark>
+  <v-col cols="12" sm="12" class="pa-0">
+    <v-card color="primary lighten-3" flat dark>
       <v-window v-model="onboarding">
-        <v-window-item v-for="testimonial in testimonialList" :key="`card-${testimonial.name}`">
+        <v-window-item
+          v-for="testimonial in testimonialList"
+          :key="`card-${testimonial.name}`"
+        >
           <v-card color="transparent" flat>
             <v-card-text class="text-justify pb-0">
               <v-container>
@@ -14,7 +17,9 @@
                     <div>"{{ testimonial.content }}"</div>
                   </v-col>
                   <v-col cols="12" class="py-0">
-                    <h2 class="headline text-center">- {{ testimonial.name }}</h2>
+                    <h2 class="headline text-center">
+                      - {{ testimonial.name }}
+                    </h2>
                   </v-col>
                 </v-row>
               </v-container>
@@ -27,7 +32,11 @@
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
         <v-item-group v-model="onboarding" class="text-center" mandatory>
-          <v-item v-for="n in length" :key="`btn-${n}`" v-slot:default="{ active, toggle }">
+          <v-item
+            v-for="n in length"
+            :key="`btn-${n}`"
+            v-slot:default="{ active, toggle }"
+          >
             <v-btn :input-value="active" icon @click="toggle">
               <v-icon>mdi-record</v-icon>
             </v-btn>
