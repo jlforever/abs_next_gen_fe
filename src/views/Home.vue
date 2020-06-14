@@ -3,9 +3,9 @@
     <section class="about">
       <v-row>
         <v-col cols="12" sm="12">
-          <h1 class="text-center primary--text pb-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </h1>
+          <h1
+            class="text-center primary--text pb-4"
+          >Lorem ipsum dolor sit ame, consectetur adipiscing elit.</h1>
           <v-img aspect-ratio="2" cover :src="heroImage" />
         </v-col>
         <v-col cols="12" md="7">
@@ -33,9 +33,7 @@
             </p>
             <template #actions>
               <v-spacer />
-              <CardButton exact size="x-large" to="/contact">
-                Contact Us
-              </CardButton>
+              <CardButton exact size="x-large" to="/contact">Contact Us</CardButton>
             </template>
           </Blurb>
         </v-col>
@@ -54,10 +52,7 @@
           <v-row align="center">
             <v-col cols="12" md="6">
               <div class="video-container">
-                <LazyYoutubeVideo
-                  src="https://www.youtube.com/embed/xyI5XjS9L9s"
-                  :webp="false"
-                />
+                <LazyYoutubeVideo src="https://www.youtube.com/embed/xyI5XjS9L9s" :webp="false" />
               </div>
             </v-col>
             <v-col>
