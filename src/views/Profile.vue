@@ -12,10 +12,7 @@
               </p>
             </v-col>
             <v-col cols="12" sm="4" md="3">
-              <v-sheet
-                color="accent"
-                class="d-flex justify-center mt-3 py-3 px-2"
-              >
+              <v-sheet color="accent" class="d-flex justify-center py-3 px-2">
                 <v-avatar color="primary" size="100">
                   <v-icon size="60" dark>mdi-account</v-icon>
                   <!-- <img src="https://randomuser.me/api/portraits/men/90.jpg" /> -->
@@ -24,7 +21,7 @@
             </v-col>
             <v-col cols="12" sm="8" md="9">
               <v-row>
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="6" class="py-0">
                   <v-text-field
                     filled
                     color="secondary"
@@ -36,7 +33,7 @@
                     placeholder="Enter your first name"
                   />
                 </v-col>
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="6" class="py-0">
                   <v-text-field
                     filled
                     color="secondary"
@@ -48,7 +45,7 @@
                     placeholder="Enter your last name"
                   />
                 </v-col>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="4" class="py-0">
                   <v-text-field
                     filled
                     color="secondary"
@@ -58,7 +55,7 @@
                     placeholder="Your desired username"
                   />
                 </v-col>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="4" class="py-0">
                   <v-text-field
                     filled
                     color="secondary"
@@ -69,7 +66,7 @@
                     label="Email Address"
                   />
                 </v-col>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="4" class="py-0">
                   <v-text-field
                     filled
                     color="secondary"
@@ -80,7 +77,7 @@
                     hint="555-555-55555"
                   />
                 </v-col>
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="6" class="py-0">
                   <v-text-field
                     filled
                     color="secondary"
@@ -91,7 +88,7 @@
                     placeholder="The street you live on"
                   />
                 </v-col>
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="6" class="py-0">
                   <v-text-field
                     filled
                     color="secondary"
@@ -102,7 +99,7 @@
                     placeholder="Apt, suite, unit, etc"
                   />
                 </v-col>
-                <v-col cols="12" md="5">
+                <v-col cols="12" md="5" class="py-0">
                   <v-text-field
                     filled
                     color="secondary"
@@ -113,7 +110,7 @@
                     placeholder="City you reside in"
                   />
                 </v-col>
-                <v-col cols="12" md="3">
+                <v-col cols="12" md="3" class="py-0">
                   <v-text-field
                     filled
                     color="secondary"
@@ -124,7 +121,7 @@
                     placeholder="State you reside in"
                   />
                 </v-col>
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="4" class="py-0">
                   <v-text-field
                     filled
                     color="secondary"
@@ -135,7 +132,7 @@
                     placeholder="Your zip/postal code"
                   />
                 </v-col>
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="6" class="py-0">
                   <v-text-field
                     filled
                     color="secondary"
@@ -145,7 +142,7 @@
                     placeholder="Enter name for contact"
                   />
                 </v-col>
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="6" class="py-0">
                   <v-text-field
                     filled
                     color="secondary"

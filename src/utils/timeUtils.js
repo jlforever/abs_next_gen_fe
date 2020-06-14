@@ -1,0 +1,21 @@
+export const timezoneList = [
+  ["Hawaii", "Pacific/Honolulu"],
+  ["Pacific Time (US & Canada)", "America/Los_Angeles"],
+  ["Mountain Time (US & Canada)", "America/Denver"],
+  ["Central Time (US & Canada)", "America/Chicago"],
+  ["Eastern Time (US & Canada)", "America/New_York"],
+  ["Atlantic Time (Canada)", "America/Halifax"],
+  ["London", "Europe/London"],
+  ["Vienna", "Europe/Vienna"],
+  ["Cairo", "Africa/Cairo"],
+  ["Istanbul", "Europe/Istanbul"],
+  ["Jerusalem", "Asia/Jerusalem"],
+  ["Abu Dhabi", "Asia/Muscat"],
+  ["Perth", "Australia/Perth"],
+  ["Karachi", "Asia/Karachi"],
+  ["Beijing", "Asia/Shanghai"],
+  ["Adelaide", "Australia/Adelaide"],
+  ["Tokyo", "Asia/Tokyo"],
+  ["Sydney", "Australia/Sydney"],
+  ["Guam", "Pacific/Guam"]
+];
