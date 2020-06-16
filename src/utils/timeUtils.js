@@ -22,7 +22,7 @@ export const timezoneList = [
 
 export const findTimezone = timezone => {
   if (timezone) {
-    return timezoneList.find(tz => timezone === tz.text);
+    return timezoneList.find(tz => timezone === tz.value);
   }
   return "";
 };

@@ -13,9 +13,12 @@
                 <p
                   v-if="hasCourses <= 0 && !loadingCoursesFetch"
                 >No new courses are available at this time.</p>
-                <v-row
-                  v-else-if="hasCourses > 0 && !loadingCoursesFetch"
-                >{{ JSON.stringify(availableCourses) }}</v-row>
+                <v-row v-else-if="hasCourses > 0 && !loadingCoursesFetch">
+                  <v-col v-for="course in availableCourses" :key="course.id" cols="12" md="6">
+                    <CourseCard :course="course" :user="activeUser" />
+                  </v-col>
+                </v-row>
+                {{ JSON.stringify(availableCourses) }}
               </v-col>
             </v-row>
           </v-container>
@@ -27,6 +30,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import CourseCard from "@/components/courses/CourseCard.vue";
 import actionTypes from "@/store/actions";
 const { courses } = actionTypes;
 export default {
@@ -34,6 +38,7 @@ export default {
   metaInfo: {
     title: "Register for available courses"
   },
+  components: { CourseCard },
   async created() {
     await this.$store.dispatch(courses.request, this.activeUser.email);
   },

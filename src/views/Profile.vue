@@ -19,6 +19,7 @@
                 </v-avatar>
               </v-sheet>
               <v-select
+                class="mt-7"
                 :value="findTimezone(activeUser.timezone)"
                 @input="updateLocalUser($event, 'timezone')"
                 :items="timezones"
@@ -245,7 +246,7 @@ export default {
       return key !== "created_at" && key !== "updated_at";
     },
     handleNoChangeKeyCheck(key) {
-      return key !== "email" && key !== "user_name" && key !== "slug";
+      return key !== "email" && key !== "slug";
     },
     handleSubmit() {
       this.$store.dispatch(users.update, { profile: this.user });
