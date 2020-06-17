@@ -1,3 +1,5 @@
+import moment from "moment-timezone";
+
 export const timezoneList = [
   { text: "Hawaii", value: "Pacific/Honolulu" },
   { text: "Pacific Time (US & Canada)", value: "America/Los_Angeles" },
@@ -25,4 +27,17 @@ export const findTimezone = timezone => {
     return timezoneList.find(tz => timezone === tz.value);
   }
   return "";
+};
+
+export const formatDateToLocal = (date, format, timezone) => {
+  const tz = timezone ?? moment.tz.guess(true);
+  const utcTime = moment.utc(date).format("YYYY-MM-DD HH:mm:ssZ");
+  const localTime = moment(utcTime, "YYYY-MM-DD HH:mm:ssZ").local();
+  return localTime.tz(tz).format(format);
+};
+
+export const getWeeks = (start, end) => {
+  const begin = moment(start);
+  const finish = moment(end);
+  return `${finish.diff(begin, "week")} Weeks`;
 };
