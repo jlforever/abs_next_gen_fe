@@ -4,6 +4,7 @@ import Vuex from "vuex";
 import users from "./modules/userModule";
 import auth from "./modules/authModule";
 import family from "./modules/familyModule";
+import courses from "./modules/courseModule";
 
 Vue.use(Vuex);
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
   modules: {
     users,
     auth,
-    family
+    family,
+    courses
   },
   strict: debug
 });

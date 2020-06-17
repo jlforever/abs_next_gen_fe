@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="item" color="primary lighten-3 container py-0" dark flat>
+  <v-card v-if="item" color="primary lighten-3" class="container py-0" dark flat>
     <FamilyMemberDelete :item="item" :user="user" />
     <v-row>
       <v-col class="shrink">

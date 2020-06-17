@@ -22,11 +22,11 @@
 
     <v-divider></v-divider>
     <v-list nav dense>
-      <v-list-item link to="/" color="primary">
+      <v-list-item link to="/dashboard" color="primary">
         <v-list-item-icon>
-          <v-icon>mdi-home</v-icon>
+          <v-icon>mdi-view-dashboard</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Home</v-list-item-title>
+        <v-list-item-title>Dashboard</v-list-item-title>
       </v-list-item>
       <v-list-item link to="/profile" color="primary">
         <v-list-item-icon>
@@ -39,6 +39,12 @@
           <v-icon>mdi-human-male-female</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Family Members</v-list-item-title>
+      </v-list-item>
+      <v-list-item v-if="isParent" link to="/courses" color="primary">
+        <v-list-item-icon>
+          <v-icon>mdi-school</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Courses</v-list-item-title>
       </v-list-item>
     </v-list>
     <template v-slot:append>
