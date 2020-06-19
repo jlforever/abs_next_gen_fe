@@ -15,10 +15,15 @@
                 >No new courses are available at this time.</p>
                 <v-row v-else-if="hasCourses > 0 && !loadingCoursesFetch">
                   <v-col v-for="course in availableCourses" :key="course.id" cols="12" md="6">
-                    <CourseCard :course="course" :user="activeUser" />
+                    <CourseCard
+                      :course="course"
+                      :user="activeUser"
+                      :family="currentFamilyMembers"
+                      :hasFamilyMembers="hasFamilyMembers"
+                      :loadingFamily="loadingFamilyMemberFetch"
+                    />
                   </v-col>
                 </v-row>
-                {{ JSON.stringify(availableCourses) }}
               </v-col>
             </v-row>
           </v-container>
@@ -32,7 +37,7 @@
 import { mapGetters } from "vuex";
 import CourseCard from "@/components/courses/CourseCard.vue";
 import actionTypes from "@/store/actions";
-const { courses } = actionTypes;
+const { courses, family } = actionTypes;
 export default {
   name: "Courses",
   metaInfo: {
@@ -40,6 +45,7 @@ export default {
   },
   components: { CourseCard },
   async created() {
+    await this.$store.dispatch(family.request, this.activeUser.email);
     await this.$store.dispatch(courses.request, this.activeUser.email);
   },
   computed: {
@@ -47,7 +53,10 @@ export default {
       "hasCourses",
       "loadingCoursesFetch",
       "availableCourses",
-      "activeUser"
+      "activeUser",
+      "currentFamilyMembers",
+      "hasFamilyMembers",
+      "loadingFamilyMemberFetch"
     ]),
     computedDateFormatted() {
       return this.formatDate(this.date);

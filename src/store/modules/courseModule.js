@@ -40,20 +40,12 @@ const actions = {
       commit(courses.error);
     }
   },
-  [courses.create]: async ({ commit }, course) => {
+  [courses.register]: async ({ commit }, params) => {
     commit(courses.request, "create");
     try {
-      const res = await CourseService.createCourse(course);
-      commit(courses.create, res.course);
-    } catch (err) {
-      commit(courses.error, err);
-    }
-  },
-  [courses.delete]: async ({ commit }, id, params) => {
-    commit(courses.request, "delete");
-    try {
-      const res = await CourseService.deleteCourse(id, params);
-      commit(courses.delete, res.course);
+      const res = await CourseService.registerCourse(params);
+      console.log(res);
+      commit(courses.register, res.course);
     } catch (err) {
       commit(courses.error, err);
     }

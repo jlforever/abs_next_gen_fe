@@ -9,11 +9,11 @@ class UserService {
     });
     return res.data;
   }
-  async createCourse(course) {
-    console.log("create: ", course);
-  }
-  async deleteCourse(userId, params) {
-    console.log("del :", { userId, params });
+  async registerCourse(params) {
+    const res = await absAPI.post("/registrations", params, {
+      headers: authHeader()
+    });
+    return res.data;
   }
 }
 

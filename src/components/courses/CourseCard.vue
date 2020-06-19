@@ -50,13 +50,23 @@
         <v-list-item-subtitle>{{ course.faculty.bio}}</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
+    <v-card-actions>
+      <CourseRegister
+        v-if="hasFamilyMembers > 0 && !loadingFamily"
+        :course="course"
+        :family="family"
+        :user="user"
+      />
+    </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import CourseRegister from "@/components/courses/CourseRegister";
 import { formatDateToLocal, getWeeks } from "@/utils/timeUtils";
 export default {
   name: "CourseCard",
+  components: { CourseRegister },
   props: {
     course: {
       type: Object,
@@ -65,6 +75,18 @@ export default {
     user: {
       type: Object,
       default: null
+    },
+    family: {
+      type: Object,
+      default: null
+    },
+    hasFamilyMembers: {
+      type: Number,
+      default: 0
+    },
+    loadingFamily: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
