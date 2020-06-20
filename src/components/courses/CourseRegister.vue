@@ -9,14 +9,16 @@
     <v-card>
       <v-card-title class="headline">Register</v-card-title>
       <v-card-text>
-        <div>Which family members would you like to register for this class?</div>
+        <div class="mb-2">Which family members would you like to register for this class?</div>
         <div class="mt-2">
           <v-chip
             v-for="item in family"
             :key="item.id"
-            class="mr-1 mb-1"
+            :class="`mr-1 mb-1${isSelected(item.id) ? ' active' : ''}`"
+            @click="selectFamilyMember(item.id)"
           >{{item.student.first_name}}</v-chip>
         </div>
+        <div v-if="hasFamilyMembers > 3" class="mt-2">Choose up to 3 family members to register.</div>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -29,7 +31,7 @@
 
 <script>
 import actionTypes from "@/store/actions";
-const { course: courseAction } = actionTypes;
+const { courses: courseAction } = actionTypes;
 export default {
   data() {
     return {
@@ -49,15 +51,22 @@ export default {
     family: {
       type: Object,
       default: null
+    },
+    hasFamilyMembers: {
+      type: Number,
+      default: 0
     }
   },
   methods: {
+    isSelected(id) {
+      return this.familyMemberIds.includes(id);
+    },
     selectFamilyMember(id) {
       if (this.familyMemberIds.includes(id)) {
         this.familyMemberIds = this.familyMemberIds.filter(function(v) {
           return v !== id;
         });
-      } else if (this.familyMemberIds.length >= 2) {
+      } else if (this.familyMemberIds.length <= 2) {
         this.familyMemberIds.push(id);
       }
     },
@@ -77,7 +86,7 @@ export default {
       }
       this.$store
         .dispatch(courseAction.register, {
-          email: user.email,
+          user_email: user.email,
           registration: registerParams
         })
         .then(() => {
@@ -88,9 +97,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.btn-delete {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.v-chip.active {
+  background: $brand-pink;
+  color: #fff;
 }
 </style>

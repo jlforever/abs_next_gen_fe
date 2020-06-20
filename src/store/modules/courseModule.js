@@ -10,23 +10,28 @@ const state = {
     fetchLoading: true,
     fetchError: false,
     fetchSuccess: false,
-    createLoading: false,
-    createError: false,
-    createSuccess: false,
-    deleteLoading: false,
-    deleteError: false,
-    deleteSuccess: true
+    registerLoading: false,
+    registerError: false,
+    registerSuccess: false
   },
-  available: {}
+  available: {},
+  registered: {}
 };
 
 const getters = {
   hasCourses: state => {
     return Object.entries(state.available).length;
   },
+  hasRegisteredCourses: state => {
+    return Object.entries(state.registered).length;
+  },
   availableCourses: state => state.available,
+  registeredCourses: state => state.registered,
   loadingCoursesFetch: state => {
     return state.status.fetchLoading;
+  },
+  loadingRegisteredCoursesFetch: state => {
+    return state.status.registerLoading;
   }
 };
 
@@ -34,18 +39,19 @@ const actions = {
   [courses.request]: async ({ commit }, email) => {
     commit(courses.request, "fetch");
     try {
-      const res = await CourseService.fetchCourses(email);
+      const res = await CourseService.fetchAvailableCourses(email);
       commit(courses.success, res.courses);
+      const resReg = await CourseService.fetchRegisteredCourses(email);
+      commit(courses.registerList, resReg.registrations);
     } catch (err) {
-      commit(courses.error);
+      commit(courses.error, err);
     }
   },
   [courses.register]: async ({ commit }, params) => {
-    commit(courses.request, "create");
+    commit(courses.request, "register");
     try {
       const res = await CourseService.registerCourse(params);
-      console.log(res);
-      commit(courses.register, res.course);
+      commit(courses.register, res.registration);
     } catch (err) {
       commit(courses.error, err);
     }
@@ -58,11 +64,8 @@ const mutations = {
       case "fetch":
         state.status.fetchLoading = true;
         break;
-      case "create":
-        state.status.createLoading = true;
-        break;
-      case "delete":
-        state.status.deleteLoading = true;
+      case "register":
+        state.status.registerLoading = true;
         break;
       default:
         state.status = { ...state.status };
@@ -73,15 +76,18 @@ const mutations = {
     state.status.fetchSuccess = true;
     Vue.set(state, "available", _.mapKeys(res, "id"));
   },
-  [courses.create]: (state, course) => {
-    state.status.createLoading = false;
-    state.status.createSuccess = true;
-    Vue.set(state, "available", { ...state.available, [course.id]: course });
+  [courses.registerList]: (state, res) => {
+    state.status.registerLoading = false;
+    state.status.registerSuccess = true;
+    Vue.set(state, "registered", _.mapKeys(res, "id"));
   },
-  [courses.delete]: (state, course) => {
-    state.status.deleteLoading = false;
-    state.status.deleteSuccess = true;
-    Vue.delete(state.available, course.id);
+  [courses.register]: (state, res) => {
+    state.status.registerLoading = false;
+    state.status.registerSuccess = true;
+    state.registered = Object.assign({}, state.registered, {
+      [res.id]: res
+    });
+    Vue.delete(state.available, res.course.id);
   },
   [courses.error]: (state, err) => {
     state.status.errorLoading = false;

@@ -6,10 +6,19 @@ import store from "./store";
 import vuetify from "@/plugins/vuetify"; // path to vuetify export
 import LazyYoutubeVideo from "vue-lazy-youtube-video";
 import VueMeta from "vue-meta";
+import VueCurrencyFilter from "vue-currency-filter";
 
 Vue.config.productionTip = false;
 Vue.use(VueMeta);
 Vue.component("LazyYoutubeVideo", LazyYoutubeVideo);
+Vue.use(VueCurrencyFilter, {
+  symbol: "$",
+  thousandsSeparator: ",",
+  fractionCount: 2,
+  fractionSeparator: ".",
+  symbolPosition: "front",
+  symbolSpacing: true
+});
 
 new Vue({
   router,
