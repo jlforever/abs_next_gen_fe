@@ -4,5 +4,6 @@ export default {
   delete: "COURSE_DELETE",
   error: "COURSE_ERROR",
   success: "COURSE_SUCCESS",
-  register: "COURSE_REGISTER"
+  register: "COURSE_REGISTER",
+  registerList: "COURSE_REGISTER_LIST"
 };
