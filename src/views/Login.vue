@@ -33,6 +33,7 @@
             size="x-large"
             form="login"
             color="secondary"
+            :disabled="!user.email && !user.password"
           >
             Login
           </CardButton>

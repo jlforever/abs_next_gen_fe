@@ -3,7 +3,7 @@ import _ from "lodash";
 import actionTypes from "@/store/actions";
 import CourseService from "@/service/courseService";
 
-const { courses } = actionTypes;
+const { courses, errors } = actionTypes;
 
 const state = {
   status: {
@@ -36,7 +36,7 @@ const getters = {
 };
 
 const actions = {
-  [courses.request]: async ({ commit }, email) => {
+  [courses.request]: async ({ commit, dispatch }, email) => {
     commit(courses.request, "fetch");
     try {
       const res = await CourseService.fetchAvailableCourses(email);
@@ -48,13 +48,14 @@ const actions = {
       commit(courses.error, err);
     }
   },
-  [courses.register]: async ({ commit }, params) => {
+  [courses.register]: async ({ commit, dispatch }, params) => {
     commit(courses.request, "register");
     try {
       const res = await CourseService.registerCourse(params);
       commit(courses.register, res.registration);
     } catch (err) {
       commit(courses.error, err);
+      dispatch(errors.format, err);
     }
   }
 };

@@ -1,31 +1,39 @@
 <template>
-  <v-snackbar v-model="opened" color="error" :timeout="timeout" top>
-    <span v-for="(msg, key) in errors" :key="key">
-      {{ msg }}
-    </span>
-    <v-btn dark icon @click="opened = false">
+  <v-snackbar v-model="showBar" color="error" :timeout="timeout" top>
+    {{ message }}
+    <v-btn dark icon @click.native="showBar = false">
       <v-icon>mdi-close</v-icon>
     </v-btn>
   </v-snackbar>
 </template>
 
 <script>
+import actionTypes from "@/store/actions";
+const { errors } = actionTypes;
+
 export default {
   name: "Error",
   data() {
     return {
-      timeout: 200000
+      timeout: 3000,
+      showBar: false,
+      message: null
     };
   },
-  props: {
-    opened: {
-      type: Boolean,
-      default: false
-    },
-    errors: {
-      type: Object,
-      default: () => {}
-    }
+  created: function() {
+    this.$store.watch(
+      state => state.errors.snackMessage,
+      () => {
+        const msg = this.$store.state.errors.snackMessage;
+        if (msg !== "") {
+          this.showBar = true;
+          this.message = msg;
+          setTimeout(() => {
+            this.$store.dispatch(errors.snack, null);
+          }, this.timeout);
+        }
+      }
+    );
   }
 };
 </script>

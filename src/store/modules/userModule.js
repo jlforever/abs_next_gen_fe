@@ -3,7 +3,7 @@ import Vue from "vue";
 import actionTypes from "@/store/actions";
 import UserService from "@/service/userService";
 
-const { auth, users } = actionTypes;
+const { auth, users, errors } = actionTypes;
 
 const state = {
   status: {
@@ -33,13 +33,14 @@ const actions = {
       dispatch(auth.logout);
     }
   },
-  [users.update]: async ({ commit }, user) => {
+  [users.update]: async ({ commit, dispatch }, user) => {
     commit(users.request);
     try {
       const res = await UserService.updateProfile(user);
       commit(users.success, res);
     } catch (err) {
       commit(users.error, err);
+      dispatch(errors.format, err);
     }
   }
 };
@@ -66,7 +67,7 @@ const mutations = {
       userLoading: false,
       userError: true
     };
-    Vue.set(state, "errors", err?.response?.data?.errors);
+    Vue.set(state, "errors", err?.data?.errors);
   },
   [auth.logout]: state => {
     state.profile = {};

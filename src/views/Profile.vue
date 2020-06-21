@@ -181,13 +181,10 @@
         Save Changes
       </v-btn>
     </v-card-actions>
-    <Error :opened="hasProfileErrors" :errors="profileErrors" />
-    {{ user }}
   </v-card>
 </template>
 
 <script>
-import Error from "@/components/notifications/Error.vue";
 import { mapGetters } from "vuex";
 import actionTypes from "@/store/actions";
 import { timezoneList, findTimezone } from "@/utils/timeUtils";
@@ -197,7 +194,6 @@ export default {
   metaInfo: {
     title: "Edit Your Profile"
   },
-  components: { Error },
   data() {
     return {
       firstNameRules: [v => !!v || "First Name is required"],
@@ -208,12 +204,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["activeUser", "isProfileLoaded", "profileErrors"]),
+    ...mapGetters(["activeUser", "isProfileLoaded"]),
     isParentFieldLoaded() {
       return this.activeUser?.parent;
-    },
-    hasProfileErrors() {
-      return Object.keys(this.profileErrors).length > 0 ? true : false;
     }
   },
   async mounted() {

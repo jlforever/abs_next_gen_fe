@@ -3,7 +3,7 @@ import _ from "lodash";
 import actionTypes from "@/store/actions";
 import FamilyService from "@/service/familyService";
 
-const { family, auth } = actionTypes;
+const { family, auth, errors } = actionTypes;
 
 const INITIAL_STATUS = {
   fetchLoading: true,
@@ -43,22 +43,24 @@ const actions = {
       commit(family.error);
     }
   },
-  [family.create]: async ({ commit }, student) => {
+  [family.create]: async ({ commit, dispatch }, student) => {
     commit(family.request, "create");
     try {
       const res = await FamilyService.createMember(student);
       commit(family.create, res.family_member);
     } catch (err) {
       commit(family.error, err);
+      dispatch(errors.format, err);
     }
   },
-  [family.delete]: async ({ commit }, id, params) => {
+  [family.delete]: async ({ commit, dispatch }, id, params) => {
     commit(family.request, "delete");
     try {
       const res = await FamilyService.deleteMember(id, params);
       commit(family.delete, res.family_member);
     } catch (err) {
       commit(family.error, err);
+      dispatch(errors.format, err);
     }
   }
 };

@@ -12,6 +12,7 @@
     :form="form"
     :color="color"
     :to="to"
+    :disabled="disabled"
     @click="onClick"
   >
     <slot />
@@ -45,6 +46,10 @@ export default {
     to: {
       type: String,
       default: undefined
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

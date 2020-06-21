@@ -7,6 +7,7 @@
         <v-content>
           <v-container>
             <router-view v-if="isAppReadyToLoad" />
+            <Error />
           </v-container>
         </v-content>
       </div>
@@ -18,6 +19,7 @@
 <script>
 import { mapGetters } from "vuex";
 import absAPI from "@/api/absAPI";
+import Error from "@/components/notifications/Error";
 import Navbar from "@/components/Navbar";
 import SideNav from "@/components/SideNav";
 import Footer from "@/components/Footer";
@@ -48,7 +50,8 @@ export default {
   components: {
     Navbar,
     SideNav,
-    Footer
+    Footer,
+    Error
   },
   async created() {
     absAPI.interceptors.response.use(
@@ -56,7 +59,10 @@ export default {
         return response;
       },
       error => {
-        if (error?.response?.status !== 401) {
+        if (
+          error?.response?.status !== 401 ||
+          Object.values(error?.response?.data?.errors).includes("Invalid user")
+        ) {
           return Promise.reject(error.response);
         }
 

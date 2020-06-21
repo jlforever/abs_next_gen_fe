@@ -1,7 +1,7 @@
 import actionTypes from "../actions";
 import AuthService from "@/service/authService";
 
-const { auth, users } = actionTypes;
+const { auth, users, errors } = actionTypes;
 
 const state = {
   token: JSON.parse(localStorage.getItem("authData"))?.token || "",
@@ -25,6 +25,7 @@ const actions = {
       dispatch(users.request, params.data.user.email);
     } catch (err) {
       commit(auth.error, err);
+      dispatch(errors.format, err);
       AuthService.logout();
     }
   },
