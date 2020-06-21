@@ -28,6 +28,7 @@ const actions = {
       const res = await UserService.fetchProfile(email);
       commit(users.success, res);
     } catch (err) {
+      if (err.hasRefreshedToken) dispatch(users.request, email);
       commit(users.error);
       dispatch(auth.logout);
     }

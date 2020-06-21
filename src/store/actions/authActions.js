@@ -3,6 +3,5 @@ export default {
   error: "AUTH_ERROR",
   success: "AUTH_SUCCESS",
   logout: "AUTH_LOGOUT",
-  retry: "AUTH_RETRY",
-  test: "TEST"
+  retry: "AUTH_RETRY"
 };

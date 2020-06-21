@@ -44,6 +44,7 @@ const actions = {
       const resReg = await CourseService.fetchRegisteredCourses(email);
       commit(courses.registerList, resReg.registrations);
     } catch (err) {
+      if (err.hasRefreshedToken) dispatch(courses.request, email);
       commit(courses.error, err);
     }
   },
