@@ -1,7 +1,7 @@
 import actionTypes from "../actions";
 import AuthService from "@/service/authService";
 
-const { auth, users } = actionTypes;
+const { auth, users, errors } = actionTypes;
 
 const state = {
   token: JSON.parse(localStorage.getItem("authData"))?.token || "",
@@ -25,7 +25,21 @@ const actions = {
       dispatch(users.request, params.data.user.email);
     } catch (err) {
       commit(auth.error, err);
+      dispatch(errors.format, err);
       AuthService.logout();
+    }
+  },
+  [auth.retry]: async ({ commit, dispatch }, email) => {
+    commit(auth.request);
+    try {
+      const res = await AuthService.retry(email);
+      commit(auth.success, res);
+      dispatch(users.request, email);
+      return res;
+    } catch (err) {
+      commit(auth.error, err);
+      AuthService.logout();
+      return err;
     }
   },
   [auth.success]: ({ commit }) => {
@@ -48,11 +62,12 @@ const mutations = {
       res?.access ?? JSON.parse(localStorage.getItem("authData"))?.token;
     state.hasLoadedOnce = true;
   },
-  [auth.error]: state => {
+  [auth.error]: (state, err) => {
     state.authLoading = false;
     state.authSuccess = false;
     state.authError = true;
     state.hasLoadedOnce = true;
+    console.log(err);
   },
   [auth.logout]: state => {
     state.token = "";

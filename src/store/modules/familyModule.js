@@ -3,20 +3,22 @@ import _ from "lodash";
 import actionTypes from "@/store/actions";
 import FamilyService from "@/service/familyService";
 
-const { family } = actionTypes;
+const { family, auth, errors } = actionTypes;
+
+const INITIAL_STATUS = {
+  fetchLoading: true,
+  fetchError: false,
+  fetchSuccess: false,
+  createLoading: false,
+  createError: false,
+  createSuccess: false,
+  deleteLoading: false,
+  deleteError: false,
+  deleteSuccess: true
+};
 
 const state = {
-  status: {
-    fetchLoading: true,
-    fetchError: false,
-    fetchSuccess: false,
-    createLoading: false,
-    createError: false,
-    createSuccess: false,
-    deleteLoading: false,
-    deleteError: false,
-    deleteSuccess: true
-  },
+  status: INITIAL_STATUS,
   members: {}
 };
 
@@ -31,31 +33,34 @@ const getters = {
 };
 
 const actions = {
-  [family.request]: async ({ commit }, email) => {
+  [family.request]: async ({ commit, dispatch }, email) => {
     commit(family.request, "fetch");
     try {
       const res = await FamilyService.fetchMembers(email);
       commit(family.success, res.family_members);
     } catch (err) {
+      if (err.hasRefreshedToken) dispatch(family.request, email);
       commit(family.error);
     }
   },
-  [family.create]: async ({ commit }, student) => {
+  [family.create]: async ({ commit, dispatch }, student) => {
     commit(family.request, "create");
     try {
       const res = await FamilyService.createMember(student);
       commit(family.create, res.family_member);
     } catch (err) {
       commit(family.error, err);
+      dispatch(errors.format, err);
     }
   },
-  [family.delete]: async ({ commit }, id, params) => {
+  [family.delete]: async ({ commit, dispatch }, id, params) => {
     commit(family.request, "delete");
     try {
       const res = await FamilyService.deleteMember(id, params);
       commit(family.delete, res.family_member);
     } catch (err) {
       commit(family.error, err);
+      dispatch(errors.format, err);
     }
   }
 };
@@ -95,6 +100,10 @@ const mutations = {
     state.status.errorLoading = false;
     state.status.errorSuccess = true;
     console.log(err);
+  },
+  [auth.logout]: state => {
+    state.status = INITIAL_STATUS;
+    state.members = {};
   }
 };
 

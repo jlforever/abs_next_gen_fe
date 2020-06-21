@@ -5,11 +5,12 @@
       @click.stop="toggle"
       v-if="$vuetify.breakpoint.smAndDown && isAuthenticated"
     ></v-app-bar-nav-icon>
-    <v-spacer />
     <v-avatar :tile="true">
       <img src="../assets/abs_logo_abstractmark.png" alt="logo" />
     </v-avatar>
-    <v-toolbar-title><router-link class="text--primary" to="/">Alpha Beta Academy</router-link></v-toolbar-title>
+    <v-toolbar-title>
+      <router-link class="text--primary" to="/">Alpha Beta Academy</router-link>
+    </v-toolbar-title>
     <v-spacer />
     <div class="user-buttons right-buttons" v-if="isDashboardButtonAvailable">
       <v-btn to="/dashboard" text>Dashboard</v-btn>
@@ -18,7 +19,6 @@
       <v-btn to="/login" text>Login</v-btn>
       <v-btn to="/signup" color="secondary" depressed>Get Started</v-btn>
     </div>
-    
   </v-app-bar>
 </template>
 

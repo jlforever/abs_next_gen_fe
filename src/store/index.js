@@ -5,6 +5,7 @@ import users from "./modules/userModule";
 import auth from "./modules/authModule";
 import family from "./modules/familyModule";
 import courses from "./modules/courseModule";
+import errors from "./modules/errorModule";
 
 Vue.use(Vuex);
 
@@ -15,7 +16,8 @@ export default new Vuex.Store({
     users,
     auth,
     family,
-    courses
+    courses,
+    errors
   },
   strict: debug
 });

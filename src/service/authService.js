@@ -1,4 +1,5 @@
 import absAPI from "@/api/absAPI";
+import authHeader from "./authHeader";
 
 function storeUser(token, email) {
   const data = { token: token, email: email };
@@ -12,6 +13,13 @@ class AuthService {
       "authData",
       storeUser(res.data.access, params.user.email)
     );
+    return res.data;
+  }
+  async retry(email) {
+    const res = await absAPI.post("/authentication_renewals", null, {
+      headers: authHeader()
+    });
+    localStorage.setItem("authData", storeUser(res.data.access, email));
     return res.data;
   }
   logout() {

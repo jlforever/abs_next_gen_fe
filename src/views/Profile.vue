@@ -176,8 +176,10 @@
         type="submit"
         form="profile"
         color="secondary"
-        :disabled="!isProfileLoaded"
-      >Save Changes</v-btn>
+        :disabled="!isProfileLoaded || Object.keys(user).length === 0"
+      >
+        Save Changes
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
