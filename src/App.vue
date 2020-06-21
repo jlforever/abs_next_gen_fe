@@ -17,6 +17,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import absAPI from "@/api/absAPI";
 import Navbar from "@/components/Navbar";
 import SideNav from "@/components/SideNav";
 import Footer from "@/components/Footer";
@@ -50,6 +51,27 @@ export default {
     Footer
   },
   async created() {
+    absAPI.interceptors.response.use(
+      response => {
+        return response;
+      },
+      error => {
+        if (error?.response?.status !== 401) {
+          return Promise.reject(error.response);
+        }
+
+        const authData = JSON.parse(localStorage.getItem("authData"));
+
+        return this.$store.dispatch(auth.retry, authData?.email).then(res => {
+          if (authData?.token !== res.access) {
+            error.response.hasRefreshedToken = true;
+            localStorage.setItem("stored", res.access);
+          }
+          return Promise.reject(error.response);
+        });
+      }
+    );
+
     if (this.isAuthenticated) {
       await this.$store.dispatch(auth.success);
       await this.$store.dispatch(users.request);

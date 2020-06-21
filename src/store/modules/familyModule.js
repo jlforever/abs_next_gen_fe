@@ -3,20 +3,22 @@ import _ from "lodash";
 import actionTypes from "@/store/actions";
 import FamilyService from "@/service/familyService";
 
-const { family } = actionTypes;
+const { family, auth } = actionTypes;
+
+const INITIAL_STATUS = {
+  fetchLoading: true,
+  fetchError: false,
+  fetchSuccess: false,
+  createLoading: false,
+  createError: false,
+  createSuccess: false,
+  deleteLoading: false,
+  deleteError: false,
+  deleteSuccess: true
+};
 
 const state = {
-  status: {
-    fetchLoading: true,
-    fetchError: false,
-    fetchSuccess: false,
-    createLoading: false,
-    createError: false,
-    createSuccess: false,
-    deleteLoading: false,
-    deleteError: false,
-    deleteSuccess: true
-  },
+  status: INITIAL_STATUS,
   members: {}
 };
 
@@ -31,12 +33,13 @@ const getters = {
 };
 
 const actions = {
-  [family.request]: async ({ commit }, email) => {
+  [family.request]: async ({ commit, dispatch }, email) => {
     commit(family.request, "fetch");
     try {
       const res = await FamilyService.fetchMembers(email);
       commit(family.success, res.family_members);
     } catch (err) {
+      if (err.hasRefreshedToken) dispatch(family.request, email);
       commit(family.error);
     }
   },
@@ -95,6 +98,10 @@ const mutations = {
     state.status.errorLoading = false;
     state.status.errorSuccess = true;
     console.log(err);
+  },
+  [auth.logout]: state => {
+    state.status = INITIAL_STATUS;
+    state.members = {};
   }
 };
 

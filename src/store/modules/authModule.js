@@ -28,6 +28,19 @@ const actions = {
       AuthService.logout();
     }
   },
+  [auth.retry]: async ({ commit, dispatch }, email) => {
+    commit(auth.request);
+    try {
+      const res = await AuthService.retry(email);
+      commit(auth.success, res);
+      dispatch(users.request, email);
+      return res;
+    } catch (err) {
+      commit(auth.error, err);
+      AuthService.logout();
+      return err;
+    }
+  },
   [auth.success]: ({ commit }) => {
     commit(auth.success);
   },
@@ -48,11 +61,12 @@ const mutations = {
       res?.access ?? JSON.parse(localStorage.getItem("authData"))?.token;
     state.hasLoadedOnce = true;
   },
-  [auth.error]: state => {
+  [auth.error]: (state, err) => {
     state.authLoading = false;
     state.authSuccess = false;
     state.authError = true;
     state.hasLoadedOnce = true;
+    console.log(err);
   },
   [auth.logout]: state => {
     state.token = "";

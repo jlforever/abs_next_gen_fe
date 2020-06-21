@@ -5,11 +5,20 @@ import UserService from "@/service/userService";
 
 const { auth, users } = actionTypes;
 
-const state = { status: "", profile: {} };
+const state = {
+  status: {
+    userLoading: null,
+    userSuccess: null,
+    userError: false
+  },
+  profile: {},
+  errors: {}
+};
 
 const getters = {
   activeUser: state => state.profile,
-  isProfileLoaded: state => !!state.profile.email
+  isProfileLoaded: state => !!state.profile.email,
+  profileErrors: state => state.errors
 };
 
 const actions = {
@@ -36,15 +45,27 @@ const actions = {
 
 const mutations = {
   [users.request]: state => {
-    state.status = "loading";
+    state.status = {
+      userLoading: true,
+      userSuccess: false,
+      userError: false
+    };
   },
   [users.success]: (state, res) => {
-    state.status = "success";
+    state.status = {
+      ...state.status,
+      userLoading: false,
+      userSuccess: true
+    };
     Vue.set(state, "profile", res.profile);
   },
   [users.error]: (state, err) => {
-    state.status = "error";
-    console.log(err);
+    state.status = {
+      ...state.status,
+      userLoading: false,
+      userError: true
+    };
+    Vue.set(state, "errors", err?.response?.data?.errors);
   },
   [auth.logout]: state => {
     state.profile = {};
