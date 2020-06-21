@@ -71,7 +71,6 @@ export default {
         return this.$store.dispatch(auth.retry, authData?.email).then(res => {
           if (authData?.token !== res.access) {
             error.response.hasRefreshedToken = true;
-            localStorage.setItem("stored", res.access);
           }
           return Promise.reject(error.response);
         });
