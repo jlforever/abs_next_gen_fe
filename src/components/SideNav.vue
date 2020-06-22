@@ -15,30 +15,30 @@
       </v-list-item-avatar>
 
       <v-list-item-content v-if="isAuthenticated && profile">
-        <v-list-item-title>{{buildDisplay}}</v-list-item-title>
+        <v-list-item-title>{{ buildDisplay }}</v-list-item-title>
         <v-list-item-subtitle>{{ getRole }}</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
 
     <v-divider></v-divider>
     <v-list nav dense>
-      <v-list-item link to="/dashboard" color="primary">
+      <!--TODO:<v-list-item link to="/dashboard" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-view-dashboard</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Dashboard</v-list-item-title>
-      </v-list-item>
-      <v-list-item link to="/profile" color="primary">
+      </v-list-item>-->
+      <v-list-item link to="/parent" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-account</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Profile</v-list-item-title>
+        <v-list-item-title>Parent Info</v-list-item-title>
       </v-list-item>
-      <v-list-item v-if="isParent" link to="/family" color="primary">
+      <v-list-item v-if="isParent" link to="/students" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-human-male-female</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Family Members</v-list-item-title>
+        <v-list-item-title>Students</v-list-item-title>
       </v-list-item>
       <v-list-item v-if="isParent" link to="/courses" color="primary">
         <v-list-item-icon>
@@ -50,7 +50,8 @@
     <template v-slot:append>
       <div class="pa-2">
         <v-btn @click="logoutUser" block small outlined color="primary">
-          <v-icon>mdi-logout</v-icon>Logout
+          <v-icon>mdi-logout</v-icon>
+          Logout
         </v-btn>
       </div>
     </template>

@@ -58,21 +58,21 @@ const routes = [
     name: "Helper",
     component: () => import("../views/Helper.vue")
   },*/
-  {
+  /*{
     path: "/dashboard",
     name: "Dashboard",
     component: () => import("../views/Dashboard.vue"),
     beforeEnter: ifAuthenticated
-  },
+  },*/
   {
-    path: "/profile",
-    name: "Profile",
+    path: "/parent",
+    name: "ParentInfo",
     component: () => import("../views/Profile.vue"),
     beforeEnter: ifAuthenticated
   },
   {
-    path: "/family",
-    name: "FamilyMembers",
+    path: "/students",
+    name: "Students",
     component: () => import("../views/FamilyMembers.vue"),
     beforeEnter: ifAuthenticated
   },

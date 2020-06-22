@@ -3,7 +3,7 @@
     <v-app-bar-nav-icon
       color="secondary"
       @click.stop="toggle"
-      v-if="$vuetify.breakpoint.smAndDown && isAuthenticated"
+      v-if="$vuetify.breakpoint.smAndDown && isSidebarAvailable"
     ></v-app-bar-nav-icon>
     <v-avatar :tile="true">
       <img src="../assets/abs_logo_abstractmark.png" alt="logo" />
@@ -13,7 +13,7 @@
     </v-toolbar-title>
     <v-spacer />
     <div class="user-buttons right-buttons" v-if="isDashboardButtonAvailable">
-      <v-btn to="/dashboard" text>Dashboard</v-btn>
+      <v-btn to="/parent" text>Dashboard</v-btn>
     </div>
     <div class="visitor-buttons right-buttons" v-if="!isAuthenticated">
       <v-btn to="/login" text>Login</v-btn>
@@ -26,7 +26,8 @@
 export default {
   name: "Navbar",
   props: {
-    toggle: Function
+    toggle: Function,
+    isSidebarAvailable: Boolean
   },
   computed: {
     isAuthenticated() {
@@ -43,16 +44,10 @@ export default {
 .v-toolbar__title a {
   text-decoration: none;
 }
-.v-toolbar__content .v-app-bar__nav-icon.v-btn,
-.right-buttons {
-  position: absolute;
-}
 .v-toolbar__content .v-app-bar__nav-icon.v-btn {
-  left: 16px;
   margin-left: 0;
 }
 .right-buttons {
-  right: 16px;
   .v-btn {
     margin-right: 0.5rem;
     &:last-child {
