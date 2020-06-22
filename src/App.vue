@@ -1,14 +1,15 @@
 <template>
   <v-app :class="mainAppClasses">
-    <div class="fill-height">
+    <div class="d-flex flex-column flex-grow-1">
       <SideNav v-if="isSidebarAvailable" v-model="drawer" />
-      <div>
-        <Navbar :toggle="toggleDrawer" />
-        <v-content>
-          <v-container>
-            <router-view v-if="isAppReadyToLoad" />
-            <Error />
-          </v-container>
+      <div class="d-flex flex-column flex-grow-1">
+        <Navbar
+          :toggle="toggleDrawer"
+          :isSidebarAvailable="isSidebarAvailable"
+        />
+        <v-content class="d-flex flex-column flex-grow-1">
+          <router-view v-if="isAppReadyToLoad" />
+          <Error />
         </v-content>
       </div>
     </div>
@@ -117,5 +118,9 @@ export default {
 <style lang="scss" scoped>
 .user.medium-up:not(.home) {
   padding-left: 256px;
+}
+.v-content::v-deep .v-content__wrap {
+  display: flex;
+  flex-direction: column;
 }
 </style>

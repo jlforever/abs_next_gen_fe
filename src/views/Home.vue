@@ -1,11 +1,11 @@
 <template>
-  <div class="home">
-    <section class="about">
+  <div>
+    <v-container>
       <v-row>
-        <v-col cols="12" sm="12">
-          <h1
-            class="text-center primary--text pb-4"
-          >Lorem ipsum dolor sit ame, consectetur adipiscing elit.</h1>
+        <v-col cols="12">
+          <h1 class="text-center primary--text title pb-4">
+            Lorem ipsum dolor sit ame, consectetur adipiscing elit.
+          </h1>
           <v-img aspect-ratio="2" cover :src="heroImage" />
         </v-col>
         <v-col cols="12" md="7">
@@ -33,35 +33,40 @@
             </p>
             <template #actions>
               <v-spacer />
-              <CardButton exact size="x-large" to="/contact">Contact Us</CardButton>
+              <CardButton exact size="x-large" to="/contact">
+                Contact Us
+              </CardButton>
             </template>
           </Blurb>
         </v-col>
-        <v-col cols="12">
-          <v-divider />
-        </v-col>
-        <v-col cols="12" sm="12">
-          <h2 class="headline mb-3 text-center">Programs</h2>
-          <ProgramSlide />
-        </v-col>
-        <v-col cols="12">
-          <v-divider />
-        </v-col>
-        <v-col cols="12" sm="12">
-          <h2 class="headline text-center">Testimonials</h2>
-          <v-row align="center">
-            <v-col cols="12" md="6">
-              <div class="video-container">
-                <LazyYoutubeVideo src="https://www.youtube.com/embed/xyI5XjS9L9s" :webp="false" />
-              </div>
-            </v-col>
-            <v-col>
-              <TestimonialSlide />
-            </v-col>
-          </v-row>
-        </v-col>
       </v-row>
-    </section>
+    </v-container>
+
+    <div class="section programs gray">
+      <v-container>
+        <h2 class="headline mb-3 text-center">Programs</h2>
+        <ProgramSlide />
+      </v-container>
+    </div>
+
+    <div class="section testimonials">
+      <v-container>
+        <h2 class="headline text-center">Testimonials</h2>
+        <v-row align="center">
+          <v-col cols="12" md="6">
+            <div class="video-container">
+              <LazyYoutubeVideo
+                src="https://www.youtube.com/embed/xyI5XjS9L9s"
+                :webp="false"
+              />
+            </div>
+          </v-col>
+          <v-col>
+            <TestimonialSlide />
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
   </div>
 </template>
 
@@ -89,6 +94,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.section {
+  padding: 1.5rem 0;
+  &.gray {
+    background: $light-gray;
+  }
+  .headline {
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+}
 .video-container {
   position: relative;
   padding-bottom: 56.25%;

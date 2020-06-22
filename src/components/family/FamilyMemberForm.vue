@@ -8,7 +8,7 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">Add a Family Member</span>
+          <span class="headline">Add a Student</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -71,7 +71,9 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false">
+            Close
+          </v-btn>
           <v-btn color="blue darken-1" text @click="handleSubmit()">Save</v-btn>
         </v-card-actions>
       </v-card>
