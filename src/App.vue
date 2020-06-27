@@ -94,7 +94,7 @@ export default {
   computed: {
     ...mapGetters(["isAuthenticated", "authStatus", "activeUser"]),
     mainAppClasses() {
-      const viewport = this.$vuetify.breakpoint.mdOnly
+      const viewport = this.$vuetify.breakpoint.mdAndUp
         ? "medium-up"
         : "small-down";
       const isUser = this.isAuthenticated ? "user" : "visitor";
@@ -116,7 +116,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.user.medium-up:not(.home) {
+.v-application.user.medium-up:not(.home) {
   padding-left: 256px;
 }
 .v-content::v-deep .v-content__wrap {

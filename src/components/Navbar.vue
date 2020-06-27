@@ -1,11 +1,11 @@
 <template lang="html">
-  <v-app-bar class="shrink" center light flat>
+  <v-app-bar class="shrink" center light flat :height="100">
     <v-app-bar-nav-icon
       color="secondary"
       @click.stop="toggle"
       v-if="$vuetify.breakpoint.smAndDown && isSidebarAvailable"
     ></v-app-bar-nav-icon>
-    <v-avatar :tile="true">
+    <v-avatar :tile="true" :height="75" :width="75">
       <img src="../assets/abs_logo_abstractmark.png" alt="logo" />
     </v-avatar>
     <v-toolbar-title>
@@ -41,8 +41,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-toolbar__title a {
-  text-decoration: none;
+.v-toolbar__title {
+  font-size: 1.5rem;
+  a {
+    text-decoration: none;
+  }
 }
 .v-toolbar__content .v-app-bar__nav-icon.v-btn {
   margin-left: 0;
