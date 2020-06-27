@@ -8,6 +8,8 @@ import LazyYoutubeVideo from "vue-lazy-youtube-video";
 import VueMeta from "vue-meta";
 import VueCurrencyFilter from "vue-currency-filter";
 
+import "typeface-roboto-slab";
+
 Vue.config.productionTip = false;
 Vue.use(VueMeta);
 Vue.component("LazyYoutubeVideo", LazyYoutubeVideo);
