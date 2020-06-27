@@ -3,7 +3,7 @@ import Vue from "vue";
 import actionTypes from "@/store/actions";
 import UserService from "@/service/userService";
 
-const { auth, users, errors } = actionTypes;
+const { auth, users, errors, success } = actionTypes;
 
 const state = {
   status: {
@@ -38,6 +38,7 @@ const actions = {
     try {
       const res = await UserService.updateProfile(user);
       commit(users.success, res);
+      dispatch(success.snack, "Changes have been successfully saved");
     } catch (err) {
       commit(users.error, err);
       dispatch(errors.format, err);

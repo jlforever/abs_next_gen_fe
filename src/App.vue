@@ -3,13 +3,11 @@
     <div class="d-flex flex-column flex-grow-1">
       <SideNav v-if="isSidebarAvailable" v-model="drawer" />
       <div class="d-flex flex-column flex-grow-1">
-        <Navbar
-          :toggle="toggleDrawer"
-          :isSidebarAvailable="isSidebarAvailable"
-        />
+        <Navbar :toggle="toggleDrawer" :isSidebarAvailable="isSidebarAvailable" />
         <v-content class="d-flex flex-column flex-grow-1">
           <router-view v-if="isAppReadyToLoad" />
           <Error />
+          <Success />
         </v-content>
       </div>
     </div>
@@ -21,6 +19,7 @@
 import { mapGetters } from "vuex";
 import absAPI from "@/api/absAPI";
 import Error from "@/components/notifications/Error";
+import Success from "@/components/notifications/Success";
 import Navbar from "@/components/Navbar";
 import SideNav from "@/components/SideNav";
 import Footer from "@/components/Footer";
@@ -52,7 +51,8 @@ export default {
     Navbar,
     SideNav,
     Footer,
-    Error
+    Error,
+    Success
   },
   async created() {
     absAPI.interceptors.response.use(
@@ -94,7 +94,7 @@ export default {
   computed: {
     ...mapGetters(["isAuthenticated", "authStatus", "activeUser"]),
     mainAppClasses() {
-      const viewport = this.$vuetify.breakpoint.mdOnly
+      const viewport = this.$vuetify.breakpoint.mdAndUp
         ? "medium-up"
         : "small-down";
       const isUser = this.isAuthenticated ? "user" : "visitor";
@@ -116,7 +116,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.user.medium-up:not(.home) {
+.v-application.user.medium-up:not(.home) {
   padding-left: 256px;
 }
 .v-content::v-deep .v-content__wrap {

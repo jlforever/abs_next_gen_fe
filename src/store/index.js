@@ -6,6 +6,7 @@ import auth from "./modules/authModule";
 import family from "./modules/familyModule";
 import courses from "./modules/courseModule";
 import errors from "./modules/errorModule";
+import success from "./modules/successModule";
 
 Vue.use(Vuex);
 
@@ -17,7 +18,8 @@ export default new Vuex.Store({
     auth,
     family,
     courses,
-    errors
+    errors,
+    success
   },
   strict: debug
 });

@@ -1,34 +1,59 @@
 # abs_next_gen_fe
 
+## Deploy
+
+### Staging
+
+```
+$ git checkout development
+$ git pull
+$ git push abs-next-gen-fe-staging development:master
+```
+
+### Production
+
+```
+$ git checkout master
+$ git pull
+$ git push abs-next-gen-fe-production master:master
+```
+
 ## Project setup
+
 ```
 yarn install
 ```
 
 ### Compiles and hot-reloads for development
+
 ```
 yarn serve
 ```
 
 ### Compiles and minifies for production
+
 ```
 yarn build
 ```
 
 ### Run your unit tests
+
 ```
 yarn test:unit
 ```
 
 ### Run your end-to-end tests
+
 ```
 yarn test:e2e
 ```
 
 ### Lints and fixes files
+
 ```
 yarn lint
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
