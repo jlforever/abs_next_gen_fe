@@ -2,7 +2,7 @@
   <v-navigation-drawer
     :value="value"
     @input="$emit('input', $event)"
-    :permanent="$vuetify.breakpoint.mdOnly"
+    :permanent="$vuetify.breakpoint.mdAndUp"
     :temporary="$vuetify.breakpoint.smAndDown"
     fixed
     height="100vh"
