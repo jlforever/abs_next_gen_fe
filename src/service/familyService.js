@@ -1,7 +1,7 @@
 import absAPI from "@/api/absAPI";
 import authHeader from "./authHeader";
 
-class UserService {
+class FamilyService {
   async fetchMembers(email) {
     const res = await absAPI.get("/family_members", {
       params: { user_email: email },
@@ -24,4 +24,4 @@ class UserService {
   }
 }
 
-export default new UserService();
+export default new FamilyService();

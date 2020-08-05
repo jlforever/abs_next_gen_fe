@@ -28,7 +28,9 @@ const ifAuthenticated = (to, from, next) => {
     next();
     return;
   }
-  next("/login");
+  if (from?.path !== "/signup") {
+    next("/login");
+  }
 };
 
 const routes = [
