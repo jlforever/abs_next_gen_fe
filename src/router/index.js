@@ -83,6 +83,12 @@ const routes = [
     name: "Courses",
     component: () => import("../views/Courses.vue"),
     beforeEnter: ifAuthenticated
+  },
+  {
+    path: "/courses/:id",
+    name: "CourseDetails",
+    component: () => import("../views/CourseDetails.vue"),
+    beforeEnter: ifAuthenticated
   }
 ];
 
