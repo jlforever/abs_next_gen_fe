@@ -1,6 +1,14 @@
 <template>
-  <v-card v-if="course" outlined class="course-card" link :to="`/courses/${registeredCourseId}`">
-    <v-chip class="status" small :ripple="false" :color="statusColor">{{ status }}</v-chip>
+  <v-card
+    v-if="course"
+    outlined
+    class="course-card"
+    link
+    :to="`/courses/${registeredCourseId}`"
+  >
+    <v-chip class="status" small :ripple="false" :color="statusColor">
+      {{ status }}
+    </v-chip>
     <v-row>
       <v-col>
         <CourseTitle :course="course" />
@@ -23,14 +31,10 @@
         />
       </v-list-item-subtitle>
     </v-list-item>
-    <v-card-actions>
-      <button @click="testClicky(registeredCourseId)">test</button>
-    </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import CourseService from "@/service/courseService";
 import CourseTitle from "@/components/courses/card/CourseTitle";
 import CourseTimes from "@/components/courses/card/CourseTimes";
 import CourseTeacher from "@/components/courses/card/CourseTeacher";
@@ -86,10 +90,7 @@ export default {
   },
   methods: {
     formatDateToLocal,
-    getWeeks,
-    testClicky(id) {
-      CourseService.fetchRegisteredCourseSessions(id);
-    }
+    getWeeks
   },
   computed: {
     registeredForCourse() {
