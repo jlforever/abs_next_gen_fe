@@ -28,7 +28,9 @@ const ifAuthenticated = (to, from, next) => {
     next();
     return;
   }
-  next("/login");
+  if (from?.path !== "/signup") {
+    next("/login");
+  }
 };
 
 const routes = [
@@ -80,6 +82,12 @@ const routes = [
     path: "/courses",
     name: "Courses",
     component: () => import("../views/Courses.vue"),
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: "/courses/:id",
+    name: "CourseDetails",
+    component: () => import("../views/CourseDetails.vue"),
     beforeEnter: ifAuthenticated
   }
 ];
