@@ -29,6 +29,13 @@ export const findTimezone = timezone => {
   return "";
 };
 
+export const militaryToStandard = (time, timezone) => {
+  const tz = timezone ?? moment.tz.guess(true);
+  const utcTime = moment.utc(time, "HH:mm");
+  const localTime = moment(utcTime).local();
+  return localTime.tz(tz).format("hh:mm A");
+};
+
 export const formatDateToLocal = (date, format, timezone) => {
   const tz = timezone ?? moment.tz.guess(true);
   const utcTime = moment.utc(date).format("YYYY-MM-DD HH:mm:ssZ");

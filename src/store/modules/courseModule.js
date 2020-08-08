@@ -51,8 +51,8 @@ const actions = {
       commit(courses.error, err);
     }
   },
-  [courses.details]: async ({ commit, getters, dispatch }, id) => {
-    commit(courses.request, "details");
+  [courses.sessions]: async ({ commit, getters, dispatch }, id) => {
+    commit(courses.request, "sessions");
     const currentUser = getters?.activeUser;
     const email = currentUser.email;
     if (getters.hasRegisteredCourses <= 0) {
@@ -61,7 +61,7 @@ const actions = {
 
     try {
       const res = await CourseService.fetchRegisteredCourseSessions(id);
-      commit(courses.details, { res: res.class_sessions, id });
+      commit(courses.sessions, { res: res.class_sessions, id });
     } catch (err) {
       if (err.hasRefreshedToken) dispatch(courses.request, email);
       commit(courses.error, err);
@@ -85,7 +85,7 @@ const mutations = {
       case "fetch":
         state.status.fetchLoading = true;
         break;
-      case "details":
+      case "sessions":
         state.status.detailLoading = true;
         break;
       case "register":
@@ -105,10 +105,10 @@ const mutations = {
     state.status.registerSuccess = true;
     Vue.set(state, "registered", _.mapKeys(res, "id"));
   },
-  [courses.details]: (state, { res, id }) => {
+  [courses.sessions]: (state, { res, id }) => {
     state.status.detailLoading = false;
     state.status.detailSuccess = true;
-    Vue.set(state.registered[id].course, "details", _.mapKeys(res, "id"));
+    Vue.set(state.registered[id].course, "sessions", _.mapKeys(res, "id"));
   },
   [courses.register]: (state, res) => {
     state.status.registerLoading = false;

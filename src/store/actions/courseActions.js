@@ -6,5 +6,5 @@ export default {
   success: "COURSE_SUCCESS",
   register: "COURSE_REGISTER",
   registerList: "COURSE_REGISTER_LIST",
-  details: "COURSE_DETAIL"
+  sessions: "COURSE_SESSIONS"
 };

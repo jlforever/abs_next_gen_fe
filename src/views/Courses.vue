@@ -82,7 +82,7 @@ export default {
       "loadingFamilyMemberFetch"
     ]),
     computedDateFormatted() {
-      return this.formatDate(this.date);
+      return this.formatDateToLocal(this.date);
     }
   }
 };

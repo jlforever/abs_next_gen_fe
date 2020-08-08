@@ -110,12 +110,36 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.course-card {
+.v-card.course-card::v-deep {
+  transition: all 500ms ease-in;
   padding-top: 2rem;
-}
-.status {
-  position: absolute;
-  right: 0.5rem;
-  top: 0.5rem;
+
+  .status,
+  .v-chip,
+  .v-icon {
+    transition: all 500ms ease-in;
+  }
+
+  .status {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+  }
+
+  &:hover {
+    border-color: $brand-pink;
+    background: #f9f9f9;
+    .status,
+    .v-chip:not(.v-chip--outlined) {
+      background-color: $brand-pink !important;
+    }
+    .v-chip--outlined {
+      border-color: $brand-pink !important;
+    }
+    .v-chip--outlined,
+    .v-icon {
+      color: $brand-pink !important;
+    }
+  }
 }
 </style>

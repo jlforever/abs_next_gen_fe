@@ -9,13 +9,12 @@
         <span class="pl-2">{{ course.taught_via }}</span>
       </v-list-item-subtitle>
       <v-list-item-subtitle class="pb-1">
+        <strong>Day(s):</strong>
+        <span class="pl-2">{{ course.occurs_on_for_a_given_week }}</span>
+      </v-list-item-subtitle>
+      <v-list-item-subtitle class="pb-1">
         <strong>Time:</strong>
-        <span class="pl-2">
-          {{
-          formatDateToLocal(course.effective_from, "dddd", timezone)
-          }}
-          {{ course.individual_session_starts_at }}
-        </span>
+        <span class="pl-2">{{ militaryToStandard(course.individual_session_starts_at, timezone) }}</span>
       </v-list-item-subtitle>
       <v-list-item-subtitle class="pb-1">
         <strong>Length:</strong>
@@ -42,7 +41,11 @@
 </template>
 
 <script>
-import { formatDateToLocal, getWeeks } from "@/utils/timeUtils";
+import {
+  militaryToStandard,
+  formatDateToLocal,
+  getWeeks
+} from "@/utils/timeUtils";
 
 export default {
   name: "CourseTimes",
@@ -59,6 +62,7 @@ export default {
   },
   methods: {
     formatDateToLocal,
+    militaryToStandard,
     getWeeks
   }
 };
