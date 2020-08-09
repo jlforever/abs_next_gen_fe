@@ -55,6 +55,12 @@ const routes = [
     component: Signup,
     beforeEnter: ifNotAuthenticated
   },
+  {
+    path: "/forgot_password",
+    name: "ForgotPassword",
+    component: () => import("../views/ForgotPassword.vue"),
+    beforeEnter: ifNotAuthenticated
+  },
   /*{ For Testing
     path: "/docs",
     name: "Helper",
