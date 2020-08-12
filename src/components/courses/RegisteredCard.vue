@@ -1,14 +1,6 @@
 <template>
-  <v-card
-    v-if="course"
-    outlined
-    class="course-card"
-    link
-    :to="`/courses/${registeredCourseId}`"
-  >
-    <v-chip class="status" small :ripple="false" :color="statusColor">
-      {{ status }}
-    </v-chip>
+  <v-card v-if="course" outlined class="course-card" link :to="`/courses/${registeredCourseId}`">
+    <v-chip class="status" small :ripple="false" :color="statusColor">{{ status }}</v-chip>
     <v-row>
       <v-col>
         <CourseTitle :course="course" />
@@ -106,18 +98,6 @@ export default {
     statusColor() {
       if (this.$props.status === "paid") return "primary";
       return "secondary";
-    },
-    async func(url) {
-      let file = await fetch(url)
-        .then(r => r.blob())
-        .then(
-          blobFile =>
-            new File([blobFile], "fileNameGoesHere", {
-              type: "image/png"
-            })
-        );
-
-      return file;
     }
   }
 };
