@@ -1,7 +1,7 @@
 <template>
   <v-snackbar v-model="showBar" color="error" :timeout="timeout" top>
     {{ message }}
-    <v-btn dark icon @click.native="showBar = false">
+    <v-btn dark icon @click.native="closeSnack">
       <v-icon>mdi-close</v-icon>
     </v-btn>
   </v-snackbar>
@@ -25,15 +25,21 @@ export default {
       state => state.errors.snackMessage,
       () => {
         const msg = this.$store.state.errors.snackMessage;
-        if (msg !== "") {
+        if (msg) {
           this.showBar = true;
           this.message = msg;
           setTimeout(() => {
+            this.showBar = false;
             this.$store.dispatch(errors.snack, null);
           }, this.timeout);
         }
       }
     );
+  },
+  methods: {
+    closeSnack() {
+      this.showBar = false;
+    }
   }
 };
 </script>

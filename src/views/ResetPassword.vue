@@ -41,8 +41,11 @@
 </template>
 
 <script>
+import AuthService from "@/service/authService";
 import AuthWrap from "@/components/layouts/AuthWrap";
 import CardButton from "@/components/buttons/CardButton";
+import actionTypes from "@/store/actions";
+const { errors, success } = actionTypes;
 export default {
   name: "ResetPassword",
   components: { AuthWrap, CardButton },
@@ -50,43 +53,38 @@ export default {
     return {
       password: "",
       password_confirmation: "",
-      error: "",
-      notice: ""
+      successMessage:
+        "Your password has been reset successfully! Please sign in with your new password."
     };
   },
   created() {
     this.checkPasswordToken();
   },
   methods: {
-    handleReset() {
-      this.$http.plain
-        .patch(`/password_resets/${this.$route.params.token}`, {
+    async handleReset() {
+      const params = {
+        password_reset: {
           password: this.password,
           password_confirmation: this.password_confirmation
-        })
-        .then(response => this.resetSuccessful(response))
-        .catch(error => this.resetFailed(error));
+        }
+      };
+      try {
+        await AuthService.passwordResetSubmit(this.$route.params.token, params);
+        this.$store.dispatch(success.snack, this.successMessage);
+        this.password = "";
+        this.password_confirmation = "";
+        this.$router.replace("/login");
+      } catch (err) {
+        this.$store.dispatch(errors.format, err);
+      }
     },
-    resetSuccessful(response) {
-      this.notice =
-        "Your password has been reset successfully! Please sign in with your new password.";
-      this.error = "";
-      this.password = "";
-      this.password_confirmation = "";
-    },
-    resetFailed(error) {
-      this.error =
-        (error.response && error.response.data && error.response.data.error) ||
-        "Something went wrong";
-      this.notice = "";
-    },
-    checkPasswordToken() {
-      this.$http.plain
-        .get(`/password_resets/${this.$route.params.token}`)
-        .catch(error => {
-          this.resetFailed(error);
-          this.$router.replace("/");
-        });
+    async checkPasswordToken() {
+      try {
+        await AuthService.passwordResetVerify(this.$route.params.token);
+      } catch (err) {
+        this.$store.dispatch(errors.format, err);
+        this.$router.replace("/");
+      }
     }
   }
 };

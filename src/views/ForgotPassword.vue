@@ -12,6 +12,7 @@
           v-model="email"
         />
       </v-form>
+      <p v-if="success">{{successMessage}}</p>
     </v-card-text>
     <v-card-actions>
       <v-spacer />
@@ -20,6 +21,7 @@
         size="x-large"
         form="forgot_password"
         color="secondary"
+        :disabled="success"
       >Reset Password</CardButton>
     </v-card-actions>
     <v-card-text>
@@ -34,34 +36,33 @@
 </template>
 
 <script>
+import AuthService from "@/service/authService";
 import AuthWrap from "@/components/layouts/AuthWrap";
 import CardButton from "@/components/buttons/CardButton";
+import actionTypes from "@/store/actions";
+const { errors, success } = actionTypes;
 export default {
   name: "ForgotPassword",
   components: { AuthWrap, CardButton },
   data() {
     return {
       email: "",
-      error: "",
-      notice: ""
+      success: false,
+      successMessage: "Email with password reset instructions had been sent."
     };
   },
   methods: {
-    handleSubmit() {
-      this.$http.plain
-        .post("/password_resets", { email: this.email })
-        .then(() => this.submitSuccessful())
-        .catch(error => this.submitFailed(error));
-    },
-    submitSuccessful() {
-      this.notice = "Email with password reset instructions had been sent.";
-      this.error = "";
-      this.email = "";
-    },
-    submitFailed(error) {
-      this.error =
-        (error.response && error.response.data && error.response.data.error) ||
-        "";
+    async handleSubmit() {
+      try {
+        await AuthService.passwordResetRequest({
+          reset_request: { user_email: this.email }
+        });
+        this.$store.dispatch(success.snack, this.successMessage);
+        this.email = "";
+        this.success = true;
+      } catch (err) {
+        this.$store.dispatch(errors.format, err);
+      }
     }
   }
 };
