@@ -8,9 +8,7 @@
         <CourseTeacher :course="current.course" />
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title class="headline mb-1 jkhkj">
-              Sessions
-            </v-list-item-title>
+            <v-list-item-title class="headline mb-1 jkhkj">Sessions</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-expansion-panels v-model="panels" multiple hover>
@@ -21,30 +19,26 @@
           >
             <v-expansion-panel-header>
               <div>
-                <v-icon class="session-time-icon mr-2">
-                  {{ getStatusIcon(session.status) }}
-                </v-icon>
+                <v-icon class="session-time-icon mr-2">{{ getStatusIcon(session.status) }}</v-icon>
                 {{
-                  formatDateToLocal(
-                    session.effective_for,
-                    "MMMM Do, YYYY",
-                    activeUser.timezone
-                  )
+                formatDateToLocal(
+                session.effective_for,
+                "MMMM Do, YYYY",
+                activeUser.timezone
+                )
                 }}
                 {{
-                  militaryToStandard(
-                    session.individual_session_starts_at,
-                    activeUser.timezone
-                  )
+                militaryToStandard(
+                session.individual_session_starts_at,
+                activeUser.timezone
+                )
                 }}
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <div class="session-assignments">
                 <v-list-item-content>
-                  <v-list-item-title class="mb-1">
-                    Session Materials
-                  </v-list-item-title>
+                  <v-list-item-title class="mb-1">Session Materials</v-list-item-title>
                 </v-list-item-content>
                 <div
                   v-if="
@@ -52,10 +46,7 @@
                       session.student_materials.length > 0
                   "
                 >
-                  <div
-                    v-for="(studentMaterial, j) in session.student_materials"
-                    :key="j"
-                  >
+                  <div v-for="(studentMaterial, j) in session.student_materials" :key="j">
                     <v-row no-gutters>
                       <v-col cols="12">
                         <div class="mb-2">
@@ -70,9 +61,7 @@
                             small
                             color="secondary"
                           >
-                            <v-icon class="mr-1" small>
-                              {{ getFileIcon(studentMaterial.mime_type) }}
-                            </v-icon>
+                            <v-icon class="mr-1" small>{{ getFileIcon(studentMaterial.mime_type) }}</v-icon>
                             {{ studentMaterial.name }}
                           </v-btn>
                         </div>
@@ -155,6 +144,20 @@ export default {
       }
     },
     async saveSessionFile(uri, filename) {
+      /*** COME BACK TO THIS LATER
+       * async func(url) {
+      let file = await fetch(url)
+        .then(r => r.blob())
+        .then(
+          blobFile =>
+            new File([blobFile], "fileNameGoesHere", {
+              type: "image/png"
+            })
+        );
+
+      return file;
+      }
+      ***/
       saveAs(uri, filename);
     }
   },

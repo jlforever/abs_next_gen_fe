@@ -25,6 +25,20 @@ class AuthService {
   logout() {
     localStorage.removeItem("authData");
   }
+
+  // reset password
+  async passwordResetRequest(params) {
+    const res = await absAPI.post("/password_reset_requests", params);
+    return res;
+  }
+  async passwordResetVerify(resetToken) {
+    const res = await absAPI.get(`/password_resets/${resetToken}/edit`);
+    return res;
+  }
+  async passwordResetSubmit(resetToken, params) {
+    const res = await absAPI.put(`/password_resets/${resetToken}`, params);
+    return res;
+  }
 }
 
 export default new AuthService();
