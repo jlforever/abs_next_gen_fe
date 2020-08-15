@@ -1,9 +1,9 @@
 <template>
-  <v-row justify="center">
+  <v-row>
     <v-dialog v-model="dialog" persistent max-width="400px">
       <template v-slot:activator="{ on }">
-        <v-btn v-on="on" absolute dark fab top right small color="secondary">
-          <v-icon>mdi-plus</v-icon>
+        <v-btn v-on="on" dark color="secondary">
+          <v-icon>mdi-plus</v-icon>Add student
         </v-btn>
       </template>
       <v-card>
@@ -71,9 +71,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="blue darken-1" text @click="dialog = false">
-            Close
-          </v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
           <v-btn color="blue darken-1" text @click="handleSubmit()">Save</v-btn>
         </v-card-actions>
       </v-card>

@@ -12,6 +12,7 @@
     :form="form"
     :color="color"
     :to="to"
+    :href="href"
     :disabled="disabled"
     @click="onClick"
   >
@@ -44,6 +45,10 @@ export default {
       default: undefined
     },
     to: {
+      type: String,
+      default: undefined
+    },
+    href: {
       type: String,
       default: undefined
     },

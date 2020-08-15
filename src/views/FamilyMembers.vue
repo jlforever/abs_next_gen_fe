@@ -2,7 +2,6 @@
   <DashboardWrap>
     <v-card class="fill-height">
       <v-card-text>
-        <FamilyMemberForm />
         <v-container>
           <v-row>
             <v-col cols="12">
@@ -10,12 +9,10 @@
               <p>Add and manage students that will be taking classes.</p>
             </v-col>
             <v-col cols="12">
-              <p v-if="hasFamilyMembers <= 0 && !loadingFamilyMemberFetch">
-                No students have been added at this time.
-              </p>
-              <v-row
-                v-else-if="hasFamilyMembers > 0 && !loadingFamilyMemberFetch"
-              >
+              <p
+                v-if="hasFamilyMembers <= 0 && !loadingFamilyMemberFetch"
+              >No students have been added at this time.</p>
+              <v-row v-else-if="hasFamilyMembers > 0 && !loadingFamilyMemberFetch">
                 <v-col
                   v-for="item in currentFamilyMembers"
                   :key="item.id"
@@ -29,6 +26,7 @@
               </v-row>
             </v-col>
           </v-row>
+          <FamilyMemberForm />
         </v-container>
       </v-card-text>
     </v-card>

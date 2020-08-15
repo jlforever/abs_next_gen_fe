@@ -2,6 +2,13 @@
 
 ## Deploy
 
+### Add staging/production branches
+
+```
+heroku git:remote -a abs-next-gen-fe-staging -r abs-next-gen-fe-staging
+heroku git:remote -a abs-next-gen-fe-production -r abs-next-gen-fe-production
+```
+
 ### Staging
 
 ```
@@ -14,7 +21,7 @@ $ git push abs-next-gen-fe-staging development:master
 
 ```
 $ git checkout master
-$ git pull
+$ git merge development
 $ git push abs-next-gen-fe-production master:master
 ```
 
