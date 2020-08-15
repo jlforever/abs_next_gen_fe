@@ -30,7 +30,7 @@
             </p>
             <template #actions>
               <v-spacer />
-              <CardButton exact size="x-large" to="/contact">Contact Us</CardButton>
+              <CardButton size="x-large" href="mailto:admin@alphabetaschool.org">Contact Us</CardButton>
             </template>
           </Blurb>
         </v-col>

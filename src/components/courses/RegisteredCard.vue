@@ -2,13 +2,11 @@
   <v-card v-if="course" outlined class="course-card" link :to="`/courses/${registeredCourseId}`">
     <v-chip class="status" small :ripple="false" :color="statusColor">{{ status }}</v-chip>
     <v-row>
-      <v-col>
+      <v-col md="6">
         <CourseTitle :course="course" />
       </v-col>
-      <v-col>
+      <v-col md="6">
         <CourseTimes :course="course" :timezone="user.timezone" />
-      </v-col>
-      <v-col>
         <CourseTeacher :course="course" />
       </v-col>
     </v-row>

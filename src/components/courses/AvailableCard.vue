@@ -1,8 +1,9 @@
 <template>
-  <v-card v-if="course" outlined class="course-card">
+  <v-card v-if="course" outlined class="course-card d-flex flex-column">
     <CourseTitle :course="course" />
     <CourseTimes :course="course" :timezone="user.timezone" />
     <CourseTeacher :course="course" />
+    <v-spacer />
     <v-card-actions>
       <CourseRegister
         v-if="hasFamilyMembers > 0 && !loadingFamily"
@@ -59,4 +60,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.course-card {
+  height: 100%;
+}
 </style>
