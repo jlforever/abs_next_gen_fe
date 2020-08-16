@@ -3,6 +3,7 @@
     <v-breadcrumbs class="px-0" :items="items"></v-breadcrumbs>
     <v-card>
       <div v-if="current">
+        <CourseFloats :status="current.status" :code="current.course.code" />
         <CourseTitle :course="current.course" />
         <CourseTimes :course="current.course" :timezone="activeUser.timezone" />
         <CourseTeacher :course="current.course" />
@@ -17,6 +18,7 @@
 import { mapGetters } from "vuex";
 import DashboardWrap from "@/components/layouts/DashboardWrap";
 import CourseTitle from "@/components/courses/card/CourseTitle";
+import CourseFloats from "@/components/courses/card/CourseFloats";
 import CourseTimes from "@/components/courses/card/CourseTimes";
 import CourseTeacher from "@/components/courses/card/CourseTeacher";
 import CourseReleaseAgreement from "@/components/courses/card/CourseReleaseAgreement";
@@ -31,6 +33,7 @@ export default {
   components: {
     DashboardWrap,
     CourseTitle,
+    CourseFloats,
     CourseTimes,
     CourseTeacher,
     CourseReleaseAgreement,
