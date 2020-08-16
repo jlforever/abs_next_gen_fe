@@ -1,6 +1,6 @@
 <template>
   <v-card v-if="course" outlined class="course-card" link :to="`/courses/${registeredCourseId}`">
-    <v-chip class="status" small :ripple="false" :color="statusColor">{{ status }}</v-chip>
+    <CourseFloats :status="status" :code="course.code" />
     <v-row>
       <v-col md="6">
         <CourseTitle :course="course" />
@@ -26,6 +26,7 @@
 
 <script>
 import CourseTitle from "@/components/courses/card/CourseTitle";
+import CourseFloats from "@/components/courses/card/CourseFloats";
 import CourseTimes from "@/components/courses/card/CourseTimes";
 import CourseTeacher from "@/components/courses/card/CourseTeacher";
 import CourseStudents from "@/components/courses/card/CourseStudents";
@@ -35,6 +36,7 @@ export default {
   name: "RegisteredCard",
   components: {
     CourseTitle,
+    CourseFloats,
     CourseTimes,
     CourseTeacher,
     CourseStudents,
@@ -92,10 +94,6 @@ export default {
       if (this.registeredIds[2])
         regArr.push(this.family[this.registeredIds[2]]);
       return regArr;
-    },
-    statusColor() {
-      if (this.$props.status === "paid") return "primary";
-      return "secondary";
     }
   }
 };
@@ -105,22 +103,16 @@ export default {
   transition: all 500ms ease-in;
   padding-top: 2rem;
 
-  .status,
+  .course-status,
   .v-chip,
   .v-icon {
     transition: all 500ms ease-in;
   }
 
-  .status {
-    position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
-  }
-
   &:hover {
     border-color: $brand-pink;
     background: #f9f9f9;
-    .status,
+    .course-status,
     .v-chip:not(.v-chip--outlined) {
       background-color: $brand-pink !important;
     }

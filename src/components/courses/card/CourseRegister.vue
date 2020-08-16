@@ -26,8 +26,7 @@
               @click.stop
               href="https://aba-general.s3.amazonaws.com/ABA+Photo_Video+Release+Form.pdf"
               target="_blank"
-            >Photo/Video Release</a>
-            {{checkbox.toString()}}?
+            >Photo/Video Release</a>?
           </template>
         </v-checkbox>
       </v-card-text>
