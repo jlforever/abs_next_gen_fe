@@ -22,6 +22,7 @@ $ git push abs-next-gen-fe-staging development:master
 ```
 $ git checkout master
 $ git merge development
+$ git push origin master
 $ git push abs-next-gen-fe-production master:master
 ```
 

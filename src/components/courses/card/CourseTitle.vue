@@ -4,10 +4,7 @@
       <v-icon color="primary">mdi-school</v-icon>
     </v-list-item-icon>
     <v-list-item-content v-if="course.specialty">
-      <div class="overline">
-        {{ course.specialty.subject }}
-        <span v-if="course.code">({{ course.code }})</span>
-      </div>
+      <div class="overline">{{ course.specialty.subject }}</div>
       <v-list-item-title class="headline mb-1">{{ course.specialty.category }}</v-list-item-title>
       <v-list-item-subtitle>{{ course.specialty.focus_areas }}</v-list-item-subtitle>
     </v-list-item-content>
