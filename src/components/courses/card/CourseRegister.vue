@@ -21,12 +21,14 @@
         <div v-if="hasFamilyMembers > 3" class="mt-2">Choose up to 3 family members to register.</div>
         <v-checkbox v-model="checkbox">
           <template v-slot:label>
-            Do you agree to the
-            <a
-              @click.stop
-              href="https://aba-general.s3.amazonaws.com/ABA+Photo_Video+Release+Form.pdf"
-              target="_blank"
-            >Photo/Video Release</a>?
+            <div>
+              Do you agree to the
+              <a
+                @click.stop
+                href="https://aba-general.s3.amazonaws.com/ABA+Photo_Video+Release+Form.pdf"
+                target="_blank"
+              >Photo/Video Release</a>?
+            </div>
           </template>
         </v-checkbox>
       </v-card-text>
@@ -112,8 +114,5 @@ export default {
 .v-chip.active {
   background: $brand-pink;
   color: #fff;
-}
-.v-input--checkbox::v-deep .v-label {
-  display: block;
 }
 </style>
