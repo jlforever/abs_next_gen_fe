@@ -19,6 +19,18 @@
           >{{item.student.first_name}}</v-chip>
         </div>
         <div v-if="hasFamilyMembers > 3" class="mt-2">Choose up to 3 family members to register.</div>
+        <v-checkbox v-model="checkbox">
+          <template v-slot:label>
+            <div>
+              Do you agree to the
+              <a
+                @click.stop
+                href="https://aba-general.s3.amazonaws.com/ABA+Photo_Video+Release+Form.pdf"
+                target="_blank"
+              >Photo/Video Release</a>?
+            </div>
+          </template>
+        </v-checkbox>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -36,6 +48,7 @@ export default {
   data() {
     return {
       dialog: false,
+      checkbox: false,
       familyMemberIds: []
     };
   },
@@ -73,7 +86,8 @@ export default {
     registerCourse() {
       const { course, user } = this.$props;
       const registerParams = {
-        course_id: course.id
+        course_id: course.id,
+        accept_release_form: this.checkbox
       };
       if (this.familyMemberIds[0]) {
         registerParams.primary_family_member_id = this.familyMemberIds[0];

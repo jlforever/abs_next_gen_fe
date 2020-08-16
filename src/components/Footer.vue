@@ -1,6 +1,13 @@
 <template>
   <v-footer dark>
-    <div class="app-footer-section">Alpha Beta Academy &copy; 2020</div>
+    <div class="app-footer-section">
+      Alpha Beta Academy &copy; 2020. All Rights Reserved.
+      <br />
+      <div class="contact caption">
+        Tel: (781) 519 - 9319
+        <br />Email: admin@alphabetaschool.org
+      </div>
+    </div>
     <v-spacer />
     <div class="app-footer-section">
       <div class="social-buttons">
@@ -41,3 +48,9 @@ export default {
   name: "Footer"
 };
 </script>
+
+<style lang="scss" scoped>
+.v-footer {
+  align-items: flex-start;
+}
+</style>

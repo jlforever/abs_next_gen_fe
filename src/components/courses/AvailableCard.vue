@@ -1,8 +1,10 @@
 <template>
-  <v-card v-if="course" outlined class="course-card">
+  <v-card v-if="course" outlined class="course-card d-flex flex-column">
+    <CourseFloats :code="course.code" />
     <CourseTitle :course="course" />
     <CourseTimes :course="course" :timezone="user.timezone" />
     <CourseTeacher :course="course" />
+    <v-spacer />
     <v-card-actions>
       <CourseRegister
         v-if="hasFamilyMembers > 0 && !loadingFamily"
@@ -19,12 +21,14 @@
 import CourseRegister from "@/components/courses/card/CourseRegister";
 import CourseService from "@/service/courseService";
 import CourseTitle from "@/components/courses/card/CourseTitle";
+import CourseFloats from "@/components/courses/card/CourseFloats";
 import CourseTimes from "@/components/courses/card/CourseTimes";
 import CourseTeacher from "@/components/courses/card/CourseTeacher";
 export default {
   name: "AvailableCard",
   components: {
     CourseTitle,
+    CourseFloats,
     CourseTimes,
     CourseTeacher,
     CourseRegister
@@ -59,4 +63,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.course-card {
+  height: 100%;
+}
 </style>
