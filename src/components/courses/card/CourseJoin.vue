@@ -10,8 +10,7 @@
           depressed
           color="secondary"
           class="join-btn"
-          :href="course.virtual_klass_platform_link"
-          target="_blank"
+          @click.stop="openCallLink(course.virtual_klass_platform_link)"
         >
           Join with
           {{ course.taught_via }}
@@ -32,6 +31,11 @@ export default {
     },
     status: {
       type: String
+    }
+  },
+  methods: {
+    openCallLink(url) {
+      window.open(url, "_blank");
     }
   },
   computed: {

@@ -1,5 +1,10 @@
 <template>
-  <v-card v-if="course" outlined class="course-card" link :to="`/courses/${registeredCourseId}`">
+  <v-card
+    v-if="course"
+    outlined
+    class="course-card"
+    @click.stop="goToCourseDetailPage(`/courses/${registeredCourseId}`)"
+  >
     <CourseFloats :status="status" :code="course.code" />
     <v-row>
       <v-col md="6">
@@ -7,6 +12,7 @@
       </v-col>
       <v-col md="6">
         <CourseTimes :course="course" :timezone="user.timezone" />
+        <CourseJoin :status="status" :course="course" />
         <CourseTeacher :course="course" />
       </v-col>
     </v-row>
@@ -28,6 +34,7 @@
 import CourseTitle from "@/components/courses/card/CourseTitle";
 import CourseFloats from "@/components/courses/card/CourseFloats";
 import CourseTimes from "@/components/courses/card/CourseTimes";
+import CourseJoin from "@/components/courses/card/CourseJoin";
 import CourseTeacher from "@/components/courses/card/CourseTeacher";
 import CourseStudents from "@/components/courses/card/CourseStudents";
 import CoursePaymentDue from "@/components/courses/card/CoursePaymentDue";
@@ -38,6 +45,7 @@ export default {
     CourseTitle,
     CourseFloats,
     CourseTimes,
+    CourseJoin,
     CourseTeacher,
     CourseStudents,
     CoursePaymentDue
@@ -82,7 +90,10 @@ export default {
   },
   methods: {
     formatDateToLocal,
-    getWeeks
+    getWeeks,
+    goToCourseDetailPage(url) {
+      this.$router.push(url);
+    }
   },
   computed: {
     registeredForCourse() {
