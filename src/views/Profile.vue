@@ -6,7 +6,7 @@
           <v-container>
             <v-row>
               <v-col cols="12">
-                <strong class="title">Parent Info</strong>
+                <strong class="title">User Info</strong>
                 <p>
                   Parent info must be created in order to register students for
                   classes. Please keep information up to date.
@@ -181,9 +181,7 @@
           form="profile"
           color="secondary"
           :disabled="!isProfileLoaded || Object.keys(user).length === 0"
-        >
-          Save Changes
-        </v-btn>
+        >Save Changes</v-btn>
       </v-card-actions>
     </v-card>
   </DashboardWrap>
