@@ -6,6 +6,7 @@
         <CourseFloats :status="current.status" :code="current.course.code" />
         <CourseTitle :course="current.course" />
         <CourseTimes :course="current.course" :timezone="activeUser.timezone" />
+        <CourseJoin :status="current.status" :course="current.course" />
         <CourseTeacher :course="current.course" />
         <CourseReleaseAgreement :agreement="current.accept_release_form" />
         <SessionList :sessions="current.course.sessions" :timezone="activeUser.timezone" />
@@ -20,6 +21,7 @@ import DashboardWrap from "@/components/layouts/DashboardWrap";
 import CourseTitle from "@/components/courses/card/CourseTitle";
 import CourseFloats from "@/components/courses/card/CourseFloats";
 import CourseTimes from "@/components/courses/card/CourseTimes";
+import CourseJoin from "@/components/courses/card/CourseJoin";
 import CourseTeacher from "@/components/courses/card/CourseTeacher";
 import CourseReleaseAgreement from "@/components/courses/card/CourseReleaseAgreement";
 import SessionList from "@/components/courses/sessions/SessionList";
@@ -35,6 +37,7 @@ export default {
     CourseTitle,
     CourseFloats,
     CourseTimes,
+    CourseJoin,
     CourseTeacher,
     CourseReleaseAgreement,
     SessionList
