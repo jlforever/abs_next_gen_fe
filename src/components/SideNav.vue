@@ -14,7 +14,7 @@
         <!-- <img src="https://randomuser.me/api/portraits/men/90.jpg" /> -->
       </v-list-item-avatar>
 
-      <v-list-item-content v-if="isAuthenticated && profile">
+      <v-list-item-content v-if="isAuthenticated && activeUser">
         <v-list-item-title>{{ buildDisplay }}</v-list-item-title>
         <v-list-item-subtitle>{{ getRole }}</v-list-item-subtitle>
       </v-list-item-content>
@@ -32,7 +32,7 @@
         <v-list-item-icon>
           <v-icon>mdi-account</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Parent Info</v-list-item-title>
+        <v-list-item-title>User Info</v-list-item-title>
       </v-list-item>
       <v-list-item v-if="isParent" link to="/students" color="primary">
         <v-list-item-icon>
@@ -50,8 +50,7 @@
     <template v-slot:append>
       <div class="pa-2">
         <v-btn @click="logoutUser" block small outlined color="primary">
-          <v-icon>mdi-logout</v-icon>
-          Logout
+          <v-icon>mdi-logout</v-icon>Logout
         </v-btn>
       </div>
     </template>
@@ -60,6 +59,7 @@
 
 <script>
 import actionTypes from "@/store/actions";
+import { mapGetters } from "vuex";
 const { auth } = actionTypes;
 export default {
   name: "Sidenav",
@@ -76,22 +76,40 @@ export default {
       });
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      console.log("parent? ", this.isUserParent);
+      console.log("teacher? ", this.isUserTeacher);
+
+      console.log("=====");
+      console.log("parent");
+      console.log(this.activeUser);
+      console.log(this.activeUser.parent);
+      console.log(Object.keys(this.activeUser.parent).length);
+      console.log(this.isParent);
+      console.log("=====");
+      console.log("teacher");
+      console.log(this.activeUser.faculty);
+      console.log(this.activeUser.faculty);
+      console.log(Object.keys(this.activeUser.faculty).length);
+      console.log(this.isTeacher);
+      console.log("=====");
+    });
+  },
   computed: {
+    ...mapGetters(["activeUser", "isUserParent", "isUserTeacher"]),
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
     },
-    profile() {
-      return this.$store.getters.activeUser;
-    },
     isParent() {
-      if (this.profile?.parent) {
-        return Object.keys(this.profile.parent).length;
+      if (this.activeUser?.parent) {
+        return Object.keys(this.activeUser.parent).length;
       }
       return false;
     },
     isTeacher() {
-      if (this.profile?.teacher) {
-        return Object.keys(this.profile.teacher).length;
+      if (this.activeUser?.faculty) {
+        return Object.keys(this.activeUser.faculty).length;
       }
       return false;
     },
@@ -106,10 +124,10 @@ export default {
       return "";
     },
     buildDisplay() {
-      if (this.profile?.first_name && this.profile?.last_name) {
-        return `${this.profile.first_name} ${this.profile.last_name}`;
+      if (this.activeUser?.first_name && this.activeUser?.last_name) {
+        return `${this.activeUser.first_name} ${this.activeUser.last_name}`;
       }
-      return this.profile?.email;
+      return this.activeUser?.email;
     }
   }
 };
