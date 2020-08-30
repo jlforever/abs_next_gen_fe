@@ -13,6 +13,7 @@
 
 <script>
 export default {
+  name: "CourseTitle",
   props: {
     course: {
       type: Object,
