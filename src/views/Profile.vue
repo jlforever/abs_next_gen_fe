@@ -6,6 +6,10 @@
           <v-container>
             <v-row>
               <v-col cols="12">
+                <PerspectiveSelection
+                  v-if="isParentAndTeacher"
+                  @perspective-change="handlePerspectiveChange"
+                />
                 <strong class="title">User Info</strong>
                 <p>
                   Parent info must be created in order to register students for
@@ -92,8 +96,7 @@
                     <v-text-field
                       filled
                       color="secondary"
-                      v-if="isParentFieldLoaded"
-                      :value="activeUser.parent.address1"
+                      :value="activeUser.address1"
                       @input="updateLocalUser($event, 'address1')"
                       label="Street Address"
                       placeholder="The street you live on"
@@ -103,8 +106,7 @@
                     <v-text-field
                       filled
                       color="secondary"
-                      v-if="isParentFieldLoaded"
-                      :value="activeUser.parent.address2"
+                      :value="activeUser.address2"
                       @input="updateLocalUser($event, 'address2')"
                       label="Street Address (continued)"
                       placeholder="Apt, suite, unit, etc"
@@ -114,8 +116,7 @@
                     <v-text-field
                       filled
                       color="secondary"
-                      v-if="isParentFieldLoaded"
-                      :value="activeUser.parent.city"
+                      :value="activeUser.city"
                       @input="updateLocalUser($event, 'city')"
                       label="City"
                       placeholder="City you reside in"
@@ -125,8 +126,7 @@
                     <v-text-field
                       filled
                       color="secondary"
-                      v-if="isParentFieldLoaded"
-                      :value="activeUser.parent.state"
+                      :value="activeUser.state"
                       @input="updateLocalUser($event, 'state')"
                       label="State"
                       placeholder="State you reside in"
@@ -136,28 +136,37 @@
                     <v-text-field
                       filled
                       color="secondary"
-                      v-if="isParentFieldLoaded"
-                      :value="activeUser.parent.zip"
+                      :value="activeUser.zip"
                       @input="updateLocalUser($event, 'zip')"
                       label="Zip"
                       placeholder="Your zip/postal code"
                     />
                   </v-col>
-                  <v-col cols="12" md="6" class="py-0">
+                  <v-col
+                    v-if="isPerspectiveParent"
+                    cols="12"
+                    md="6"
+                    class="py-0"
+                  >
                     <v-text-field
                       filled
                       color="secondary"
-                      :value="activeUser.emergency_contact"
+                      :value="activeUser.parent.emergency_contact"
                       @input="updateLocalUser($event, 'emergency_contact')"
                       label="Emergency Contact Name"
                       placeholder="Enter name for contact"
                     />
                   </v-col>
-                  <v-col cols="12" md="6" class="py-0">
+                  <v-col
+                    v-if="isPerspectiveParent"
+                    cols="12"
+                    md="6"
+                    class="py-0"
+                  >
                     <v-text-field
                       filled
                       color="secondary"
-                      :value="activeUser.emergency_contact_phone_number"
+                      :value="activeUser.parent.emergency_contact_phone_number"
                       @input="
                         updateLocalUser(
                           $event,
@@ -166,6 +175,24 @@
                       "
                       label="Emergency Contact Phone Number"
                       placeholder="Enter contact's phone number"
+                    />
+                  </v-col>
+                  <v-col v-if="isPerspectiveFaculty" cols="12" class="py-0">
+                    <v-text-field
+                      filled
+                      color="secondary"
+                      :value="activeUser.faculty.faculty_name"
+                      @input="updateLocalUser($event, 'faculty_name')"
+                      label="Faculty name"
+                      placeholder="Enter teacher name"
+                    />
+                    <v-textarea
+                      filled
+                      color="secondary"
+                      :value="activeUser.faculty.faculty_bio"
+                      @input="updateLocalUser($event, 'faculty_bio')"
+                      label="Faculty bio"
+                      placeholder="Tell parents and students a bit about yourself"
                     />
                   </v-col>
                 </v-row>
@@ -181,7 +208,9 @@
           form="profile"
           color="secondary"
           :disabled="!isProfileLoaded || Object.keys(user).length === 0"
-        >Save Changes</v-btn>
+        >
+          Save Changes
+        </v-btn>
       </v-card-actions>
     </v-card>
   </DashboardWrap>
@@ -191,31 +220,45 @@
 import { mapGetters } from "vuex";
 import actionTypes from "@/store/actions";
 import DashboardWrap from "@/components/layouts/DashboardWrap";
+import PerspectiveSelection from "@/components/user/PerspectiveSelection";
 import { timezoneList, findTimezone } from "@/utils/timeUtils";
 const { users } = actionTypes;
 export default {
-  pageTitle: "Parent Info",
+  pageTitle: "User Info",
   metaInfo: {
-    title: "Edit Your Parent Info"
+    title: "Edit Your User Info"
   },
-  components: { DashboardWrap },
+  components: { DashboardWrap, PerspectiveSelection },
   data() {
     return {
       firstNameRules: [v => !!v || "First Name is required"],
       lastNameRules: [v => !!v || "Last Name is required"],
       timezones: timezoneList,
       user: {},
-      loadedSelections: false
+      loadedSelections: false,
+      perspective: null
     };
   },
   computed: {
-    ...mapGetters(["activeUser", "isProfileLoaded"]),
-    isParentFieldLoaded() {
-      return this.activeUser?.parent;
+    ...mapGetters([
+      "activeUser",
+      "isProfileLoaded",
+      "isUserParent",
+      "isUserTeacher"
+    ]),
+    isPerspectiveParent() {
+      return this.perspective === "parent";
+    },
+    isPerspectiveFaculty() {
+      return this.perspective === "faculty";
+    },
+    isParentAndTeacher() {
+      return this.isUserParent && this.isUserTeacher;
     }
   },
   async mounted() {
     if (this.activeUser) {
+      this.setPerspective();
       await this.buildSelectionInit();
       this.loadedSelections = true;
     } else {
@@ -225,6 +268,17 @@ export default {
   methods: {
     updateLocalUser(value, key) {
       this.$set(this.user, key, value);
+    },
+    handlePerspectiveChange(perspective) {
+      this.perspective = perspective;
+      console.log(perspective);
+    },
+    setPerspective() {
+      if (this.isUserTeacher && !this.isUserParent) {
+        this.perspective = "faculty";
+      } else {
+        this.perspective = "parent";
+      }
     },
     async buildSelectionInit() {
       if (this.activeUser) {
@@ -237,13 +291,16 @@ export default {
             this.$set(this.user, key, this.activeUser[key]);
           }
         });
-        if (this.activeUser.parent) this.buildParentSelectionInit();
+        this.buildDeepSelectionInit();
       }
     },
-    async buildParentSelectionInit() {
-      await Object.keys(this.activeUser.parent).forEach(key => {
-        if (this.handleTimeKeyCheck(key) && this.activeUser.parent[key])
-          this.$set(this.user, key, this.activeUser.parent[key]);
+    async buildDeepSelectionInit() {
+      await Object.keys(this.activeUser[this.perspective]).forEach(key => {
+        if (
+          this.handleTimeKeyCheck(key) &&
+          this.activeUser[this.perspective][key]
+        )
+          this.$set(this.user, key, this.activeUser[this.perspective][key]);
       });
     },
     handleRoleKeyCheck(key) {
@@ -256,7 +313,10 @@ export default {
       return key !== "email" && key !== "slug";
     },
     handleSubmit() {
-      this.$store.dispatch(users.update, { profile: this.user });
+      this.$store.dispatch(users.update, {
+        profile: this.user,
+        perspective: this.perspective
+      });
     },
     findTimezone: findTimezone
   }

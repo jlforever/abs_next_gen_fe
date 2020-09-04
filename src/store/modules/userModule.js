@@ -18,11 +18,9 @@ const state = {
 const getters = {
   activeUser: state => state.profile,
   isProfileLoaded: state => !!state.profile.email,
-  profileErrors: state => state.errors,
-  isUserParent: state =>
-    !!(state.profile?.parent && Object.keys(state.profile.parent).length),
-  isUserTeacher: state =>
-    !!(state.profile?.faculty && Object.keys(state.profile.faculty).length)
+  isUserParent: state => !!state.profile.parent?.id,
+  isUserTeacher: state => !!state.profile.faculty?.id,
+  profileErrors: state => state.errors
 };
 
 const actions = {

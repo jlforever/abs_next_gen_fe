@@ -28,19 +28,19 @@
         </v-list-item-icon>
         <v-list-item-title>Dashboard</v-list-item-title>
       </v-list-item>-->
-      <v-list-item link to="/parent" color="primary">
+      <v-list-item link to="/user" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-account</v-icon>
         </v-list-item-icon>
         <v-list-item-title>User Info</v-list-item-title>
       </v-list-item>
-      <v-list-item v-if="isParent" link to="/students" color="primary">
+      <v-list-item v-if="isUserParent" link to="/students" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-human-male-female</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Students</v-list-item-title>
       </v-list-item>
-      <v-list-item v-if="isParent" link to="/courses" color="primary">
+      <v-list-item v-if="isUserParent" link to="/courses" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-school</v-icon>
         </v-list-item-icon>
@@ -50,7 +50,8 @@
     <template v-slot:append>
       <div class="pa-2">
         <v-btn @click="logoutUser" block small outlined color="primary">
-          <v-icon>mdi-logout</v-icon>Logout
+          <v-icon>mdi-logout</v-icon>
+          Logout
         </v-btn>
       </div>
     </template>
@@ -76,49 +77,17 @@ export default {
       });
     }
   },
-  mounted() {
-    this.$nextTick(() => {
-      console.log("parent? ", this.isUserParent);
-      console.log("teacher? ", this.isUserTeacher);
-
-      console.log("=====");
-      console.log("parent");
-      console.log(this.activeUser);
-      console.log(this.activeUser.parent);
-      console.log(Object.keys(this.activeUser.parent).length);
-      console.log(this.isParent);
-      console.log("=====");
-      console.log("teacher");
-      console.log(this.activeUser.faculty);
-      console.log(this.activeUser.faculty);
-      console.log(Object.keys(this.activeUser.faculty).length);
-      console.log(this.isTeacher);
-      console.log("=====");
-    });
-  },
   computed: {
     ...mapGetters(["activeUser", "isUserParent", "isUserTeacher"]),
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
     },
-    isParent() {
-      if (this.activeUser?.parent) {
-        return Object.keys(this.activeUser.parent).length;
-      }
-      return false;
-    },
-    isTeacher() {
-      if (this.activeUser?.faculty) {
-        return Object.keys(this.activeUser.faculty).length;
-      }
-      return false;
-    },
     getRole() {
-      if (this.isTeacher && this.isParent) {
+      if (this.isUserTeacher && this.isUserParent) {
         return "Teacher/Parent";
-      } else if (this.isParent) {
+      } else if (this.isUserParent) {
         return "Parent";
-      } else if (this.isTeacher) {
+      } else if (this.isUserTeacher) {
         return "Teacher";
       }
       return "";

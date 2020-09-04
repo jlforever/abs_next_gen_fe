@@ -30,7 +30,9 @@
         form="login"
         color="secondary"
         :disabled="!user.email && !user.password"
-      >Login</CardButton>
+      >
+        Login
+      </CardButton>
     </v-card-actions>
     <v-card-text>
       <div>
@@ -71,7 +73,7 @@ export default {
         }
       };
       this.$store.dispatch(auth.request, params).then(() => {
-        this.$router.push("/parent");
+        this.$router.push("/user");
       });
     }
   }

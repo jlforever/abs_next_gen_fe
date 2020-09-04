@@ -6,12 +6,20 @@ import store from "./store";
 import vuetify from "@/plugins/vuetify"; // path to vuetify export
 import LazyYoutubeVideo from "vue-lazy-youtube-video";
 import VueMeta from "vue-meta";
+import VueGtag from "vue-gtag";
 import VueCurrencyFilter from "vue-currency-filter";
 
 import "typeface-roboto-slab";
 
 Vue.config.productionTip = false;
 Vue.use(VueMeta);
+Vue.use(
+  VueGtag,
+  {
+    config: { id: "UA-177224053-1" }
+  },
+  router
+);
 Vue.component("LazyYoutubeVideo", LazyYoutubeVideo);
 Vue.use(VueCurrencyFilter, {
   symbol: "$",
