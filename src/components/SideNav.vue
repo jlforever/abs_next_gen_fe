@@ -77,6 +77,26 @@ export default {
       });
     }
   },
+  mounted() {
+    this.$nextTick(() => {
+      console.log("parent? ", this.isUserParent);
+      console.log("teacher? ", this.isUserTeacher);
+
+      console.log("=====");
+      console.log("parent");
+      console.log(this.activeUser);
+      console.log(this.activeUser.parent);
+      console.log(Object.keys(this.activeUser.parent).length);
+      console.log(this.isParent);
+      console.log("=====");
+      console.log("teacher");
+      console.log(this.activeUser.faculty);
+      console.log(this.activeUser.faculty);
+      console.log(Object.keys(this.activeUser.faculty).length);
+      console.log(this.isTeacher);
+      console.log("=====");
+    });
+  },
   computed: {
     ...mapGetters(["activeUser", "isUserParent", "isUserTeacher"]),
     isAuthenticated() {
