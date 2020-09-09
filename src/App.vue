@@ -3,10 +3,7 @@
     <div class="d-flex flex-column flex-grow-1">
       <SideNav v-if="isSidebarAvailable" v-model="drawer" />
       <div class="d-flex flex-column flex-grow-1">
-        <Navbar
-          :toggle="toggleDrawer"
-          :isSidebarAvailable="isSidebarAvailable"
-        />
+        <Navbar :toggle="toggleDrawer" :isSidebarAvailable="isSidebarAvailable" />
         <v-content class="d-flex flex-column flex-grow-1">
           <router-view v-if="isAppReadyToLoad" />
           <Error />
@@ -67,6 +64,7 @@ export default {
           error?.response?.status !== 401 ||
           Object.values(error?.response?.data?.errors).includes("Invalid user")
         ) {
+          console.log(error.response);
           return Promise.reject(error.response);
         }
 

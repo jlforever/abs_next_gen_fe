@@ -142,12 +142,7 @@
                       placeholder="Your zip/postal code"
                     />
                   </v-col>
-                  <v-col
-                    v-if="isPerspectiveParent"
-                    cols="12"
-                    md="6"
-                    class="py-0"
-                  >
+                  <v-col v-if="isPerspectiveParent" cols="12" md="6" class="py-0">
                     <v-text-field
                       filled
                       color="secondary"
@@ -157,12 +152,7 @@
                       placeholder="Enter name for contact"
                     />
                   </v-col>
-                  <v-col
-                    v-if="isPerspectiveParent"
-                    cols="12"
-                    md="6"
-                    class="py-0"
-                  >
+                  <v-col v-if="isPerspectiveParent" cols="12" md="6" class="py-0">
                     <v-text-field
                       filled
                       color="secondary"
@@ -208,9 +198,7 @@
           form="profile"
           color="secondary"
           :disabled="!isProfileLoaded || Object.keys(user).length === 0"
-        >
-          Save Changes
-        </v-btn>
+        >Save Changes</v-btn>
       </v-card-actions>
     </v-card>
   </DashboardWrap>
@@ -271,7 +259,6 @@ export default {
     },
     handlePerspectiveChange(perspective) {
       this.perspective = perspective;
-      console.log(perspective);
     },
     setPerspective() {
       if (this.isUserTeacher && !this.isUserParent) {
