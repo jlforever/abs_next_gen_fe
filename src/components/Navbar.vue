@@ -13,7 +13,7 @@
     </v-toolbar-title>
     <v-spacer />
     <div class="user-buttons right-buttons" v-if="isDashboardButtonAvailable">
-      <v-btn to="/parent" text>Dashboard</v-btn>
+      <v-btn to="/user" text>Dashboard</v-btn>
     </div>
     <div class="visitor-buttons right-buttons" v-if="!isAuthenticated">
       <v-btn to="/login" text>Login</v-btn>

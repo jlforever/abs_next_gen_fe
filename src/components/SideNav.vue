@@ -14,7 +14,7 @@
         <!-- <img src="https://randomuser.me/api/portraits/men/90.jpg" /> -->
       </v-list-item-avatar>
 
-      <v-list-item-content v-if="isAuthenticated && profile">
+      <v-list-item-content v-if="isAuthenticated && activeUser">
         <v-list-item-title>{{ buildDisplay }}</v-list-item-title>
         <v-list-item-subtitle>{{ getRole }}</v-list-item-subtitle>
       </v-list-item-content>
@@ -28,19 +28,19 @@
         </v-list-item-icon>
         <v-list-item-title>Dashboard</v-list-item-title>
       </v-list-item>-->
-      <v-list-item link to="/parent" color="primary">
+      <v-list-item link to="/user" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-account</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>Parent Info</v-list-item-title>
+        <v-list-item-title>User Info</v-list-item-title>
       </v-list-item>
-      <v-list-item v-if="isParent" link to="/students" color="primary">
+      <v-list-item v-if="isUserParent" link to="/students" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-human-male-female</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Students</v-list-item-title>
       </v-list-item>
-      <v-list-item v-if="isParent" link to="/courses" color="primary">
+      <v-list-item v-if="isUserParent" link to="/courses" color="primary">
         <v-list-item-icon>
           <v-icon>mdi-school</v-icon>
         </v-list-item-icon>
@@ -50,8 +50,7 @@
     <template v-slot:append>
       <div class="pa-2">
         <v-btn @click="logoutUser" block small outlined color="primary">
-          <v-icon>mdi-logout</v-icon>
-          Logout
+          <v-icon>mdi-logout</v-icon>Logout
         </v-btn>
       </div>
     </template>
@@ -60,6 +59,7 @@
 
 <script>
 import actionTypes from "@/store/actions";
+import { mapGetters } from "vuex";
 const { auth } = actionTypes;
 export default {
   name: "Sidenav",
@@ -77,39 +77,25 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(["activeUser", "isUserParent", "isUserTeacher"]),
     isAuthenticated() {
       return this.$store.getters.isAuthenticated;
     },
-    profile() {
-      return this.$store.getters.activeUser;
-    },
-    isParent() {
-      if (this.profile?.parent) {
-        return Object.keys(this.profile.parent).length;
-      }
-      return false;
-    },
-    isTeacher() {
-      if (this.profile?.teacher) {
-        return Object.keys(this.profile.teacher).length;
-      }
-      return false;
-    },
     getRole() {
-      if (this.isTeacher && this.isParent) {
+      if (this.isUserTeacher && this.isUserParent) {
         return "Teacher/Parent";
-      } else if (this.isParent) {
+      } else if (this.isUserParent) {
         return "Parent";
-      } else if (this.isTeacher) {
+      } else if (this.isUserTeacher) {
         return "Teacher";
       }
       return "";
     },
     buildDisplay() {
-      if (this.profile?.first_name && this.profile?.last_name) {
-        return `${this.profile.first_name} ${this.profile.last_name}`;
+      if (this.activeUser?.first_name && this.activeUser?.last_name) {
+        return `${this.activeUser.first_name} ${this.activeUser.last_name}`;
       }
-      return this.profile?.email;
+      return this.activeUser?.email;
     }
   }
 };

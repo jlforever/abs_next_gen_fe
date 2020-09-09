@@ -24,7 +24,9 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer />
-      <CardButton type="submit" size="x-large" form="signup" color="secondary">Join</CardButton>
+      <CardButton type="submit" size="x-large" form="signup" color="secondary">
+        Join
+      </CardButton>
     </v-card-actions>
     <v-card-text>
       <span>
@@ -63,7 +65,7 @@ export default {
         }
       };
       this.$store.dispatch(auth.request, params).then(() => {
-        this.$router.push("/parent");
+        this.$router.push("/user");
       });
     }
   }

@@ -32,6 +32,7 @@ const actions = {
   [auth.retry]: async ({ commit, dispatch }, email) => {
     commit(auth.request);
     try {
+      console.log("is this retrying???");
       const res = await AuthService.retry(email);
       commit(auth.success, res);
       dispatch(users.request, email);
