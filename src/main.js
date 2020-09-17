@@ -13,13 +13,15 @@ import "typeface-roboto-slab";
 
 Vue.config.productionTip = false;
 Vue.use(VueMeta);
-Vue.use(
-  VueGtag,
-  {
-    config: { id: "UA-177224053-1" }
-  },
-  router
-);
+if (process.env.VUE_APP_GOOGLE_TRACKING_ID) {
+  Vue.use(
+    VueGtag,
+    {
+      config: { id: "UA-177224053-1" }
+    },
+    router
+  );
+}
 Vue.component("LazyYoutubeVideo", LazyYoutubeVideo);
 Vue.use(VueCurrencyFilter, {
   symbol: "$",
