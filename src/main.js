@@ -17,7 +17,7 @@ if (process.env.VUE_APP_GOOGLE_TRACKING_ID) {
   Vue.use(
     VueGtag,
     {
-      config: { id: "UA-177224053-1" }
+      config: { id: process.env.VUE_APP_GOOGLE_TRACKING_ID }
     },
     router
   );
