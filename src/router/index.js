@@ -79,8 +79,8 @@ const routes = [
     beforeEnter: ifAuthenticated
   },*/
   {
-    path: "/parent",
-    name: "ParentInfo",
+    path: "/user",
+    name: "UserInfo",
     component: () => import("../views/Profile.vue"),
     beforeEnter: ifAuthenticated
   },

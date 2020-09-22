@@ -18,6 +18,8 @@ const state = {
 const getters = {
   activeUser: state => state.profile,
   isProfileLoaded: state => !!state.profile.email,
+  isUserParent: state => !!state.profile.parent?.id,
+  isUserTeacher: state => !!state.profile.faculty?.id,
   profileErrors: state => state.errors
 };
 
