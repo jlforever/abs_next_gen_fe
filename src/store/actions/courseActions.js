@@ -6,5 +6,8 @@ export default {
   success: "COURSE_SUCCESS",
   register: "COURSE_REGISTER",
   registerList: "COURSE_REGISTER_LIST",
-  sessions: "COURSE_SESSIONS"
+  sessions: {
+    parent: "COURSE_PARENT_SESSIONS",
+    faculty: "COURSE_FACULTY_SESSIONS"
+  }
 };

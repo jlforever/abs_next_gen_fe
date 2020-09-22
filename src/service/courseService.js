@@ -2,9 +2,9 @@ import absAPI from "@/api/absAPI";
 import authHeader from "./authHeader";
 
 class CourseService {
-  async fetchAvailableCourses(email) {
+  async fetchAvailableCourses(email, perspective) {
     const res = await absAPI.get("/courses", {
-      params: { user_email: email },
+      params: { user_email: email, perspective: perspective },
       headers: authHeader()
     });
     return res.data;
@@ -24,6 +24,13 @@ class CourseService {
   }
   async fetchRegisteredCourseSessions(id) {
     const res = await absAPI.get(`/registrations/${id}/class_sessions`, {
+      params: { id: id },
+      headers: authHeader()
+    });
+    return res.data;
+  }
+  async fetchFacultyCourseSessions(id) {
+    const res = await absAPI.get(`/courses/${id}/teaching_sessions`, {
       params: { id: id },
       headers: authHeader()
     });

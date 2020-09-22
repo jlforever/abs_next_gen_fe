@@ -97,9 +97,21 @@ const routes = [
     beforeEnter: ifAuthenticated
   },
   {
+    path: "/courses/manage",
+    name: "CourseManagement",
+    component: () => import("../views/CourseManagement.vue"),
+    beforeEnter: ifAuthenticated
+  },
+  {
     path: "/courses/:id",
     name: "CourseDetails",
     component: () => import("../views/CourseDetails.vue"),
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: "/courses/:id/manage",
+    name: "CourseDetailManagement",
+    component: () => import("../views/CourseDetailManagement.vue"),
     beforeEnter: ifAuthenticated
   }
 ];
