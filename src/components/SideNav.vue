@@ -46,11 +46,23 @@
         </v-list-item-icon>
         <v-list-item-title>Courses</v-list-item-title>
       </v-list-item>
+      <v-list-item
+        v-if="isUserTeacher"
+        link
+        to="/courses/manage"
+        color="primary"
+      >
+        <v-list-item-icon>
+          <v-icon>mdi-tooltip-edit</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Course Management</v-list-item-title>
+      </v-list-item>
     </v-list>
     <template v-slot:append>
       <div class="pa-2">
         <v-btn @click="logoutUser" block small outlined color="primary">
-          <v-icon>mdi-logout</v-icon>Logout
+          <v-icon>mdi-logout</v-icon>
+          Logout
         </v-btn>
       </div>
     </template>

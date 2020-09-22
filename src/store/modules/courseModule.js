@@ -17,6 +17,7 @@ const state = {
     registerError: false,
     registerSuccess: false
   },
+  facultyCourses: {},
   available: {},
   registered: {}
 };
@@ -28,8 +29,12 @@ const getters = {
   hasRegisteredCourses: state => {
     return Object.entries(state.registered).length;
   },
+  hasFacultyCourses: state => {
+    return Object.entries(state.facultyCourses).length;
+  },
   availableCourses: state => state.available,
   registeredCourses: state => state.registered,
+  facultyCourses: state => state.facultyCourses,
   loadingCoursesFetch: state => {
     return state.status.fetchLoading;
   },
@@ -39,19 +44,27 @@ const getters = {
 };
 
 const actions = {
-  [courses.request]: async ({ commit, dispatch }, email) => {
+  [courses.request]: async (
+    { commit, dispatch },
+    { user_email, perspective }
+  ) => {
     commit(courses.request, "fetch");
     try {
-      const res = await CourseService.fetchAvailableCourses(email);
-      commit(courses.success, res.courses);
-      const resReg = await CourseService.fetchRegisteredCourses(email);
-      commit(courses.registerList, resReg.registrations);
+      const res = await CourseService.fetchAvailableCourses(
+        user_email,
+        perspective
+      );
+      commit(courses.success, res.courses, perspective);
+      if (perspective === "parent") {
+        const resReg = await CourseService.fetchRegisteredCourses(user_email);
+        commit(courses.registerList, resReg.registrations);
+      }
     } catch (err) {
-      if (err.hasRefreshedToken) dispatch(courses.request, email);
+      if (err.hasRefreshedToken) dispatch(courses.request, user_email);
       commit(courses.error, err);
     }
   },
-  [courses.sessions]: async ({ commit, getters, dispatch }, id) => {
+  [courses.sessions.parent]: async ({ commit, getters, dispatch }, id) => {
     commit(courses.request, "sessions");
     const currentUser = getters?.activeUser;
     const email = currentUser.email;
@@ -61,7 +74,23 @@ const actions = {
 
     try {
       const res = await CourseService.fetchRegisteredCourseSessions(id);
-      commit(courses.sessions, { res: res.class_sessions, id });
+      commit(courses.sessions.parent, { res: res.class_sessions, id });
+    } catch (err) {
+      if (err.hasRefreshedToken) dispatch(courses.request, email);
+      commit(courses.error, err);
+    }
+  },
+  [courses.sessions.faculty]: async ({ commit, getters, dispatch }, id) => {
+    commit(courses.request, "sessions");
+    const currentUser = getters?.activeUser;
+    const email = currentUser.email;
+    if (getters.hasRegisteredCourses <= 0) {
+      await dispatch(courses.request, email);
+    }
+
+    try {
+      const res = await CourseService.fetchFacultyCourseSessions(id);
+      commit(courses.sessions.faculty, { res: res.teaching_sessions, id });
     } catch (err) {
       if (err.hasRefreshedToken) dispatch(courses.request, email);
       commit(courses.error, err);
@@ -95,20 +124,29 @@ const mutations = {
         state.status = { ...state.status };
     }
   },
-  [courses.success]: (state, res) => {
+  [courses.success]: (state, res, perspective) => {
     state.status.fetchLoading = false;
     state.status.fetchSuccess = true;
-    Vue.set(state, "available", _.mapKeys(res, "id"));
+    if (perspective === "parent") {
+      Vue.set(state, "available", _.mapKeys(res, "id"));
+    } else {
+      Vue.set(state, "facultyCourses", _.mapKeys(res, "id"));
+    }
   },
   [courses.registerList]: (state, res) => {
     state.status.registerLoading = false;
     state.status.registerSuccess = true;
     Vue.set(state, "registered", _.mapKeys(res, "id"));
   },
-  [courses.sessions]: (state, { res, id }) => {
+  [courses.sessions.parent]: (state, { res, id }) => {
     state.status.detailLoading = false;
     state.status.detailSuccess = true;
     Vue.set(state.registered[id].course, "sessions", _.mapKeys(res, "id"));
+  },
+  [courses.sessions.faculty]: (state, { res, id }) => {
+    state.status.detailLoading = false;
+    state.status.detailSuccess = true;
+    Vue.set(state.facultyCourses[id], "sessions", _.mapKeys(res, "id"));
   },
   [courses.register]: (state, res) => {
     state.status.registerLoading = false;

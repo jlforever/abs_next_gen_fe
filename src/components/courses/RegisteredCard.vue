@@ -3,7 +3,7 @@
     v-if="course"
     outlined
     class="course-card"
-    @click.stop="goToCourseDetailPage(`/courses/${registeredCourseId}`)"
+    @click.stop="goToCourseDetailPage(`/courses/${courseLink}`)"
   >
     <CourseFloats :status="status" :code="course.code" />
     <v-row>
@@ -18,7 +18,7 @@
     </v-row>
     <v-list-item>
       <v-list-item-subtitle>
-        <CourseStudents :registered="registeredForCourse" />
+        <CourseStudents v-if="status" :registered="registeredForCourse" />
         <CoursePaymentDue
           v-if="status === 'pending'"
           :totalDue="totalDue"
@@ -71,8 +71,8 @@ export default {
       type: Array,
       default: () => []
     },
-    registeredCourseId: {
-      type: Number,
+    courseLink: {
+      type: String,
       default: null
     },
     status: {
