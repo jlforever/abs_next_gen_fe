@@ -36,6 +36,12 @@ class CourseService {
     });
     return res.data;
   }
+  async uploadSessionMaterial(params) {
+    const res = await absAPI.post(`url`, params, {
+      headers: authHeader()
+    });
+    return res.data;
+  }
 }
 
 export default new CourseService();

@@ -15,7 +15,8 @@ const state = {
     detailSuccess: false,
     registerLoading: false,
     registerError: false,
-    registerSuccess: false
+    registerSuccess: false,
+    uploadingMaterial: false
   },
   facultyCourses: {},
   available: {},
@@ -96,6 +97,15 @@ const actions = {
       commit(courses.error, err);
     }
   },
+  [courses.sessions.upload]: async ({ commit }, params) => {
+    commit(courses.request, "upload");
+    try {
+      const res = await CourseService.uploadSessionMaterial(params);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  },
   [courses.register]: async ({ commit, dispatch }, params) => {
     commit(courses.request, "register");
     try {
@@ -119,6 +129,9 @@ const mutations = {
         break;
       case "register":
         state.status.registerLoading = true;
+        break;
+      case "upload":
+        state.status.uploadingMaterial = true;
         break;
       default:
         state.status = { ...state.status };

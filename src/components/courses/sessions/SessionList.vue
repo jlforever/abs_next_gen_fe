@@ -75,6 +75,7 @@
             <div v-else>
               <p>Currently no materials for this session.</p>
             </div>
+            <SessionMaterialUpload :perspective="perspective" />
           </div>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -84,10 +85,12 @@
 
 <script>
 import { saveAs } from "file-saver";
+import SessionMaterialUpload from "@/components/courses/sessions/SessionMaterialUpload";
 import { getFileIcon } from "@/utils/fileUtils";
 import { militaryToStandard, formatDateToLocal } from "@/utils/timeUtils";
 export default {
   name: "SessionList",
+  components: { SessionMaterialUpload },
   props: {
     sessions: {
       type: Object,
