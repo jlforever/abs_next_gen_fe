@@ -36,10 +36,18 @@ class CourseService {
     });
     return res.data;
   }
-  async uploadSessionMaterial(params) {
-    const res = await absAPI.post(`url`, params, {
-      headers: authHeader()
-    });
+  async uploadSessionMaterial(id, file) {
+    console.log("ser par -- ", file);
+    const res = await absAPI.post(
+      `/teaching_sessions/${id}/student_materials`,
+      file,
+      {
+        headers: {
+          ...authHeader(),
+          "Content-Type": `multipart/form-data; boundary=${file._boundary}`
+        }
+      }
+    );
     return res.data;
   }
 }

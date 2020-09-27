@@ -4,23 +4,17 @@
       <v-row>
         <v-col cols="12">
           <v-file-input
-            v-model="materials"
+            v-model="material"
             color="secondary"
             counter
             filled
             :label="uploadText"
-            multiple
             placeholder="Select File"
             prepend-icon="mdi-paperclip"
             :show-size="1000"
           >
             <template v-slot:selection="{ index, text }">
               <v-chip v-if="index < 2" color="secondary" dark label small>{{ text }}</v-chip>
-
-              <span
-                v-else-if="index === 2"
-                class="overline grey--text text--darken-3 mx-2"
-              >+{{ materials.length - 2 }} File(s)</span>
             </template>
             <template v-slot:append-outer>
               <v-btn
@@ -30,7 +24,7 @@
                 color="secondary"
                 height="57"
                 class="ma-0"
-                :disabled="materials.length === 0"
+                :disabled="!material"
                 @click="uploadMaterials"
               >Upload</v-btn>
             </template>
@@ -47,24 +41,33 @@ const { courses } = actionTypes;
 export default {
   name: "SessionMaterialUpload",
   data: () => ({
-    materials: []
+    material: null
   }),
   props: {
     perspective: {
       type: String,
       default: null
+    },
+    sessionId: {
+      type: Number,
+      default: null
     }
   },
   methods: {
     async uploadMaterials() {
-      for (const material of this.materials) {
-        console.log(material);
-        const params = new FormData();
-        //params.append("key", data)
-        this.$store.dispatch(courses.sessions.upload, params).then(test => {
+      console.log(this.material);
+      const file = new FormData();
+      file.append(
+        "student_session_material",
+        this.material,
+        this.material.name
+      );
+      console.log("par ---- ", file);
+      this.$store
+        .dispatch(courses.sessions.upload, { id: this.sessionId, file })
+        .then(test => {
           console.log("testing results:  ", test);
         });
-      }
     }
   },
   computed: {

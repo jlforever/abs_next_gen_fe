@@ -97,11 +97,24 @@ const actions = {
       commit(courses.error, err);
     }
   },
-  [courses.sessions.upload]: async ({ commit }, params) => {
+  [courses.sessions.upload]: async ({ commit }, { id, file }) => {
     commit(courses.request, "upload");
+    console.log({ id, file });
     try {
-      const res = await CourseService.uploadSessionMaterial(params);
-      console.log(res);
+      const res = await CourseService.uploadSessionMaterial(id, file);
+      console.log("result -- ", res);
+      /*
+      const some = {
+        teaching_session_student_upload: {
+          id: 1,
+          teaching_session_id: 124,
+          name: "4eeb9b2bb0c9e69d0fe4fb12b436bbe5a0440cb7.png",
+          mime_type: "image/png",
+          created_at: "2020-09-27T19:02:32.467Z",
+          updated_at: "2020-09-27T19:02:32.467Z"
+        }
+      };
+      */
     } catch (err) {
       console.log(err);
     }
