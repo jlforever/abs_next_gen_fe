@@ -7,7 +7,8 @@ export default {
   register: "COURSE_REGISTER",
   registerList: "COURSE_REGISTER_LIST",
   sessions: {
-    parent: "COURSE_PARENT_SESSIONS",
-    faculty: "COURSE_FACULTY_SESSIONS"
+    parent: "COURSE_SESSION_PARENT",
+    faculty: "COURSE_SESSION_FACULTY",
+    upload: "COURSE_SESSION_UPLOAD_MATERIAL"
   }
 };
