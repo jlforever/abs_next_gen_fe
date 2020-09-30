@@ -26,6 +26,20 @@ $ git push origin master
 $ git push abs-next-gen-fe-production master:master
 ```
 
+### Deploy a feature branch to staging
+
+```
+$ git checkout feature-branch
+$ git push --force abs-next-gen-fe-staging feature-branch:master
+```
+
+push staging branch back when testing is complete
+
+```
+git checkout development
+git push --force abs-next-gen-fe-staging staging:master
+```
+
 ## Project setup
 
 ```

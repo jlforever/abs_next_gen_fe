@@ -99,7 +99,7 @@ const mutations = {
   [family.error]: (state, err) => {
     state.status.errorLoading = false;
     state.status.errorSuccess = true;
-    console.log(err);
+    console.error(err);
   },
   [auth.logout]: state => {
     state.status = INITIAL_STATUS;

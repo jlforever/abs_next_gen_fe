@@ -116,7 +116,7 @@ const actions = {
       };
       */
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   },
   [courses.register]: async ({ commit, dispatch }, params) => {
@@ -153,6 +153,7 @@ const mutations = {
   [courses.success]: (state, res, perspective) => {
     state.status.fetchLoading = false;
     state.status.fetchSuccess = true;
+    console.log(perspective);
     if (perspective === "parent") {
       Vue.set(state, "available", _.mapKeys(res, "id"));
     } else {
@@ -185,7 +186,7 @@ const mutations = {
   [courses.error]: (state, err) => {
     state.status.errorLoading = false;
     state.status.errorSuccess = true;
-    console.log(err);
+    console.error(err);
   }
 };
 
