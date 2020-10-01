@@ -1,5 +1,6 @@
 export default {
   request: "COURSE_REQUEST",
+  fetch: "COURSE_FETCH",
   create: "COURSE_CREATE",
   delete: "COURSE_DELETE",
   error: "COURSE_ERROR",
