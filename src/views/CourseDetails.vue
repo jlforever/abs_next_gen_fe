@@ -63,14 +63,17 @@ export default {
         href: "/courses"
       },
       {
-        text: this.current.course.specialty.category,
+        text: this.breadcrumbText,
         disabled: true
       }
     ];
   },
   async destroyed() {},
   computed: {
-    ...mapGetters(["activeUser", "registeredCourses"])
+    ...mapGetters(["activeUser", "registeredCourses"]),
+    breadcrumbText() {
+      return this?.current?.specialty?.category;
+    }
   }
 };
 </script>

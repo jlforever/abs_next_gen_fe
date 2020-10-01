@@ -79,7 +79,7 @@ export default {
   components: { DashboardWrap, AvailableCard, RegisteredCard },
   async created() {
     await this.$store.dispatch(family.request, this.activeUser.email);
-    await this.$store.dispatch(courses.request, {
+    await this.$store.dispatch(courses.fetch, {
       user_email: this.activeUser.email,
       perspective: "parent"
     });

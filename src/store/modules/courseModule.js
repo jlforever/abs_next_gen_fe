@@ -45,7 +45,7 @@ const getters = {
 };
 
 const actions = {
-  [courses.request]: async (
+  [courses.fetch]: async (
     { commit, dispatch },
     { user_email, perspective }
   ) => {
@@ -55,7 +55,7 @@ const actions = {
         user_email,
         perspective
       );
-      commit(courses.success, res.courses, perspective);
+      commit(courses.success, { courses: res.courses, perspective });
       if (perspective === "parent") {
         const resReg = await CourseService.fetchRegisteredCourses(user_email);
         commit(courses.registerList, resReg.registrations);
@@ -70,7 +70,10 @@ const actions = {
     const currentUser = getters?.activeUser;
     const email = currentUser.email;
     if (getters.hasRegisteredCourses <= 0) {
-      await dispatch(courses.request, email);
+      await dispatch(courses.fetch, {
+        user_email: email,
+        perspective: "parent"
+      });
     }
 
     try {
@@ -86,7 +89,10 @@ const actions = {
     const currentUser = getters?.activeUser;
     const email = currentUser.email;
     if (getters.hasRegisteredCourses <= 0) {
-      await dispatch(courses.request, email);
+      await dispatch(courses.fetch, {
+        user_email: email,
+        perspective: "faculty"
+      });
     }
 
     try {
@@ -116,7 +122,7 @@ const actions = {
       };
       */
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   },
   [courses.register]: async ({ commit, dispatch }, params) => {
@@ -150,13 +156,16 @@ const mutations = {
         state.status = { ...state.status };
     }
   },
-  [courses.success]: (state, res, perspective) => {
+  [courses.success]: (state, { courses, perspective }) => {
     state.status.fetchLoading = false;
     state.status.fetchSuccess = true;
+    console.log("res 2:", courses);
+    console.log("per 2: ", perspective);
     if (perspective === "parent") {
-      Vue.set(state, "available", _.mapKeys(res, "id"));
+      Vue.set(state, "available", _.mapKeys(courses, "id"));
     } else {
-      Vue.set(state, "facultyCourses", _.mapKeys(res, "id"));
+      console.log("correct");
+      Vue.set(state, "facultyCourses", _.mapKeys(courses, "id"));
     }
   },
   [courses.registerList]: (state, res) => {
@@ -185,7 +194,7 @@ const mutations = {
   [courses.error]: (state, err) => {
     state.status.errorLoading = false;
     state.status.errorSuccess = true;
-    console.log(err);
+    console.error(err);
   }
 };
 
