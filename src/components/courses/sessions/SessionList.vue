@@ -3,66 +3,56 @@
     <v-list-item>
       <v-list-item-content>
         <v-list-item-title class="headline mb-1">Sessions</v-list-item-title>
-        <v-list-item-subtitle
-          v-if="areSessionsEmpty"
-        >Class sessions will appear once registered class has been paid.</v-list-item-subtitle>
+        <v-list-item-subtitle v-if="areSessionsEmpty"
+          >Class sessions will appear once registered class has been
+          paid.</v-list-item-subtitle
+        >
       </v-list-item-content>
     </v-list-item>
     <v-expansion-panels v-model="panels" multiple hover>
-      <v-expansion-panel v-for="(session, i) in sessions" :class="session.status" :key="i">
+      <v-expansion-panel
+        v-for="(session, i) in sessions"
+        :class="session.status"
+        :key="i"
+      >
         <v-expansion-panel-header>
           <div>
-            <v-icon class="session-time-icon mr-2">{{ getStatusIcon(session.status) }}</v-icon>
+            <v-icon class="session-time-icon mr-2">{{
+              getStatusIcon(session.status)
+            }}</v-icon>
             {{
-            formatDateToLocal(
-            session.effective_for,
-            "MMMM Do, YYYY",
-            timezone
-            )
+              formatDateToLocal(
+                session.effective_for,
+                "MMMM Do, YYYY",
+                timezone
+              )
             }}
             {{
-            militaryToStandard(session.individual_session_starts_at, timezone)
+              militaryToStandard(session.individual_session_starts_at, timezone)
             }}
           </div>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <div class="session-assignments">
             <v-list-item-content>
-              <v-list-item-title class="mb-1">Session Materials</v-list-item-title>
+              <v-list-item-title class="mb-1"
+                >Session Materials</v-list-item-title
+              >
             </v-list-item-content>
-            <div
-              v-if="
-                session.student_materials &&
-                  session.student_materials.length > 0
-              "
-            >
-              <div v-for="(studentMaterial, j) in session.student_materials" :key="j">
-                <v-row no-gutters>
-                  <v-col cols="12">
-                    <div class="mb-2">
-                      <v-btn
-                        depressed
-                        @click="
-                          saveSessionFile(
-                            studentMaterial.material_access_url,
-                            studentMaterial.name
-                          )
-                        "
-                        small
-                        color="secondary"
-                      >
-                        <v-icon class="mr-1" small>{{ getFileIcon(studentMaterial.mime_type) }}</v-icon>
-                        {{ studentMaterial.name }}
-                      </v-btn>
-                    </div>
-                  </v-col>
-                </v-row>
-              </div>
-            </div>
-            <div v-else>
-              <p>Currently no materials for this session.</p>
-            </div>
-            <SessionMaterialUpload :sessionId="session.id" :perspective="perspective" />
+            <SessionMaterials
+              v-if="perspective === 'parent'"
+              :materials="session.student_materials"
+            />
+            <SessionMaterials
+              v-else-if="perspective === 'faculty'"
+              :materials="session.teaching_session_student_uploads"
+            />
+            <SessionMaterialUpload
+              v-if="perspective === 'faculty'"
+              :sessionId="session.id"
+              :courseId="courseId"
+              :perspective="perspective"
+            />
           </div>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -72,13 +62,17 @@
 
 <script>
 import { saveAs } from "file-saver";
+import SessionMaterials from "@/components/courses/sessions/SessionMaterials";
 import SessionMaterialUpload from "@/components/courses/sessions/SessionMaterialUpload";
-import { getFileIcon } from "@/utils/fileUtils";
 import { militaryToStandard, formatDateToLocal } from "@/utils/timeUtils";
 export default {
   name: "SessionList",
-  components: { SessionMaterialUpload },
+  components: { SessionMaterials, SessionMaterialUpload },
   props: {
+    courseId: {
+      type: Number,
+      default: null
+    },
     sessions: {
       type: Object,
       default: null
@@ -105,7 +99,6 @@ export default {
   methods: {
     formatDateToLocal,
     militaryToStandard,
-    getFileIcon,
     getStatusIcon(session) {
       switch (session) {
         case "upcoming":

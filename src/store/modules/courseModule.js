@@ -41,6 +41,9 @@ const getters = {
   },
   loadingRegisteredCoursesFetch: state => {
     return state.status.registerLoading;
+  },
+  uploadingMaterials: state => {
+    return state.status.uploadingMaterial;
   }
 };
 
@@ -103,24 +106,18 @@ const actions = {
       commit(courses.error, err);
     }
   },
-  [courses.sessions.upload]: async ({ commit }, { id, file }) => {
+  [courses.sessions.materials.upload]: async (
+    { commit },
+    { sessionId, courseId, file }
+  ) => {
     commit(courses.request, "upload");
-    console.log({ id, file });
     try {
-      const res = await CourseService.uploadSessionMaterial(id, file);
-      console.log("result -- ", res);
-      /*
-      const some = {
-        teaching_session_student_upload: {
-          id: 1,
-          teaching_session_id: 124,
-          name: "4eeb9b2bb0c9e69d0fe4fb12b436bbe5a0440cb7.png",
-          mime_type: "image/png",
-          created_at: "2020-09-27T19:02:32.467Z",
-          updated_at: "2020-09-27T19:02:32.467Z"
-        }
-      };
-      */
+      const res = await CourseService.uploadSessionMaterial(sessionId, file);
+      commit(courses.sessions.materials.create, {
+        upload: res,
+        sessionId,
+        courseId
+      });
     } catch (err) {
       console.error(err);
     }
@@ -182,6 +179,23 @@ const mutations = {
     state.status.detailLoading = false;
     state.status.detailSuccess = true;
     Vue.set(state.facultyCourses[id], "sessions", _.mapKeys(res, "id"));
+  },
+  [courses.sessions.materials.create]: (
+    state,
+    { upload, courseId, sessionId }
+  ) => {
+    const currentSession = state.facultyCourses[courseId]?.sessions[sessionId];
+    const newFile = upload.teaching_session_student_upload;
+    const filterCheck = currentSession.teaching_session_student_uploads.filter(
+      file => file.id === newFile.id
+    );
+
+    state.status.uploadingMaterial = false;
+    if (filterCheck.length === 0) {
+      state.facultyCourses[courseId].sessions[
+        sessionId
+      ].teaching_session_student_uploads.push(newFile);
+    }
   },
   [courses.register]: (state, res) => {
     state.status.registerLoading = false;

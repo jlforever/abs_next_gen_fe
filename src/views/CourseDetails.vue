@@ -11,8 +11,8 @@
         <CourseReleaseAgreement :agreement="current.accept_release_form" />
         <SessionList
           :sessions="current.course.sessions"
-          perspective="parent"
           :timezone="activeUser.timezone"
+          perspective="parent"
         />
       </div>
     </v-card>

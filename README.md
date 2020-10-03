@@ -37,7 +37,7 @@ push staging branch back when testing is complete
 
 ```
 git checkout development
-git push --force abs-next-gen-fe-staging staging:master
+git push --force abs-next-gen-fe-staging development:master
 ```
 
 ## Project setup

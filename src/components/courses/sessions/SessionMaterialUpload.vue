@@ -14,7 +14,9 @@
             :show-size="1000"
           >
             <template v-slot:selection="{ index, text }">
-              <v-chip v-if="index < 2" color="secondary" dark label small>{{ text }}</v-chip>
+              <v-chip v-if="index < 2" color="secondary" dark label small>{{
+                text
+              }}</v-chip>
             </template>
             <template v-slot:append-outer>
               <v-btn
@@ -26,7 +28,8 @@
                 class="ma-0"
                 :disabled="!material"
                 @click="uploadMaterials"
-              >Upload</v-btn>
+                >Upload</v-btn
+              >
             </template>
           </v-file-input>
         </v-col>
@@ -37,11 +40,12 @@
 
 <script>
 import actionTypes from "@/store/actions";
-const { courses } = actionTypes;
+const { courses, errors, success } = actionTypes;
 export default {
   name: "SessionMaterialUpload",
   data: () => ({
-    material: null
+    material: null,
+    successMessage: "File has been successfully uploaded."
   }),
   props: {
     perspective: {
@@ -51,23 +55,31 @@ export default {
     sessionId: {
       type: Number,
       default: null
+    },
+    courseId: {
+      type: Number,
+      default: null
     }
   },
   methods: {
     async uploadMaterials() {
-      console.log(this.material);
       const file = new FormData();
       file.append(
         "student_session_material",
         this.material,
         this.material.name
       );
-      console.log("par ---- ", file);
-      this.$store
-        .dispatch(courses.sessions.upload, { id: this.sessionId, file })
-        .then(test => {
-          console.log("testing results:  ", test);
+      try {
+        await this.$store.dispatch(courses.sessions.materials.upload, {
+          sessionId: this.sessionId,
+          courseId: this.courseId,
+          file
         });
+
+        this.$store.dispatch(success.snack, this.successMessage);
+      } catch (err) {
+        this.$store.dispatch(errors.format, err);
+      }
     }
   },
   computed: {
