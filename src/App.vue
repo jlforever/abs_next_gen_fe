@@ -3,11 +3,15 @@
     <div class="d-flex flex-column flex-grow-1">
       <SideNav v-if="isSidebarAvailable" v-model="drawer" />
       <div class="d-flex flex-column flex-grow-1">
-        <Navbar :toggle="toggleDrawer" :isSidebarAvailable="isSidebarAvailable" />
+        <Navbar
+          :toggle="toggleDrawer"
+          :isSidebarAvailable="isSidebarAvailable"
+        />
         <v-content class="d-flex flex-column flex-grow-1">
           <router-view v-if="isAppReadyToLoad" />
           <Error />
           <Success />
+          <Loading />
         </v-content>
       </div>
     </div>
@@ -20,6 +24,7 @@ import { mapGetters } from "vuex";
 import absAPI from "@/api/absAPI";
 import Error from "@/components/notifications/Error";
 import Success from "@/components/notifications/Success";
+import Loading from "@/components/notifications/Loading";
 import Navbar from "@/components/Navbar";
 import SideNav from "@/components/SideNav";
 import Footer from "@/components/Footer";
@@ -52,7 +57,8 @@ export default {
     SideNav,
     Footer,
     Error,
-    Success
+    Success,
+    Loading
   },
   async created() {
     absAPI.interceptors.response.use(

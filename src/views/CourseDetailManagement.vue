@@ -8,8 +8,9 @@
         <CourseTeacher :course="current" />
         <SessionList
           :sessions="current.sessions"
-          perspective="faculty"
+          :courseId="current.id"
           :timezone="activeUser.timezone"
+          perspective="faculty"
         />
       </div>
     </v-card>

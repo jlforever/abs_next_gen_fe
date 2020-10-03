@@ -10,6 +10,10 @@ export default {
   sessions: {
     parent: "COURSE_SESSION_PARENT",
     faculty: "COURSE_SESSION_FACULTY",
-    upload: "COURSE_SESSION_UPLOAD_MATERIAL"
+    materials: {
+      upload: "COURSE_SESSION_UPLOAD_MATERIAL",
+      create: "COURSE_SESSION_NEW_MATERIAL",
+      delete: "COURSE_SESSION_DELETE_MATERIAL"
+    }
   }
 };
