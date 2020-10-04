@@ -26,7 +26,7 @@
                       item.secondary_family_member_id,
                       item.tertiary_family_member_id
                     ]"
-                    :courseLink="item.id"
+                    :courseLink="`${item.id}`"
                     :status="item.status"
                     :totalDue="item.total_due / 100"
                     :totalDueBy="item.total_due_by"

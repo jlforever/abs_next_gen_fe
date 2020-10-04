@@ -17,6 +17,13 @@
                   getFileIcon(material.mime_type)
                 }}</v-icon>
                 {{ material.name }}
+                <v-icon
+                  v-if="perspective === 'faculty'"
+                  @click.stop="deleteMaterial(material)"
+                  class="close-button ml-1"
+                  small
+                  >mdi-close</v-icon
+                >
               </v-btn>
             </div>
           </v-col>
@@ -30,6 +37,7 @@
 </template>
 
 <script>
+import { saveAs } from "file-saver";
 import { getFileIcon } from "@/utils/fileUtils";
 export default {
   name: "SessionMaterials",
@@ -37,13 +45,42 @@ export default {
     materials: {
       type: Array,
       default: null
+    },
+    perspective: {
+      type: String,
+      default: null
     }
   },
   methods: {
-    getFileIcon
+    getFileIcon,
+    async deleteMaterial() {
+      alert("hi");
+    },
+    async saveSessionFile(uri, filename) {
+      /*** COME BACK TO THIS LATER
+       * async func(url) {
+      let file = await fetch(url)
+        .then(r => r.blob())
+        .then(
+          blobFile =>
+            new File([blobFile], "fileNameGoesHere", {
+              type: "image/png"
+            })
+        );
+
+      return file;
+      }
+      ***/
+      saveAs(uri, filename);
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.close-button::v-deep {
+  position: relative;
+  z-index: 3;
+  cursor: pointer;
+}
 </style>
