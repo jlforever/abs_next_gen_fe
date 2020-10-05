@@ -7,6 +7,7 @@
             <div class="mb-2">
               <v-btn
                 depressed
+                class="material-button"
                 @click="
                   saveSessionFile(material.material_access_url, material.name)
                 "
@@ -16,14 +17,15 @@
                 <v-icon class="mr-1" small>{{
                   getFileIcon(material.mime_type)
                 }}</v-icon>
-                {{ material.name }}
-                <v-icon
+                <span class="material-name text-truncate">{{
+                  material.name
+                }}</span>
+                <SessionMaterialDelete
                   v-if="perspective === 'faculty'"
-                  @click.stop="deleteMaterial(material)"
-                  class="close-button ml-1"
-                  small
-                  >mdi-close</v-icon
-                >
+                  :sessionId="sessionId"
+                  :courseId="courseId"
+                  :material="material"
+                />
               </v-btn>
             </div>
           </v-col>
@@ -38,12 +40,22 @@
 
 <script>
 import { saveAs } from "file-saver";
+import SessionMaterialDelete from "./SessionMaterialDelete";
 import { getFileIcon } from "@/utils/fileUtils";
 export default {
   name: "SessionMaterials",
+  components: { SessionMaterialDelete },
   props: {
     materials: {
       type: Array,
+      default: null
+    },
+    sessionId: {
+      type: Number,
+      default: null
+    },
+    courseId: {
+      type: Number,
       default: null
     },
     perspective: {
@@ -53,9 +65,6 @@ export default {
   },
   methods: {
     getFileIcon,
-    async deleteMaterial() {
-      alert("hi");
-    },
     async saveSessionFile(uri, filename) {
       /*** COME BACK TO THIS LATER
        * async func(url) {
@@ -78,9 +87,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.close-button::v-deep {
-  position: relative;
-  z-index: 3;
-  cursor: pointer;
+.material-button {
+  max-width: 100%;
+}
+.material-name {
+  width: 350px;
+  @media #{map-get($display-breakpoints, 'xs-only')} {
+    max-width: 65vw;
+  }
 }
 </style>

@@ -70,11 +70,11 @@ export default {
           error?.response?.status !== 401 ||
           Object.values(error?.response?.data?.errors).includes("Invalid user")
         ) {
-          console.log(error.response);
+          console.error(error.response);
           return Promise.reject(error.response);
         }
 
-        console.log("401: ", error);
+        console.error("401: ", error);
 
         const authData = JSON.parse(localStorage.getItem("authData"));
         console.log("auth data: ", authData);

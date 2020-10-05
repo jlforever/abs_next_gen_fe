@@ -46,6 +46,8 @@
             />
             <SessionMaterials
               v-else-if="perspective === 'faculty'"
+              :sessionId="session.id"
+              :courseId="courseId"
               :materials="session.teaching_session_student_uploads"
               :perspective="perspective"
             />

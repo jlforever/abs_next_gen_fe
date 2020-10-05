@@ -16,7 +16,8 @@ const state = {
     registerLoading: false,
     registerError: false,
     registerSuccess: false,
-    uploadingMaterial: false
+    uploadingMaterial: false,
+    deletingMaterial: false
   },
   facultyCourses: {},
   available: {},
@@ -122,6 +123,28 @@ const actions = {
       console.error(err);
     }
   },
+  [courses.sessions.materials.delete]: async (
+    { commit, dispatch },
+    { materialId, sessionId, courseId }
+  ) => {
+    console.log("ses -- ", sessionId);
+    console.log("c -- ", courseId);
+    commit(courses.request, "delete");
+    try {
+      const res = await CourseService.deleteSessionMaterial(
+        materialId,
+        sessionId
+      );
+      commit(courses.sessions.materials.delete, {
+        material: res.teaching_session_student_upload,
+        courseId,
+        sessionId
+      });
+    } catch (err) {
+      dispatch(errors.format, err);
+      console.error(err);
+    }
+  },
   [courses.register]: async ({ commit, dispatch }, params) => {
     commit(courses.request, "register");
     try {
@@ -149,6 +172,9 @@ const mutations = {
       case "upload":
         state.status.uploadingMaterial = true;
         break;
+      case "delete":
+        state.status.deletingMaterial = true;
+        break;
       default:
         state.status = { ...state.status };
     }
@@ -156,12 +182,10 @@ const mutations = {
   [courses.success]: (state, { courses, perspective }) => {
     state.status.fetchLoading = false;
     state.status.fetchSuccess = true;
-    console.log("res 2:", courses);
-    console.log("per 2: ", perspective);
+
     if (perspective === "parent") {
       Vue.set(state, "available", _.mapKeys(courses, "id"));
     } else {
-      console.log("correct");
       Vue.set(state, "facultyCourses", _.mapKeys(courses, "id"));
     }
   },
@@ -196,6 +220,19 @@ const mutations = {
         sessionId
       ].teaching_session_student_uploads.push(newFile);
     }
+  },
+  [courses.sessions.materials.delete]: (
+    state,
+    { material, sessionId, courseId }
+  ) => {
+    state.facultyCourses[courseId].sessions[
+      sessionId
+    ].teaching_session_student_uploads = state.facultyCourses[
+      courseId
+    ].sessions[sessionId].teaching_session_student_uploads.filter(
+      item => item.id !== material.id
+    );
+    state.status.deletingMaterial = false;
   },
   [courses.register]: (state, res) => {
     state.status.registerLoading = false;
