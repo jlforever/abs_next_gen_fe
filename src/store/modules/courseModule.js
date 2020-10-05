@@ -127,8 +127,6 @@ const actions = {
     { commit, dispatch },
     { materialId, sessionId, courseId }
   ) => {
-    console.log("ses -- ", sessionId);
-    console.log("c -- ", courseId);
     commit(courses.request, "delete");
     try {
       const res = await CourseService.deleteSessionMaterial(
