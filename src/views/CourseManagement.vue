@@ -44,7 +44,6 @@ export default {
   },
   components: { DashboardWrap, RegisteredCard },
   async created() {
-    console.log("em: ", this.activeUser.email);
     await this.$store.dispatch(courses.fetch, {
       user_email: this.activeUser.email,
       perspective: "faculty"

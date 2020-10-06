@@ -37,7 +37,6 @@ class CourseService {
     return res.data;
   }
   async uploadSessionMaterial(id, file) {
-    console.log("ser par -- ", file);
     const res = await absAPI.post(
       `/teaching_sessions/${id}/student_materials`,
       file,
@@ -48,6 +47,16 @@ class CourseService {
         }
       }
     );
+    return res.data;
+  }
+  async deleteSessionMaterial(materialId, sessionId) {
+    const res = await absAPI.delete(
+      `/teaching_sessions/${sessionId}/student_materials/${materialId}`,
+      {
+        headers: authHeader()
+      }
+    );
+
     return res.data;
   }
 }

@@ -42,10 +42,14 @@
             <SessionMaterials
               v-if="perspective === 'parent'"
               :materials="session.student_materials"
+              :perspective="perspective"
             />
             <SessionMaterials
               v-else-if="perspective === 'faculty'"
+              :sessionId="session.id"
+              :courseId="courseId"
               :materials="session.teaching_session_student_uploads"
+              :perspective="perspective"
             />
             <SessionMaterialUpload
               v-if="perspective === 'faculty'"
@@ -61,7 +65,6 @@
 </template>
 
 <script>
-import { saveAs } from "file-saver";
 import SessionMaterials from "@/components/courses/sessions/SessionMaterials";
 import SessionMaterialUpload from "@/components/courses/sessions/SessionMaterialUpload";
 import { militaryToStandard, formatDateToLocal } from "@/utils/timeUtils";
@@ -110,23 +113,6 @@ export default {
         default:
           return "mdi-calendar";
       }
-    },
-    async saveSessionFile(uri, filename) {
-      /*** COME BACK TO THIS LATER
-       * async func(url) {
-      let file = await fetch(url)
-        .then(r => r.blob())
-        .then(
-          blobFile =>
-            new File([blobFile], "fileNameGoesHere", {
-              type: "image/png"
-            })
-        );
-
-      return file;
-      }
-      ***/
-      saveAs(uri, filename);
     }
   },
   computed: {
