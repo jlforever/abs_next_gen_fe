@@ -38,7 +38,7 @@ import CourseJoin from "@/components/courses/card/CourseJoin";
 import CourseTeacher from "@/components/courses/card/CourseTeacher";
 import CourseStudents from "@/components/courses/card/CourseStudents";
 import CoursePaymentDue from "@/components/courses/card/CoursePaymentDue";
-import { formatDateToLocal, getWeeks } from "@/utils/timeUtils";
+import { formatDateToLocal } from "@/utils/timeUtils";
 export default {
   name: "RegisteredCard",
   components: {
@@ -90,7 +90,6 @@ export default {
   },
   methods: {
     formatDateToLocal,
-    getWeeks,
     goToCourseDetailPage(url) {
       this.$router.push(url);
     }
