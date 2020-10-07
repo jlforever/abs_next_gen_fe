@@ -76,6 +76,7 @@ export default {
           file
         });
 
+        this.material = null;
         this.$store.dispatch(success.snack, this.successMessage);
       } catch (err) {
         this.$store.dispatch(errors.format, err);
