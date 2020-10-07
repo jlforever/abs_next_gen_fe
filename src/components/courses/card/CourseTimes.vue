@@ -39,11 +39,7 @@
 </template>
 
 <script>
-import {
-  militaryToStandard,
-  formatDateToLocal,
-  getWeeks
-} from "@/utils/timeUtils";
+import { militaryToStandard, formatDateToLocal } from "@/utils/timeUtils";
 
 export default {
   name: "CourseTimes",
@@ -60,8 +56,7 @@ export default {
   },
   methods: {
     formatDateToLocal,
-    militaryToStandard,
-    getWeeks
+    militaryToStandard
   }
 };
 </script>
