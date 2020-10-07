@@ -68,7 +68,7 @@ const mutations = {
     state.authSuccess = false;
     state.authError = true;
     state.hasLoadedOnce = true;
-    console.log(err);
+    console.error(err);
   },
   [auth.logout]: state => {
     state.token = "";

@@ -3,16 +3,14 @@
     <v-breadcrumbs class="px-0" :items="items"></v-breadcrumbs>
     <v-card>
       <div v-if="current">
-        <CourseFloats :status="current.status" :code="current.course.code" />
-        <CourseTitle :course="current.course" />
-        <CourseTimes :course="current.course" :timezone="activeUser.timezone" />
-        <CourseJoin :status="current.status" :course="current.course" />
-        <CourseTeacher :course="current.course" />
-        <CourseReleaseAgreement :agreement="current.accept_release_form" />
+        <CourseTitle :course="current" />
+        <CourseTimes :course="current" :timezone="activeUser.timezone" />
+        <CourseTeacher :course="current" />
         <SessionList
-          :sessions="current.course.sessions"
+          :sessions="current.sessions"
+          :courseId="current.id"
           :timezone="activeUser.timezone"
-          perspective="parent"
+          perspective="faculty"
         />
       </div>
     </v-card>
@@ -23,27 +21,21 @@
 import { mapGetters } from "vuex";
 import DashboardWrap from "@/components/layouts/DashboardWrap";
 import CourseTitle from "@/components/courses/card/CourseTitle";
-import CourseFloats from "@/components/courses/card/CourseFloats";
 import CourseTimes from "@/components/courses/card/CourseTimes";
-import CourseJoin from "@/components/courses/card/CourseJoin";
 import CourseTeacher from "@/components/courses/card/CourseTeacher";
-import CourseReleaseAgreement from "@/components/courses/card/CourseReleaseAgreement";
 import SessionList from "@/components/courses/sessions/SessionList";
 import actionTypes from "@/store/actions";
 const { courses } = actionTypes;
 export default {
-  name: "CourseDetails",
+  name: "CourseDetailManagement",
   metaInfo: {
     title: "Course Details"
   },
   components: {
     DashboardWrap,
     CourseTitle,
-    CourseFloats,
     CourseTimes,
-    CourseJoin,
     CourseTeacher,
-    CourseReleaseAgreement,
     SessionList
   },
   data() {
@@ -53,14 +45,14 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch(courses.sessions.parent, this.$route.params.id);
-    this.current = this.registeredCourses[this.$route.params.id];
+    await this.$store.dispatch(courses.sessions.faculty, this.$route.params.id);
+    this.current = this.facultyCourses[this.$route.params.id];
 
     this.items = [
       {
-        text: "Courses",
+        text: "Course Management",
         disabled: false,
-        href: "/courses"
+        href: "/courses/manage"
       },
       {
         text: this.breadcrumbText,
@@ -70,7 +62,7 @@ export default {
   },
   async destroyed() {},
   computed: {
-    ...mapGetters(["activeUser", "registeredCourses"]),
+    ...mapGetters(["activeUser", "facultyCourses"]),
     breadcrumbText() {
       return this?.current?.specialty?.category;
     }

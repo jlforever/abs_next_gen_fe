@@ -3,7 +3,7 @@
     v-if="course"
     outlined
     class="course-card"
-    @click.stop="goToCourseDetailPage(`/courses/${registeredCourseId}`)"
+    @click.stop="goToCourseDetailPage(`/courses/${courseLink}`)"
   >
     <CourseFloats :status="status" :code="course.code" />
     <v-row>
@@ -18,7 +18,7 @@
     </v-row>
     <v-list-item>
       <v-list-item-subtitle>
-        <CourseStudents :registered="registeredForCourse" />
+        <CourseStudents v-if="status" :registered="registeredForCourse" />
         <CoursePaymentDue
           v-if="status === 'pending'"
           :totalDue="totalDue"
@@ -38,7 +38,7 @@ import CourseJoin from "@/components/courses/card/CourseJoin";
 import CourseTeacher from "@/components/courses/card/CourseTeacher";
 import CourseStudents from "@/components/courses/card/CourseStudents";
 import CoursePaymentDue from "@/components/courses/card/CoursePaymentDue";
-import { formatDateToLocal, getWeeks } from "@/utils/timeUtils";
+import { formatDateToLocal } from "@/utils/timeUtils";
 export default {
   name: "RegisteredCard",
   components: {
@@ -71,8 +71,8 @@ export default {
       type: Array,
       default: () => []
     },
-    registeredCourseId: {
-      type: Number,
+    courseLink: {
+      type: String,
       default: null
     },
     status: {
@@ -90,7 +90,6 @@ export default {
   },
   methods: {
     formatDateToLocal,
-    getWeeks,
     goToCourseDetailPage(url) {
       this.$router.push(url);
     }
