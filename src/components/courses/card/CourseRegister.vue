@@ -27,7 +27,42 @@
                 <div v-if="hasFamilyMembers > 3" class="mt-2">
                     Choose up to 3 family members to register.
                 </div>
-                <CoursePayment :currentPayment.sync="currentPayment" />
+                <v-card class="payment my-3" outlined color="grey lighten-3">
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-list-item-title class="d-flex mb-3">
+                                <div>Payment</div>
+                                <v-spacer />
+                                <div v-if="currentPayment > 0">
+                                    {{ (currentPayment / 100) | currency }}
+                                </div>
+                            </v-list-item-title>
+                            <v-list-item-subtitle>
+                                <CoursePaymentStripe
+                                    v-if="!cardFetching && !hasCards"
+                                    ref="coursePaymentStripe"
+                                    @chargeCreated="stripeCharged"
+                                    :currentPayment="currentPayment"
+                                    :cards="cards"
+                                />
+                                <v-radio-group
+                                    v-else-if="!cardFetching && hasCards"
+                                    v-model="
+                                        cards[Object.keys(cards)[0]]
+                                            .card_last_four
+                                    "
+                                >
+                                    <v-radio
+                                        v-for="card in cards"
+                                        :key="`cc-${card.id}`"
+                                        :label="`${card.card_type} ending in ${card.card_last_four}`"
+                                        :value="card.card_last_four"
+                                    />
+                                </v-radio-group>
+                            </v-list-item-subtitle>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-card>
                 <v-checkbox v-model="checkbox">
                     <template v-slot:label>
                         <div>
@@ -44,10 +79,10 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer />
-                <v-btn color="primary" text @click="dialog = false"
+                <v-btn color="primary" text @click="closeDialog()"
                     >Cancel</v-btn
                 >
-                <v-btn color="secondary" @click="registerCourse()"
+                <v-btn color="secondary" @click="beginRegistration()"
                     >Submit</v-btn
                 >
             </v-card-actions>
@@ -56,12 +91,12 @@
 </template>
 
 <script>
-import CoursePayment from '../payment/CoursePaymentStripe'
+import CoursePaymentStripe from '../payment/CoursePaymentStripe'
 import CourseService from '@/service/courseService'
 import actionTypes from '@/store/actions'
-const { courses: courseAction } = actionTypes
+const { courses: courseAction, payments: paymentAction } = actionTypes
 export default {
-    components: { CoursePayment },
+    components: { CoursePaymentStripe },
     data() {
         return {
             dialog: false,
@@ -87,8 +122,25 @@ export default {
             type: Number,
             default: 0,
         },
+        cards: {
+            type: Object,
+            default: null,
+        },
+        hasCards: {
+            type: Boolean,
+            default: false,
+        },
+        cardFetching: {
+            type: Boolean,
+            default: false,
+        },
     },
     methods: {
+        closeDialog() {
+            this.dialog = false
+            this.currentPayment = 0
+            this.familyMemberIds = []
+        },
         isSelected(id) {
             return this.familyMemberIds.includes(id)
         },
@@ -128,11 +180,43 @@ export default {
                 this.currentPayment = 0
             }
         },
-        registerCourse() {
-            const { course, user } = this.$props
+        beginRegistration() {
+            // grab submit method from CoursePaymentStripe component from ref added to template
+            if (this.$props.hasCards) {
+                this.registerCourse()
+            } else {
+                this.$refs.coursePaymentStripe.submit()
+            }
+        },
+        async stripeCharged(stripeObj) {
+            const { user } = this.$props
+            const ccCreateParams = {
+                card_holder_name: `${user.first_name} ${user.last_name}`,
+                card_last_four: stripeObj.card.last4,
+                card_type: stripeObj.card.brand,
+                card_expire_month: stripeObj.card.exp_month,
+                card_expire_year: stripeObj.card.exp_year,
+                postal_identification: stripeObj.card.address_zip,
+                stripe_card_token: stripeObj.id,
+            }
+
+            await this.$store.dispatch(paymentAction.card.create, {
+                user_email: user.email,
+                credit_card: ccCreateParams,
+            })
+
+            this.registerCourse()
+        },
+        async registerCourse() {
+            const { course, user, cards, hasCards } = this.$props
             const registerParams = {
                 course_id: course.id,
                 accept_release_form: this.checkbox,
+            }
+            if (hasCards) {
+                console.log('yes?')
+                registerParams.credit_card_id = cards[Object.keys(cards)[0]].id
+                registerParams.charge_amount = this.currentPayment
             }
             if (this.familyMemberIds[0]) {
                 registerParams.primary_family_member_id = this.familyMemberIds[0]
@@ -159,5 +243,8 @@ export default {
 .v-chip.active {
     background: $brand-pink;
     color: #fff;
+}
+.payment-card .v-list-item__subtitle {
+    white-space: normal;
 }
 </style>

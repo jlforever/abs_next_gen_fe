@@ -10,7 +10,7 @@ class CourseService {
         return res.data
     }
     async registerCourse(params) {
-        const res = await absAPI.post('/registrations', params, {
+        const res = await absAPI.post('/new_registrations', params, {
             headers: authHeader(),
         })
         return res.data
