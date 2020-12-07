@@ -1,7 +1,6 @@
 <template>
     <div>
         <stripe-elements
-            v-if="currentPayment > 0"
             ref="elementsRef"
             :pk="publishableKey"
             :amount="currentPayment"
@@ -9,9 +8,6 @@
             @loading="loading = $event"
         >
         </stripe-elements>
-        <p v-if="currentPayment <= 0">
-            Students must be selected before setting up payment information.
-        </p>
     </div>
 </template>
 
@@ -29,7 +25,6 @@ export default {
         cards: {
             type: Object,
             default: null,
-            //tok_1Hu4DWAFlldmIElxBxcd4Yc7
         },
         currentPayment: {
             type: Number,

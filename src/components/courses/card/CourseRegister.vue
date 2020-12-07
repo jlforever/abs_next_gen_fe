@@ -38,44 +38,54 @@
                                 </div>
                             </v-list-item-title>
                             <v-list-item-subtitle>
-                                <CoursePaymentStripe
-                                    v-if="!cardFetching && !hasCards"
-                                    ref="coursePaymentStripe"
-                                    @chargeCreated="stripeCharged"
-                                    :currentPayment="currentPayment"
-                                    :cards="cards"
-                                />
-                                <v-radio-group
-                                    v-else-if="!cardFetching && hasCards"
-                                    v-model="
-                                        cards[Object.keys(cards)[0]]
-                                            .card_last_four
-                                    "
-                                >
-                                    <v-radio
-                                        v-for="card in cards"
-                                        :key="`cc-${card.id}`"
-                                        :label="`${card.card_type} ending in ${card.card_last_four}`"
-                                        :value="card.card_last_four"
+                                <div v-if="currentPayment > 0">
+                                    <CoursePaymentStripe
+                                        v-if="!cardFetching && !hasCards"
+                                        ref="coursePaymentStripe"
+                                        @chargeCreated="stripeCharged"
+                                        :currentPayment="currentPayment"
+                                        :cards="cards"
                                     />
-                                </v-radio-group>
+                                    <v-radio-group
+                                        v-else-if="!cardFetching && hasCards"
+                                        v-model="
+                                            cards[Object.keys(cards)[0]]
+                                                .card_last_four
+                                        "
+                                    >
+                                        <v-radio
+                                            v-for="card in cards"
+                                            :key="`cc-${card.id}`"
+                                            :disabled="payLater"
+                                            :label="`${card.card_type} ending in ${card.card_last_four}`"
+                                            :value="card.card_last_four"
+                                        />
+                                    </v-radio-group>
+                                </div>
+                                <p v-else-if="currentPayment <= 0">
+                                    Students must be selected before setting up
+                                    payment information.
+                                </p>
                             </v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
                 </v-card>
-                <v-checkbox v-model="checkbox">
-                    <template v-slot:label>
-                        <div>
-                            Do you agree to the
-                            <a
-                                @click.stop
-                                href="https://aba-general.s3.amazonaws.com/ABA+Photo_Video+Release+Form.pdf"
-                                target="_blank"
-                                >Photo/Video Release</a
-                            >?
-                        </div>
-                    </template>
-                </v-checkbox>
+                <div class="checkboxes">
+                    <v-checkbox v-model="acceptReleaseForm">
+                        <template v-slot:label>
+                            <div>
+                                Do you agree to the
+                                <a
+                                    @click.stop
+                                    href="https://aba-general.s3.amazonaws.com/ABA+Photo_Video+Release+Form.pdf"
+                                    target="_blank"
+                                    >Photo/Video Release</a
+                                >?
+                            </div>
+                        </template>
+                    </v-checkbox>
+                    <v-checkbox v-model="payLater" label="Pay later?" />
+                </div>
             </v-card-text>
             <v-card-actions>
                 <v-spacer />
@@ -100,7 +110,8 @@ export default {
     data() {
         return {
             dialog: false,
-            checkbox: false,
+            acceptReleaseForm: false,
+            payLater: false,
             currentPayment: 0,
             familyMemberIds: [],
         }
@@ -182,7 +193,7 @@ export default {
         },
         beginRegistration() {
             // grab submit method from CoursePaymentStripe component from ref added to template
-            if (this.$props.hasCards) {
+            if (this.$props.hasCards || this.payLater) {
                 this.registerCourse()
             } else {
                 this.$refs.coursePaymentStripe.submit()
@@ -211,10 +222,9 @@ export default {
             const { course, user, cards, hasCards } = this.$props
             const registerParams = {
                 course_id: course.id,
-                accept_release_form: this.checkbox,
+                accept_release_form: this.acceptReleaseForm,
             }
-            if (hasCards) {
-                console.log('yes?')
+            if (hasCards && !this.payLater) {
                 registerParams.credit_card_id = cards[Object.keys(cards)[0]].id
                 registerParams.charge_amount = this.currentPayment
             }
@@ -246,5 +256,19 @@ export default {
 }
 .payment-card .v-list-item__subtitle {
     white-space: normal;
+}
+.v-input--radio-group {
+    margin-top: 0;
+}
+.checkboxes::v-deep {
+    .v-input--selection-controls.v-input--checkbox {
+        margin-top: 0;
+        .v-input__slot {
+            margin-bottom: 0;
+        }
+        .v-messages {
+            display: none;
+        }
+    }
 }
 </style>
