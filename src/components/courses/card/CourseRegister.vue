@@ -33,12 +33,7 @@
                 <div v-if="hasFamilyMembers > 3" class="mt-2">
                     Choose up to 3 family members to register.
                 </div>
-                <v-card
-                    class="payment my-3"
-                    outlined
-                    color="grey lighten-3"
-                    v-if="!payLater"
-                >
+                <v-card class="payment my-3" outlined color="grey lighten-3">
                     <v-list-item>
                         <v-list-item-content>
                             <v-list-item-title class="d-flex mb-3">
@@ -53,14 +48,22 @@
                             <v-list-item-subtitle>
                                 <div v-if="Object.keys(currentPayment).length">
                                     <CoursePaymentStripe
-                                        v-if="!cardFetching && !hasCards"
+                                        v-if="
+                                            !cardFetching &&
+                                            !hasCards &&
+                                            !payLater
+                                        "
                                         ref="coursePaymentStripe"
                                         @chargeCreated="stripeCharged"
                                         :currentPayment="currentPayment"
                                         :cards="cards"
                                     />
                                     <v-radio-group
-                                        v-else-if="!cardFetching && hasCards"
+                                        v-else-if="
+                                            !cardFetching &&
+                                            hasCards &&
+                                            !payLater
+                                        "
                                         v-model="
                                             cards[Object.keys(cards)[0]]
                                                 .card_last_four
@@ -167,7 +170,12 @@
                 <v-btn color="primary" text @click="closeDialog()"
                     >Cancel</v-btn
                 >
-                <v-btn color="secondary" @click="beginRegistration()"
+                <v-btn
+                    color="secondary"
+                    @click="beginRegistration()"
+                    :disabled="
+                        familyMemberIds.length <= 0 || loadingRegistration
+                    "
                     >Submit</v-btn
                 >
             </v-card-actions>
@@ -217,6 +225,10 @@ export default {
             default: false,
         },
         cardFetching: {
+            type: Boolean,
+            default: false,
+        },
+        loadingRegistration: {
             type: Boolean,
             default: false,
         },

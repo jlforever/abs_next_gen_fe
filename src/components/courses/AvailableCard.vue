@@ -15,6 +15,7 @@
                 :cards="cards"
                 :hasCards="hasCards"
                 :cardFetching="cardFetching"
+                :loadingRegistration="loadingRegistration"
             />
         </v-card-actions>
     </v-card>
@@ -55,6 +56,10 @@ export default {
         loadingFamily: {
             type: Boolean,
             default: true,
+        },
+        loadingRegistration: {
+            type: Boolean,
+            default: false,
         },
         cards: {
             type: Object,
