@@ -129,7 +129,7 @@
                                         <a
                                             href="https://aba-general.s3.amazonaws.com/aba_terms_of_use.pdf"
                                             target="_blank"
-                                            >Payment policy</a
+                                            >Terms of use</a
                                         >
                                     </div>
                                 </div>
@@ -185,7 +185,7 @@ export default {
     data() {
         return {
             dialog: false,
-            acceptReleaseForm: false,
+            acceptReleaseForm: true,
             payLater: false,
             currentPayment: {},
             familyMemberIds: [],
