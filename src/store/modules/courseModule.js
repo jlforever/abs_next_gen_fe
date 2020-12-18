@@ -3,7 +3,7 @@ import _ from 'lodash'
 import actionTypes from '@/store/actions'
 import CourseService from '@/service/courseService'
 
-const { courses, errors } = actionTypes
+const { courses, errors, loading } = actionTypes
 
 const state = {
     status: {
@@ -110,9 +110,10 @@ const actions = {
         }
     },
     [courses.sessions.materials.upload]: async (
-        { commit },
+        { commit, dispatch },
         { sessionId, courseId, file }
     ) => {
+        dispatch(loading.status, true)
         commit(courses.request, 'upload')
         try {
             const res = await CourseService.uploadSessionMaterial(
@@ -124,7 +125,9 @@ const actions = {
                 sessionId,
                 courseId,
             })
+            dispatch(loading.status, false)
         } catch (err) {
+            dispatch(loading.status, false)
             console.error(err)
         }
     },
@@ -132,6 +135,7 @@ const actions = {
         { commit, dispatch },
         { materialId, sessionId, courseId }
     ) => {
+        dispatch(loading.status, true)
         commit(courses.request, 'delete')
         try {
             const res = await CourseService.deleteSessionMaterial(
@@ -143,18 +147,23 @@ const actions = {
                 courseId,
                 sessionId,
             })
+            dispatch(loading.status, false)
         } catch (err) {
+            dispatch(loading.status, false)
             dispatch(errors.format, err)
             console.error(err)
         }
     },
     [courses.register]: async ({ commit, dispatch }, params) => {
+        dispatch(loading.status, true)
         commit(courses.request, 'register')
         try {
             const res = await CourseService.registerCourse(params)
             commit(courses.register, res.registration)
+            dispatch(loading.status, false)
         } catch (err) {
             commit(courses.error, err)
+            dispatch(loading.status, false)
             dispatch(errors.format, err)
         }
     },

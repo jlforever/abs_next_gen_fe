@@ -1,5 +1,5 @@
 <template>
-    <v-overlay :value="isLoading" :z-index="2000">
+    <v-overlay :value="loading" :z-index="2000">
         <v-progress-circular indeterminate></v-progress-circular>
     </v-overlay>
 </template>
@@ -8,19 +8,18 @@
 import { mapGetters } from 'vuex'
 export default {
     name: 'Loading',
-    computed: {
-        ...mapGetters([
-            'uploadingMaterials',
-            'loadingRegisteredCoursesFetch',
-            'loadingCardFetch',
-        ]),
-        isLoading() {
-            return (
-                this.uploadingMaterials ||
-                this.loadingRegisteredCoursesFetch ||
-                this.loadingCardFetch
-            )
-        },
+    data() {
+        return {
+            loading: false,
+        }
+    },
+    created: function () {
+        this.$store.watch(
+            (state) => state.loading.status,
+            () => {
+                this.loading = this.$store.state.loading.status
+            }
+        )
     },
 }
 </script>
