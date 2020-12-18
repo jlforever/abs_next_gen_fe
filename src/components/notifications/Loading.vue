@@ -8,13 +8,6 @@
 import { mapGetters } from 'vuex'
 export default {
     name: 'Loading',
-    computed: {
-        ...mapGetters([
-            'uploadingMaterials',
-            'loadingRegisteredCoursesFetch',
-            'loadingCardFetch',
-        ]),
-    },
     data() {
         return {
             loading: false,
