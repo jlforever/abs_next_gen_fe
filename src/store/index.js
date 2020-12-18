@@ -1,25 +1,27 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-import users from "./modules/userModule";
-import auth from "./modules/authModule";
-import family from "./modules/familyModule";
-import courses from "./modules/courseModule";
-import errors from "./modules/errorModule";
-import success from "./modules/successModule";
+import users from './modules/userModule'
+import auth from './modules/authModule'
+import family from './modules/familyModule'
+import courses from './modules/courseModule'
+import payments from './modules/paymentModule'
+import errors from './modules/errorModule'
+import success from './modules/successModule'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
-const debug = process.env.NODE_ENV !== "production";
+const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
-  modules: {
-    users,
-    auth,
-    family,
-    courses,
-    errors,
-    success
-  },
-  strict: debug
-});
+    modules: {
+        users,
+        auth,
+        family,
+        courses,
+        payments,
+        errors,
+        success,
+    },
+    strict: debug,
+})
