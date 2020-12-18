@@ -174,7 +174,9 @@
                     color="secondary"
                     @click="beginRegistration()"
                     :disabled="
-                        familyMemberIds.length <= 0 || loadingRegistration
+                        familyMemberIds.length <= 0 ||
+                        loadingRegistration ||
+                        cardFetching
                     "
                     >Submit</v-btn
                 >
@@ -345,9 +347,10 @@ export default {
     background: $brand-pink;
     color: #fff;
 }
-.payment-card .v-list-item__subtitle {
+.payment .v-list-item__subtitle {
     white-space: normal;
 }
+
 .v-input--radio-group {
     margin-top: 0;
 }

@@ -5,6 +5,7 @@ import courses from './courseActions'
 import payments from './paymentActions'
 import errors from './errorActions'
 import success from './successActions'
+import loading from './loadingActions'
 
 export default {
     auth,
@@ -14,4 +15,5 @@ export default {
     payments,
     errors,
     success,
+    loading,
 }
