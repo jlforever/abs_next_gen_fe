@@ -59,6 +59,9 @@
                                         :loadingFamily="
                                             loadingFamilyMemberFetch
                                         "
+                                        :loadingRegistration="
+                                            loadingRegisteredCoursesFetch
+                                        "
                                         :cards="currentCards"
                                         :hasCards="hasCards"
                                         :cardFetching="loadingCardFetch"

@@ -5,11 +5,7 @@
         class="course-card"
         @click.stop="goToCourseDetailPage(`/courses/${courseLink}`)"
     >
-        <CourseFloats
-            :status="status"
-            :code="course.code"
-            :spots="fetchSpots"
-        />
+        <CourseFloats :status="status" :code="course.code" />
         <v-row>
             <v-col md="6">
                 <CourseTitle :course="course" />
@@ -111,15 +107,6 @@ export default {
             if (this.registeredIds[2])
                 regArr.push(this.family[this.registeredIds[2]])
             return regArr
-        },
-        fetchSpots() {
-            if (this.course?.capacity) {
-                return {
-                    max: this.course.capacity,
-                    filled: this.course.capacity - this.course.available_spots,
-                }
-            }
-            return null
         },
     },
 }
