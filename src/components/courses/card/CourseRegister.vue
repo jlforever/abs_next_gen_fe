@@ -347,9 +347,10 @@ export default {
     background: $brand-pink;
     color: #fff;
 }
-.payment-card .v-list-item__subtitle {
+.payment .v-list-item__subtitle {
     white-space: normal;
 }
+
 .v-input--radio-group {
     margin-top: 0;
 }

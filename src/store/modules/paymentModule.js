@@ -3,7 +3,7 @@ import _ from 'lodash'
 import actionTypes from '@/store/actions'
 import PaymentService from '@/service/paymentService'
 
-const { payments, auth, errors } = actionTypes
+const { payments, auth, errors, loading } = actionTypes
 
 const INITIAL_STATUS = {
     fetchLoading: true,
@@ -44,6 +44,7 @@ const actions = {
         }
     },
     [payments.card.create]: async ({ commit, dispatch }, params) => {
+        dispatch(loading.status, true)
         commit(payments.card.request, 'create')
         try {
             const res = await PaymentService.createCard(params)

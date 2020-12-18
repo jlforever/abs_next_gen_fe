@@ -8,6 +8,7 @@ import courses from './modules/courseModule'
 import payments from './modules/paymentModule'
 import errors from './modules/errorModule'
 import success from './modules/successModule'
+import loading from './modules/loadingModule'
 
 Vue.use(Vuex)
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
         payments,
         errors,
         success,
+        loading,
     },
     strict: debug,
 })
