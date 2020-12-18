@@ -1,6 +1,6 @@
 <template>
     <v-card v-if="course" outlined class="course-card d-flex flex-column">
-        <CourseFloats :code="course.code" />
+        <CourseFloats :code="course.code" :spots="fetchSpots" />
         <CourseTitle :course="course" />
         <CourseTimes :course="course" :timezone="user.timezone" />
         <CourseTeacher :course="course" />
@@ -67,6 +67,17 @@ export default {
         cardFetching: {
             type: Boolean,
             default: false,
+        },
+    },
+    computed: {
+        fetchSpots() {
+            if (this.course?.capacity) {
+                return {
+                    max: this.course.capacity,
+                    filled: this.course.capacity - this.course.available_spots,
+                }
+            }
+            return null
         },
     },
 }

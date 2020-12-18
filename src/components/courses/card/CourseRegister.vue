@@ -1,7 +1,13 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="500">
         <template v-slot:activator="{ on }">
-            <v-btn v-on="on" block color="primary" dark>
+            <v-btn
+                v-on="on"
+                block
+                color="primary"
+                dark
+                :disabled="course.available_spots === 0"
+            >
                 <v-icon>mdi-clipboard-text</v-icon>
                 <span>Register</span>
             </v-btn>
@@ -27,18 +33,25 @@
                 <div v-if="hasFamilyMembers > 3" class="mt-2">
                     Choose up to 3 family members to register.
                 </div>
-                <v-card class="payment my-3" outlined color="grey lighten-3">
+                <v-card
+                    class="payment my-3"
+                    outlined
+                    color="grey lighten-3"
+                    v-if="!payLater"
+                >
                     <v-list-item>
                         <v-list-item-content>
                             <v-list-item-title class="d-flex mb-3">
                                 <div>Payment</div>
                                 <v-spacer />
-                                <div v-if="currentPayment > 0">
-                                    {{ (currentPayment / 100) | currency }}
+                                <div v-if="Object.keys(currentPayment).length">
+                                    {{
+                                        (currentPayment.total / 100) | currency
+                                    }}
                                 </div>
                             </v-list-item-title>
                             <v-list-item-subtitle>
-                                <div v-if="currentPayment > 0">
+                                <div v-if="Object.keys(currentPayment).length">
                                     <CoursePaymentStripe
                                         v-if="!cardFetching && !hasCards"
                                         ref="coursePaymentStripe"
@@ -56,13 +69,75 @@
                                         <v-radio
                                             v-for="card in cards"
                                             :key="`cc-${card.id}`"
-                                            :disabled="payLater"
                                             :label="`${card.card_type} ending in ${card.card_last_four}`"
                                             :value="card.card_last_four"
                                         />
                                     </v-radio-group>
+                                    <v-list
+                                        dense
+                                        disabled
+                                        class="course-pricing"
+                                    >
+                                        <v-list-item>
+                                            <v-list-item-content>
+                                                <v-list-item-subtitle
+                                                    >Subtotal</v-list-item-subtitle
+                                                >
+                                                <v-list-item-title
+                                                    class="text-right"
+                                                    >{{
+                                                        (currentPayment.subtotal /
+                                                            100)
+                                                            | currency
+                                                    }}</v-list-item-title
+                                                >
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                        <v-list-item>
+                                            <v-list-item-content>
+                                                <v-list-item-subtitle
+                                                    >Handling
+                                                    Fee</v-list-item-subtitle
+                                                >
+                                                <v-list-item-title
+                                                    class="text-right"
+                                                    >{{
+                                                        (currentPayment.fee /
+                                                            100)
+                                                            | currency
+                                                    }}</v-list-item-title
+                                                >
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                        <v-list-item>
+                                            <v-list-item-content>
+                                                <v-list-item-subtitle
+                                                    >Total</v-list-item-subtitle
+                                                >
+                                                <v-list-item-title
+                                                    class="text-right"
+                                                    >{{
+                                                        (currentPayment.total /
+                                                            100)
+                                                            | currency
+                                                    }}</v-list-item-title
+                                                >
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list>
+                                    <div class="caption">
+                                        <a
+                                            href="https://aba-general.s3.amazonaws.com/aba_terms_of_use.pdf"
+                                            target="_blank"
+                                            >Payment policy</a
+                                        >
+                                    </div>
                                 </div>
-                                <p v-else-if="currentPayment <= 0">
+                                <p
+                                    v-else-if="
+                                        Object.keys(currentPayment).length === 0
+                                    "
+                                >
                                     Students must be selected before setting up
                                     payment information.
                                 </p>
@@ -112,7 +187,7 @@ export default {
             dialog: false,
             acceptReleaseForm: false,
             payLater: false,
-            currentPayment: 0,
+            currentPayment: {},
             familyMemberIds: [],
         }
     },
@@ -149,7 +224,7 @@ export default {
     methods: {
         closeDialog() {
             this.dialog = false
-            this.currentPayment = 0
+            this.currentPayment = {}
             this.familyMemberIds = []
         },
         isSelected(id) {
@@ -186,9 +261,13 @@ export default {
                     courseParams.charge_amount_request.tertiary_family_member_id = this.familyMemberIds[2]
                 }
                 const res = await CourseService.fetchCoursePayment(courseParams)
-                this.currentPayment = res.amount
+                this.currentPayment = {
+                    subtotal: res.amount_specification.course_subtotal,
+                    fee: res.amount_specification.handling_fee,
+                    total: res.amount_specification.total,
+                }
             } else if (this.familyMemberIds.length === 0) {
-                this.currentPayment = 0
+                this.currentPayment = {}
             }
         },
         beginRegistration() {
@@ -226,7 +305,7 @@ export default {
             }
             if (hasCards && !this.payLater) {
                 registerParams.credit_card_id = cards[Object.keys(cards)[0]].id
-                registerParams.charge_amount = this.currentPayment
+                registerParams.charge_amount = this.currentPayment.total
             }
             if (this.familyMemberIds[0]) {
                 registerParams.primary_family_member_id = this.familyMemberIds[0]
@@ -269,6 +348,22 @@ export default {
         .v-messages {
             display: none;
         }
+    }
+}
+.course-pricing {
+    background-color: transparent;
+    text-align: right;
+    .v-list-item__title {
+        flex: 1 1 40%;
+    }
+    .v-list-item__subtitle {
+        flex: 1 0 60%;
+    }
+    &.v-list--dense .v-list-item {
+        min-height: 30px;
+    }
+    .v-list-item__content {
+        padding: 0 0 4px;
     }
 }
 </style>
