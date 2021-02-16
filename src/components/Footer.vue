@@ -1,11 +1,12 @@
 <template>
   <v-footer dark>
     <div class="app-footer-section">
-      Alpha Beta Academy &copy; 2020. All Rights Reserved.
+      Alpha Beta Academy &copy; 2021. All Rights Reserved.
       <br />
       <div class="contact caption">
         Tel: (781) 519 - 9319
         <br />Email: admin@alphabetaschool.org
+        <br />Address: 102 Carlisle Rd. Bedford, MA 01730
       </div>
     </div>
     <v-spacer />
